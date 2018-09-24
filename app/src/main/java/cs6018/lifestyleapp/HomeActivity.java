@@ -3,6 +3,8 @@ package cs6018.lifestyleapp;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -12,6 +14,8 @@ public class HomeActivity extends AppCompatActivity {
     StatsFrag statsFrag = new StatsFrag();
     ToolsFrag toolsFrag = new ToolsFrag();
     ProfileFrag profileFrag = new ProfileFrag();
+    final FragmentManager fragBoss = getSupportFragmentManager();
+    Fragment active = goalsFrag;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -21,18 +25,19 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_stats:
 
+                    fragBoss.beginTransaction().hide(active).show(statsFrag).commit();
                     return true;
                 case R.id.navigation_goals:
-                    //mTextMessage.setText("Goals");
+
+                    fragBoss.beginTransaction().hide(active).show(goalsFrag).commit();
                     return true;
                 case R.id.navigation_profile:
-                    //mTextMessage.setText(R.string.title_profile);
+
+                    fragBoss.beginTransaction().hide(active).show(profileFrag).commit();
                     return true;
                 case R.id.navigation_tools:
-                    //mTextMessage.setText(R.string.title_stats);
-                    // Add the fragment to the 'fragment_container' FrameLayout
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.main_fragment_container, toolsFrag).commit();
+
+                    fragBoss.beginTransaction().hide(active).show(toolsFrag).commit();
                     return true;
             }
             return false;
@@ -44,6 +49,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -51,13 +58,16 @@ public class HomeActivity extends AppCompatActivity {
         // the fragment_container FrameLayout
         if (findViewById(R.id.main_fragment_container) != null) {
 
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
+            // Handle restoring from a previous state.
             if (savedInstanceState != null) {
                 return;
             }
-            // Create a new Fragment to be placed in the activity layout
+
+            goalsFrag = new GoalsFrag();
+            statsFrag = new StatsFrag();
+            toolsFrag = new ToolsFrag();
+            profileFrag = new ProfileFrag();
+
             toolsFrag.setRetainInstance(true);
             profileFrag.setRetainInstance(true);
             goalsFrag.setRetainInstance(true);
