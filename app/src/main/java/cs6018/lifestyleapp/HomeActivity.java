@@ -10,10 +10,10 @@ import android.view.MenuItem;
 
 public class HomeActivity extends AppCompatActivity {
 
-    GoalsFrag goalsFrag = new GoalsFrag();
-    StatsFrag statsFrag = new StatsFrag();
-    ToolsFrag toolsFrag = new ToolsFrag();
-    ProfileFrag profileFrag = new ProfileFrag();
+    final GoalsFrag goalsFrag = new GoalsFrag();
+    final StatsFrag statsFrag = new StatsFrag();
+    final ToolsFrag toolsFrag = new ToolsFrag();
+    final ProfileFrag profileFrag = new ProfileFrag();
     final FragmentManager fragBoss = getSupportFragmentManager();
     Fragment active = goalsFrag;
 
@@ -49,8 +49,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -63,15 +61,12 @@ public class HomeActivity extends AppCompatActivity {
                 return;
             }
 
-            goalsFrag = new GoalsFrag();
-            statsFrag = new StatsFrag();
-            toolsFrag = new ToolsFrag();
-            profileFrag = new ProfileFrag();
-
             toolsFrag.setRetainInstance(true);
             profileFrag.setRetainInstance(true);
             goalsFrag.setRetainInstance(true);
             statsFrag.setRetainInstance(true);
+
+
         }
 
     }
