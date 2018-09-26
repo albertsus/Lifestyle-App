@@ -16,6 +16,7 @@ public class HomeActivity extends AppCompatActivity {
     final ProfileFrag profileFrag = new ProfileFrag();
     final FragmentManager fragBoss = getSupportFragmentManager();
     Fragment active = goalsFrag;
+    User user = new User();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
