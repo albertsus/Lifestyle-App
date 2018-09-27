@@ -5,10 +5,263 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFrag">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
+        <!--Title-->
+        <TextView
+            android:id="@+id/profile_frag_title"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            tools:text="Profile"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:paddingLeft="16dp"
+            />
+        <ImageView
+            android:id="@+id/period"
+            android:layout_height="32dp"
+            android:paddingBottom="16dp"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/profile_frag_title"
+            app:layout_constraintBottom_toBottomOf="@id/profile_frag_title"
+            android:src="@drawable/ic_period" />
+
+        <!--User Name-->
+        <TextView
+            android:id="@+id/tv_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="32dp"
+            android:text="User Name"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/profile_frag_title"
+            app:layout_constraintTop_toBottomOf="@id/profile_frag_title"
+            tools:text="Sign Up" />
+
+        <TextView
+            android:id="@+id/tv_userName_data"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="UserName"
+            tools:text="UserName"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/tv_userName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_userName"
+            />
+
+        <!--Age-->
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="Age"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/profile_frag_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_userName"
+            tools:text="Age" />
+
+        <TextView
+            android:id="@+id/tv_age_data"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="33"
+            tools:text="33"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/tv_age"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_age"
+            />
+
+        <!--Sex-->
+        <TextView
+            android:id="@+id/tv_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="Sex"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/profile_frag_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_age"
+            tools:text="Sex" />
+
+        <TextView
+            android:id="@+id/tv_sex_data"
+            android:spinnerMode="dropdown"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="33"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/tv_sex"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sex"
+            />
+
+        <!--City-->
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="City"
+            tools:text="City"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/profile_frag_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_sex"
+            />
+
+        <TextView
+            android:id="@+id/tv_city_data"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="City"
+            tools:text="City"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/tv_sex"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_city"
+            />
+
+        <!--Nation-->
+        <TextView
+            android:id="@+id/tv_nation"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="Nation"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/profile_frag_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_city"
+            />
+
+        <TextView
+            android:id="@+id/tv_nation_data"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nation"
+            tools:text="Nation"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/tv_nation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_nation"
+            />
+
+        <!--Height-->
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="Height"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/profile_frag_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_nation"
+            />
+
+        <TextView
+            android:id="@+id/tv_height_data"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ft&quot; in'"
+            tools:text="ft&quot; in'"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/tv_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_height"
+            />
+
+        <!--Weight-->
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="Weight"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/profile_frag_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_height"
+            />
+
+        <TextView
+            android:id="@+id/tv_weight_data"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="weight (lbs)"
+            tools:text="weight (lbs)"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:paddingStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/tv_weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tv_weight"
+            />
+
+        <Button
+            android:id="@+id/bt_update_profile"
+            android:layout_width="360dp"
+            android:layout_height="64dp"
+            android:gravity="center_horizontal"
+            android:text="Update!"
+            android:textSize="36sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/Widget.AppCompat.Button.Colored"
+            app:layout_constraintTop_toBottomOf="@id/tv_weight"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 </FrameLayout>

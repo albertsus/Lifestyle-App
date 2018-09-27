@@ -2,46 +2,23 @@ package cs6018.lifestyleapp;
 
 public class User {
 
-    // User data.
-    private String userName = "Ann12345";
-    private String sex = "Female";
-    private String city = "Swansea";
-    private String nation = "Wales";
-    private Integer height = 120;
-    private Integer weight = 145;
+    // User Profile Data
+    private String userName;
+    private String sex;
+    private String age;
+    private String city;
+    private String nation;
+    private Integer height;
+    private Integer weight;
 
-    // User goals.
-    private Integer targetWeight = 130;
-    private Integer targetBMI = 22;
+    // User Goals Data
+    private Integer targetWeight;
+    private Integer targetBMI;
+    private Integer targetHikes;
+    private Integer targetDailyCalories;
 
-    private Integer targetHikes = 3;
-    private Integer targetDailyCalories = 2000;
-    private enum Season {
+    private enum WEIGHT_GOAL {
         LOOSE, GAIN, MAINTAIN
-    }
-
-    public Integer getTargetBMI() {
-        return targetBMI;
-    }
-
-    public void setTargetBMI(Integer targetBMI) {
-        this.targetBMI = targetBMI;
-    }
-
-    public Integer getTargetHikes() {
-        return targetHikes;
-    }
-
-    public void setTargetHikes(Integer targetHikes) {
-        this.targetHikes = targetHikes;
-    }
-
-    public Integer getTargetDailyCalories() {
-        return targetDailyCalories;
-    }
-
-    public void setTargetDailyCalories(Integer targetDailyCalories) {
-        this.targetDailyCalories = targetDailyCalories;
     }
 
     public String getAge() {
@@ -51,8 +28,6 @@ public class User {
     public void setAge(String age) {
         this.age = age;
     }
-
-    private String age = "38";
 
     public String getUserName() {
         return userName;
@@ -110,6 +85,29 @@ public class User {
         this.targetWeight = targetWeight;
     }
 
+    public Integer getTargetBMI() {
+        return targetBMI;
+    }
+
+    public void setTargetBMI(Integer targetBMI) {
+        this.targetBMI = targetBMI;
+    }
+
+    public Integer getTargetHikes() {
+        return targetHikes;
+    }
+
+    public void setTargetHikes(Integer targetHikes) {
+        this.targetHikes = targetHikes;
+    }
+
+    public Integer getTargetDailyCalories() {
+        return targetDailyCalories;
+    }
+
+    public void setTargetDailyCalories(Integer targetDailyCalories) {
+        this.targetDailyCalories = targetDailyCalories;
+    }
 
 
 }
