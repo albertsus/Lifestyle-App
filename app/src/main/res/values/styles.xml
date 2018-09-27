@@ -32,4 +32,12 @@
         <item name="maxButtonHeight">70dp</item>
     </style>
 
+    <style name="BottomNavigation">
+        <item name="android:background">@color/defaultBackgroundColor</item>
+        <item name="itemBackground">@drawable/defaultBackgroundColor</item>
+        <item name="itemIconTint">@color/navigation_bar_txt_color</item>
+        <item name="itemTextColor">@color/navigation_bar_txt_color</item>
+        <item name="paddingStart">@dimen/bottom_navigation_padding</item>
+        <item name="paddingEnd">@dimen/bottom_navigation_padding</item>
+    </style>
 </resources>

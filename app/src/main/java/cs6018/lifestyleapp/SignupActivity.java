@@ -1,11 +1,154 @@
 package cs6018.lifestyleapp;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
-public class SignupActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
+    // Profile pic collection parameters and resources.
+    ImageView mProfilePic;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    String mCurrentPhotoPath;
+
+    // Input strings from form.
+    private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight;
+
+    // UI elements.
+    Button mButtonCreate;
+    ImageButton mButtonPicture;
+    EditText etUserName, etAge, etCity, etSex, etNation, etHeight, etWeight;
+
+
+
+
+    /**
+     * Helper function stores the image to a file.
+     *
+     * @return
+     * @throws IOException
+     */
+    private File createImageFile() throws IOException {
+        // Create the profile image file name.
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName,".jpg", storageDir);
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    /**
+     * Captures the image returned from the camera intent, and stores it as the users new profile
+     * picture.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode==REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            mProfilePic = findViewById(R.id.iv_profile_pic);
+            mProfilePic.setImageBitmap(BitmapFactory.decodeFile(mCurrentPhotoPath));
+        }
+    }
+
+    /**
+     * Stores the picture taken in the intent to a file for future use.
+     */
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this, "cs6018.adammiles.com.part2", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    /** Handles the profile picture getter and user creation buttons.
+     *
+     * @param view the current view.
+     */
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.button_get_user_picture: {
+                dispatchTakePictureIntent();
+                break;
+            }
+
+            case R.id.button_create: {
+                // Get the full user name and dob strings.
+                mEtFirstName = findViewById(R.id.et_fn);
+                mFirstName = mEtFirstName.getText().toString();
+
+                mEtLastName = findViewById(R.id.et_ln);
+                mLastName = mEtLastName.getText().toString();
+
+                mEtDOB = findViewById(R.id.et_dob);
+                mDOB = mEtDOB.getText().toString();
+
+                // Handle empty submissions.
+                if (mFirstName.matches("") || mLastName.matches("") || mDOB.matches("")) {
+                    Toast toast = Toast.makeText(CreateUser.this, "Please enter your name and DOB", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                    break;
+                }
+
+                // Handle invalid date entry.
+                if (!isValidDate(mDOB)){
+                    Toast toast = Toast.makeText(CreateUser.this, "Please enter your date of birth (mm/dd/yyyy)", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP, 0, 0);
+                    toast.show();
+                    break;
+
+                } else {
+                    mFullName = mFirstName + " " + mLastName;
+                    // Show animated tick as encouragement.
+                    ImageView mImgCheck = findViewById(R.id.input_validated);
+                    ((Animatable) (mImgCheck.getDrawable())).start();
+
+                    // Start an activity and pass the EditText string to it.
+                    Intent userProfile = new Intent(this, ViewUserProfile.class);
+                    userProfile.putExtra("ET_FULLN_STRING", mFullName);
+                    userProfile.putExtra("ET_DOB_STRING", mDOB);
+                    userProfile.putExtra("ET_PROFILE_PIC", mCurrentPhotoPath);
+                    this.startActivity(userProfile);
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
