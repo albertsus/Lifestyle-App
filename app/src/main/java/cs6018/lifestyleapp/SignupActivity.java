@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,10 +36,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     // UI elements.
     Button mButtonCreate;
     ImageButton mButtonPicture;
-    EditText etUserName, etAge, etCity, etSex, etNation, etHeight, etWeight;
-
-
-
+    EditText etUserName, etAge, etCity, etNation, etHeight, etWeight;
+    Spinner spinnerSex;
 
     /**
      * Helper function stores the image to a file.
@@ -107,44 +107,50 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             }
 
-            case R.id.button_create: {
-                // Get the full user name and dob strings.
-                mEtFirstName = findViewById(R.id.et_fn);
-                mFirstName = mEtFirstName.getText().toString();
+            case R.id.button_get_started: {
+                // Get the user data from the input fields.
+                etUserName = findViewById(R.id.et_userName);
+                mUserName = etUserName.getText().toString();
 
-                mEtLastName = findViewById(R.id.et_ln);
-                mLastName = mEtLastName.getText().toString();
+                etAge = findViewById(R.id.et_age);
+                mAge = etAge.getText().toString();
 
-                mEtDOB = findViewById(R.id.et_dob);
-                mDOB = mEtDOB.getText().toString();
+                etCity = findViewById(R.id.et_city);
+                mCity = etCity.getText().toString();
+
+                etNation = findViewById(R.id.et_nation);
+                mNation = etNation.getText().toString();
+
+                spinnerSex = findViewById(R.id.spinner_sex);
+                mSex = (String) spinnerSex.getSelectedItem();
+
+                etHeight = findViewById(R.id.et_height);
+                mHeight = etHeight.getText().toString();
+
+                etWeight = findViewById(R.id.et_weight);
+                mWeight = etWeight.getText().toString();
 
                 // Handle empty submissions.
-                if (mFirstName.matches("") || mLastName.matches("") || mDOB.matches("")) {
-                    Toast toast = Toast.makeText(CreateUser.this, "Please enter your name and DOB", Toast.LENGTH_SHORT);
+                if (mUserName.matches("") || mCity.matches("")
+                        || mAge.matches("") || mHeight.matches("")
+                        || mWeight.matches("") || mNation.matches("")) {
+                    Toast toast = Toast.makeText(SignupActivity.this,
+                            "Please enter all fields", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
                     break;
                 }
-
-                // Handle invalid date entry.
-                if (!isValidDate(mDOB)){
-                    Toast toast = Toast.makeText(CreateUser.this, "Please enter your date of birth (mm/dd/yyyy)", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
-                    break;
-
-                } else {
-                    mFullName = mFirstName + " " + mLastName;
-                    // Show animated tick as encouragement.
-                    ImageView mImgCheck = findViewById(R.id.input_validated);
-                    ((Animatable) (mImgCheck.getDrawable())).start();
-
-                    // Start an activity and pass the EditText string to it.
-                    Intent userProfile = new Intent(this, ViewUserProfile.class);
-                    userProfile.putExtra("ET_FULLN_STRING", mFullName);
-                    userProfile.putExtra("ET_DOB_STRING", mDOB);
-                    userProfile.putExtra("ET_PROFILE_PIC", mCurrentPhotoPath);
-                    this.startActivity(userProfile);
+                else {
+                    Intent homeActivity = new Intent(this, HomeActivity.class);
+                    homeActivity.putExtra("USERNAME", mUserName);
+                    homeActivity.putExtra("CITY", mCity);
+                    homeActivity.putExtra("PROFILE_PIC", mCurrentPhotoPath);
+                    homeActivity.putExtra("HEIGHT", mHeight);
+                    homeActivity.putExtra("WEIGHT", mWeight);
+                    homeActivity.putExtra("AGE", mAge);
+                    homeActivity.putExtra("NATION", mNation);
+                    homeActivity.putExtra("SEX", mSex);
+                    this.startActivity(homeActivity);
                 }
             }
         }
