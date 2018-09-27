@@ -169,5 +169,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+
+        mButtonCreate = findViewById(R.id.button_get_started);
+        mButtonCreate.setOnClickListener(this);
+
+        mButtonPicture = findViewById(R.id.button_get_user_picture);
+        mButtonPicture.setOnClickListener(this);
+
     }
 }
