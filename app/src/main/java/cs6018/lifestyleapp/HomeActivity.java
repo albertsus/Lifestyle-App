@@ -136,12 +136,12 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             }
             case R.id.frame_hike: {
-                Intent hikeIntent = new Intent(this, WeatherActivity.class);
+                Intent hikeIntent = new Intent(this, HikeActivity.class);
                 startActivity(hikeIntent);
                 break;
             }
             case R.id.frame_calculator: {
-                Intent calculatorIntent = new Intent(this, WeatherActivity.class);
+                Intent calculatorIntent = new Intent(this, CalculatorActivity.class);
                 startActivity(calculatorIntent);
                 break;
             }

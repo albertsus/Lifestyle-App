@@ -145,10 +145,130 @@
         android:paddingTop="8dp"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="pareent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_temp_high"
         app:layout_constraintStart_toStartOf="@id/tv_temp_high"
         android:paddingRight="16dp" />
+
+    <!--Location-->
+    <TextView
+        android:id="@+id/tv_location_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Location"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_high_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Salt Lake City"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_location_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_location_label"
+        />
+
+    <!--Humidity-->
+    <TextView
+        android:id="@+id/tv_humidity_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Humidity"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_location_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_humidity"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="36%"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_humidity_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_humidity_label"
+        />
+
+    <!--Pressure-->
+    <TextView
+        android:id="@+id/tv_pressure_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Pressure"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_humidity_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_pressure"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="1014 mbar"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_pressure_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_pressure_label"
+        />
+
+    <!--UV Index-->
+    <TextView
+        android:id="@+id/tv_uvindex_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="UV Index"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_pressure_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_uvindex"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="7"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_uvindex_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_uvindex_label"
+        />
 
 
 
