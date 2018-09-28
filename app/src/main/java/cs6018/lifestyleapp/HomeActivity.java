@@ -18,7 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     final Fragment toolsFrag = new ToolsFrag();
     final Fragment profileFrag = new ProfileFrag();
     final FragmentManager fragBoss = getSupportFragmentManager();
-    Fragment active = profileFrag;
+    Fragment active = statsFrag;
 
     User user = new User();
 
@@ -63,13 +63,13 @@ public class HomeActivity extends AppCompatActivity {
 
         fragBoss.beginTransaction().add(R.id.main_container, toolsFrag, "4").hide(toolsFrag).commit();
         fragBoss.beginTransaction().add(R.id.main_container, profileFrag, "3").hide(profileFrag).commit();
-        fragBoss.beginTransaction().add(R.id.main_container, statsFrag, "2").hide(statsFrag).commit();
-        fragBoss.beginTransaction().add(R.id.main_container,goalsFrag, "1").commit();
+        fragBoss.beginTransaction().add(R.id.main_container, goalsFrag, "2").hide(goalsFrag).commit();
+        fragBoss.beginTransaction().add(R.id.main_container, statsFrag, "1").commit();
 
         // Retrieve user info from SignUp Activity
         dataRetrieve();
 
-        // Pass user info to fragments
+        // Pass user info to fragmentss
         dataPass();
     }
 
@@ -127,6 +127,32 @@ public class HomeActivity extends AppCompatActivity {
         profileFrag.setArguments(profileBundle);
         goalsFrag.setArguments(profileBundle);
         statsFrag.setArguments(profileBundle);
+    }
+
+    /**
+     * Handle the tools activity click events.
+     *
+     * @param view
+     */
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.frame_weather: {
+                Intent weatherIntent = new Intent(this, WeatherActivity.class);
+                startActivity(weatherIntent);
+                break;
+            }
+            case R.id.frame_hike: {
+                Intent hikeIntent = new Intent(this, HikeActivity.class);
+                startActivity(hikeIntent);
+                break;
+            }
+            case R.id.frame_calculator: {
+                Intent calculatorIntent = new Intent(this, CalculatorActivity.class);
+                startActivity(calculatorIntent);
+                break;
+            }
+        }
     }
 
 }

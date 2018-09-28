@@ -7,7 +7,6 @@
     tools:context=".WeatherActivity">
 
     <!--Title-->
-
     <ImageView
         android:id="@+id/ic_weather_back_arrow"
         android:layout_width="wrap_content"
@@ -40,14 +39,237 @@
         app:layout_constraintStart_toEndOf="@id/weather_activity_title"
         app:layout_constraintBottom_toBottomOf="@id/weather_activity_title"
         android:src="@drawable/ic_period" />
+    <!--Weather Icon-->
     <ImageView
         android:id="@+id/ic_weather_large"
         android:layout_height="100dp"
-        android:layout_width="100dp"
+        android:layout_width="136dp"
+        android:paddingStart="36dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_activity_title"
         android:src="@drawable/ic_weather_big" />
+    <TextView
+        android:id="@+id/weather_summary"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Partly Cloudy"
+        tools:text="Partly Cloudy"
+        android:paddingStart="36dp"
+        android:paddingTop="36dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/ic_weather_large"
+        app:layout_constraintTop_toTopOf="@id/ic_weather_large"
+        android:paddingLeft="16dp" />
+
+    <!--Temperature-->
+    <TextView
+        android:id="@+id/tv_temp_low"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="56\u00B0"
+        tools:text="56\u00B0"
+        android:paddingStart="36dp"
+        android:paddingTop="24dp"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_weather_large"
+        android:paddingLeft="16dp" />
+    <TextView
+        android:id="@+id/tv_temp_low_label"
+        android:textColor="@color/textLabelDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Low"
+        tools:text="Low"
+        android:paddingStart="36dp"
+        android:paddingTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/tv_temp_low"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_low"
+        android:paddingLeft="16dp" />
+
+    <TextView
+        android:id="@+id/tv_temp_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="75\u00B0"
+        android:textColor="@android:color/black"
+        android:textSize="56sp"
+        android:textStyle="bold"
+        tools:text="75\u00B0"
+        app:layout_constraintBottom_toBottomOf="@id/tv_temp_low"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/tv_temp_current_label"
+        android:textColor="@color/textLabelDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current"
+        tools:text="Current"
+        android:paddingTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/tv_temp_current"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_current" />
+
+    <TextView
+        android:id="@+id/tv_temp_high"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80\u00B0"
+        tools:text="80\u00B0"
+        android:paddingEnd="36dp"
+        android:paddingTop="24dp"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_weather_large"
+        android:paddingRight="16dp"
+        />
+    <TextView
+        android:id="@+id/tv_temp_high_label"
+        android:textColor="@color/textLabelDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="High"
+        tools:text="High"
+        android:paddingEnd="36dp"
+        android:paddingTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_high"
+        app:layout_constraintStart_toStartOf="@id/tv_temp_high"
+        android:paddingRight="16dp" />
+
+    <!--Location-->
+    <TextView
+        android:id="@+id/tv_location_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Location"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_temp_high_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Salt Lake City"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_location_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_location_label"
+        />
+
+    <!--Humidity-->
+    <TextView
+        android:id="@+id/tv_humidity_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Humidity"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_location_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_humidity"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="36%"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_humidity_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_humidity_label"
+        />
+
+    <!--Pressure-->
+    <TextView
+        android:id="@+id/tv_pressure_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Pressure"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_humidity_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_pressure"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="1014 mbar"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_pressure_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_pressure_label"
+        />
+
+    <!--UV Index-->
+    <TextView
+        android:id="@+id/tv_uvindex_label"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="UV Index"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_pressure_label"
+        />
+
+    <TextView
+        android:id="@+id/tv_uvindex"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="7"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_uvindex_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_uvindex_label"
+        />
+
 
 
 </android.support.constraint.ConstraintLayout>
