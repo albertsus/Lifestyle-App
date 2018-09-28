@@ -278,6 +278,159 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/tv_weight"
         />
+
+    <!--Target Weight-->
+    <TextView
+        android:id="@+id/tv_target_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Target Weight (lbs)"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/signup_activity_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_weight"
+        />
+
+    <EditText
+        android:id="@+id/et_target_weight"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="(lbs)"
+        tools:text="weight"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_target_weight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_target_weight"
+        />
+
+    <!--Target BMI -->
+    <TextView
+        android:id="@+id/tv_target_bmi"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Target BMI"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/signup_activity_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_target_weight"
+        />
+
+    <EditText
+        android:id="@+id/et_target_bmi"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="BMI"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_target_bmi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_target_bmi"
+        />
+
+    <!--Target Hikes -->
+    <TextView
+        android:id="@+id/tv_target_hikes"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Target Hikes"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/signup_activity_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_target_bmi"
+        />
+
+    <EditText
+        android:id="@+id/et_target_hikes"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Hikes"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_target_hikes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_target_hikes"
+        />
+
+    <!--Target Calories -->
+    <TextView
+        android:id="@+id/tv_target_calories"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Target Calories"
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/signup_activity_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_target_hikes"
+        />
+
+    <EditText
+        android:id="@+id/et_target_calories"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Calories"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_target_calories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_target_calories"
+        />
+
+    <!--Target Weight Goal -->
+    <TextView
+        android:id="@+id/tv_weight_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:gravity="left|center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:text="Weight Goal "
+        android:textColor="@color/textLabelDefault"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/signup_activity_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_target_calories"
+        tools:text="Weight Goal " />
+
+    <Spinner
+        android:id="@+id/spinner_weight_goal"
+        android:spinnerMode="dropdown"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="33"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/tv_weight_goal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_weight_goal"
+        />
+
     <Button
         android:id="@+id/button_get_started"
         android:layout_width="360dp"
@@ -289,7 +442,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         style="@style/Widget.AppCompat.Button.Colored"
-        app:layout_constraintTop_toBottomOf="@id/tv_weight"
+        app:layout_constraintTop_toBottomOf="@id/tv_weight_goal"
         />
 
 </android.support.constraint.ConstraintLayout>

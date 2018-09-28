@@ -11,4 +11,10 @@
         <item>Female</item>
     </string-array>
 
+    <string-array name="weigth_goal_array">
+        <item>Loose</item>
+        <item>Gain</item>
+        <item>Maintain</item>
+    </string-array>
+
 </resources>

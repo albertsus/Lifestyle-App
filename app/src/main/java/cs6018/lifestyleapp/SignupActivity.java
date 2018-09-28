@@ -33,11 +33,16 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     // Input strings from form.
     private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight;
 
+    private String mTargetWeight, mTargetBMI, mTargetHikes, mTargetCalories, mWeightGoal;
+
     // UI elements.
     Button mButtonCreate;
     ImageButton mButtonPicture;
     EditText etUserName, etAge, etCity, etNation, etHeight, etWeight;
     Spinner spinnerSex;
+
+    EditText etTargetWeight, etTargetBMI, etTargetHikes, etTargetCalories;
+    Spinner spinnerWeightGoal;
 
     /**
      * Helper function stores the image to a file.
@@ -130,6 +135,21 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 etWeight = findViewById(R.id.et_weight);
                 mWeight = etWeight.getText().toString();
 
+                etTargetWeight = findViewById(R.id.et_target_weight);
+                mTargetWeight = etTargetWeight.getText().toString();
+
+                etTargetBMI = findViewById(R.id.et_target_bmi);
+                mTargetBMI = etTargetBMI.getText().toString();
+
+                etTargetCalories = findViewById(R.id.et_target_calories);
+                mTargetCalories = etTargetCalories.getText().toString();
+
+                etTargetHikes = findViewById(R.id.et_target_hikes);
+                mTargetHikes = etTargetHikes.getText().toString();
+
+                spinnerWeightGoal = findViewById(R.id.spinner_weight_goal);
+                mWeightGoal = (String) spinnerWeightGoal.getSelectedItem();
+
                 // Handle empty submissions.
                 if (mUserName.matches("") || mCity.matches("")
                         || mAge.matches("") || mHeight.matches("")
@@ -152,6 +172,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     homeActivity.putExtra("NATION", mNation);
                     homeActivity.putExtra("CITY", mCity);
                     homeActivity.putExtra("PROFILE_PIC", mCurrentPhotoPath);
+
+                    homeActivity.putExtra("TARGET_WEIGHT", mTargetWeight);
+                    homeActivity.putExtra("TARGET_BMI", mTargetBMI);
+                    homeActivity.putExtra("TARGET_CALORIES", mTargetCalories);
+                    homeActivity.putExtra("TARGET_HIKES", mTargetHikes);
+                    homeActivity.putExtra("WEIGHT_GOAL", mWeightGoal);
+
                     this.startActivity(homeActivity);
                 }
             }
@@ -163,13 +190,22 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_sex);
+        Spinner sexSpinner = (Spinner) findViewById(R.id.spinner_sex);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sex_array, R.layout.spinner_layout);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        sexSpinner.setAdapter(adapter);
+
+
+        Spinner weightGoalSpinner = (Spinner) findViewById(R.id.spinner_weight_goal);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> wgAdapter = ArrayAdapter.createFromResource(this, R.array.weigth_goal_array, R.layout.spinner_layout);
+        // Specify the layout to use when the list of choices appears
+        wgAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        // Apply the adapter to the spinner
+        weightGoalSpinner.setAdapter(wgAdapter);
 
         mButtonCreate = findViewById(R.id.button_get_started);
         mButtonCreate.setOnClickListener(this);

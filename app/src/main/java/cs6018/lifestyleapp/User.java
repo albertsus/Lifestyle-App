@@ -8,15 +8,16 @@ public class User {
     private String age;
     private String city;
     private String nation;
-    private Integer height;
-    private Integer weight;
+    private String height;
+    private String weight;
     private String profilePic;
 
     // User Goals Data
-    private Integer targetWeight;
-    private Integer targetBMI;
-    private Integer targetHikes;
-    private Integer targetDailyCalories;
+    private String targetWeight;
+    private String targetBMI;
+    private String targetHikes;
+    private String targetDailyCalories;
+    private String weightGoal;
 
     private enum WEIGHT_GOAL {
         LOOSE, GAIN, MAINTAIN
@@ -62,19 +63,19 @@ public class User {
         this.nation = nation;
     }
 
-    public Integer getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public Integer getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -82,36 +83,44 @@ public class User {
 
     public void setProfilePic(String pic) { this.profilePic = pic; }
 
-    public Integer getTargetWeight() {
+    public String getTargetWeight() {
         return targetWeight;
     }
 
-    public void setTargetWeight(Integer targetWeight) {
+    public void setTargetWeight(String targetWeight) {
         this.targetWeight = targetWeight;
     }
 
-    public Integer getTargetBMI() {
+    public String getTargetBMI() {
         return targetBMI;
     }
 
-    public void setTargetBMI(Integer targetBMI) {
+    public void setTargetBMI(String targetBMI) {
         this.targetBMI = targetBMI;
     }
 
-    public Integer getTargetHikes() {
+    public String getTargetHikes() {
         return targetHikes;
     }
 
-    public void setTargetHikes(Integer targetHikes) {
+    public void setTargetHikes(String targetHikes) {
         this.targetHikes = targetHikes;
     }
 
-    public Integer getTargetDailyCalories() {
+    public String getTargetDailyCalories() {
         return targetDailyCalories;
     }
 
-    public void setTargetDailyCalories(Integer targetDailyCalories) {
+    public void setTargetDailyCalories(String targetDailyCalories) {
         this.targetDailyCalories = targetDailyCalories;
+    }
+
+    public String getWeightGoal() {
+        return weightGoal;
+    }
+
+    public void setWeightGoal(String wg) {
+        this.weightGoal = wg;
     }
 
 }

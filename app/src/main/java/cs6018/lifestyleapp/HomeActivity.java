@@ -82,11 +82,17 @@ public class HomeActivity extends AppCompatActivity {
             user.setUserName(extras.getString("USERNAME"));
             user.setAge(extras.getString("AGE"));
             user.setSex(extras.getString("SEX"));
-            user.setHeight(Integer.valueOf(extras.getString("HEIGHT")));
-            user.setWeight(Integer.valueOf(extras.getString("WEIGHT")));
+            user.setHeight(extras.getString("HEIGHT"));
+            user.setWeight(extras.getString("WEIGHT"));
             user.setNation(extras.getString("NATION"));
             user.setCity(extras.getString("CITY"));
             user.setProfilePic(extras.getString("PROFILE_PIC"));
+
+            user.setTargetWeight(extras.getString("TARGET_WEIGHT"));
+            user.setTargetBMI(extras.getString("TARGET_BMI"));
+            user.setTargetDailyCalories(extras.getString("TARGET_CALORIES"));
+            user.setTargetHikes(extras.getString("TARGET_HIKES"));
+            user.setWeightGoal(extras.getString("WEIGHT_GOAL"));
         }
     }
 
@@ -105,35 +111,15 @@ public class HomeActivity extends AppCompatActivity {
         profileBundle.putString("item_city", user.getCity());
         profileBundle.putString("item_pic", user.getProfilePic());
 
+        profileBundle.putString("target_weight", user.getTargetWeight());
+        profileBundle.putString("target_bmi", user.getTargetBMI());
+        profileBundle.putString("target_calories", user.getTargetDailyCalories());
+        profileBundle.putString("target_hikes", user.getTargetHikes());
+        profileBundle.putString("weight_goal", user.getWeightGoal());
+
         profileFrag.setArguments(profileBundle);
+        goalsFrag.setArguments(profileBundle);
 
-    }
-
-    /** Handles the tools fragment buttons
-     *
-     * @param view the current view.
-     */
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.frame_weather: {
-                Intent weatherIntent = new Intent(this, WeatherActivity.class);
-                startActivity(weatherIntent);
-                break;
-            }
-
-            case R.id.frame_hike: {
-                Intent hikeIntent = new Intent(this, HikeActivity.class);
-                startActivity(hikeIntent);
-                break;
-            }
-
-            case R.id.frame_calculator: {
-                Intent calculatorIntent = new Intent(this, CalculatorActivity.class);
-                startActivity(calculatorIntent);
-                break;
-            }
-        }
     }
 
 }
