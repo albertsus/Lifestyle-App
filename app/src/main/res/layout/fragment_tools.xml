@@ -93,6 +93,7 @@ tools:context=".ToolsFrag">
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/frame_weather"
         android:layout_height="100dp"
+        android:onClick="onClick"
         android:clickable="true"
         android:focusable="true">
         <ImageView
@@ -151,6 +152,7 @@ tools:context=".ToolsFrag">
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintTop_toBottomOf="@id/frame_hike"
+        android:onClick="onClick"
         android:clickable="true"
         android:focusable="true">
         <ImageView
