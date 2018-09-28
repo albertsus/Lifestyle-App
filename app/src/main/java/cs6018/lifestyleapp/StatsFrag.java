@@ -16,79 +16,37 @@ import android.widget.TextView;
  */
 public class StatsFrag extends Fragment {
 
-//    private TextView mTitle;
-//
-//
-//    public StatsFrag() {
-//        // Required empty public constructor
-//    }
-//
-//    /**
-//     * unpack the user profile data.
-//     * @param savedInstanceState
-//     */
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//    }
-//
-//    /**
-//     * place the user profile data in the appropriate components.
-//     * @param inflater
-//     * @param container
-//     * @param savedInstanceState
-//     * @return
-//     */
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        View view = inflater.inflate(R.layout.fragment_stats, container, false);
-//
-//        Bundle bundle = this.getArguments();
-//
-//        //Get the validated user names
-//
-//        return view;
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//    }
+    private TextView mTvWeight;
+    private TextView mTvBMI;
+    private TextView mTvBMR;
+    private TextView mTvHikes;
+    private TextView mTvCalories;
 
-    public TextView countTv;
-    public Button countBtn;
-
-    public StatsFrag() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
-        countTv = (TextView) view.findViewById(R.id.count_tv);
-        countTv.setText("0");
-        countBtn = (Button) view.findViewById(R.id.count_btn);
-        countBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                increaseCount();
-            }
-        });
+
+        mTvWeight = (TextView) view.findViewById(R.id.tv_weight_data);
+        mTvBMI = (TextView) view.findViewById(R.id.tv_bmi_data);
+        mTvBMR = (TextView) view.findViewById(R.id.tv_bmr_data);
+        mTvCalories = (TextView) view.findViewById(R.id.tv_calories_data);
+        mTvHikes = (TextView) view.findViewById(R.id.tv_hikes_data);
+
+
+        String weight = getArguments().getString("item_weight");
+        String bmi = getArguments().getString("item_bmi");
+        String bmr = getArguments().getString("item_bmr");
+        String calories = getArguments().getString("item_calories");
+        String hikes = getArguments().getString("item_hikes");
+
+        mTvWeight.setText(weight);
+        mTvBMI.setText(bmi);
+        mTvBMR.setText(bmr);
+        mTvCalories.setText(calories);
+        mTvHikes.setText(hikes);
+
         return view;
     }
-
-    private void increaseCount() {
-        int current = Integer.parseInt((String) countTv.getText());
-        countTv.setText(String.valueOf(current+1));
-    }
-
 }

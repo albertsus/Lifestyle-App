@@ -63,7 +63,6 @@ public class ProfileFrag extends Fragment {
         mTvNation.setText(nation);
         mTvCity.setText(city);
 
-
         return view;
     }
 }
