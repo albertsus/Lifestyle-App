@@ -16,6 +16,7 @@
         android:textSize="48sp"
         android:textStyle="bold"
         android:paddingLeft="16dp" />
+
     <ImageView
         android:id="@+id/period"
         android:layout_height="32dp"
