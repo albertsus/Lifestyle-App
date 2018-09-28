@@ -50,15 +50,22 @@ public class ProfileFrag extends Fragment {
 //        });
 
         //Get the data that was sent in
-        // e.g String userName = getArguments().getString("UN_DATA");
+        String userName = getArguments().getString("item_username");
+        String age = getArguments().getString("item_age");
+        String sex = getArguments().getString("item_sex");
+        String height = getArguments().getString("item_height");
+        String weight = getArguments().getString("item_weight");
+        String nation = getArguments().getString("item_nation");
+        String city = getArguments().getString("item_city");
+        String pic = getArguments().getString("item_pic");
 
-        mTvUserName.setText("ABC");
-        mTvAge.setText("22");
-        mTvSex.setText("Male");
-        mTvCity.setText("Salt Lake City");
-        mTvNation.setText("US");
-        mTvHeight.setText("6'0");
-        mTvWeight.setText("195");
+        mTvUserName.setText(userName);
+        mTvAge.setText(age);
+        mTvSex.setText(sex);
+        mTvHeight.setText(height);
+        mTvWeight.setText(weight);
+        mTvNation.setText(nation);
+        mTvCity.setText(city);
 
         return view;
     }

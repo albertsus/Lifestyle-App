@@ -141,15 +141,17 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     break;
                 }
                 else {
+                    //Create new Intent Object, and specify class
                     Intent homeActivity = new Intent(this, HomeActivity.class);
+                    //Set data using putExtra method which take any key and value which we want to send
                     homeActivity.putExtra("USERNAME", mUserName);
-                    homeActivity.putExtra("CITY", mCity);
-                    homeActivity.putExtra("PROFILE_PIC", mCurrentPhotoPath);
+                    homeActivity.putExtra("AGE", mAge);
+                    homeActivity.putExtra("SEX", mSex);
                     homeActivity.putExtra("HEIGHT", mHeight);
                     homeActivity.putExtra("WEIGHT", mWeight);
-                    homeActivity.putExtra("AGE", mAge);
                     homeActivity.putExtra("NATION", mNation);
-                    homeActivity.putExtra("SEX", mSex);
+                    homeActivity.putExtra("CITY", mCity);
+                    homeActivity.putExtra("PROFILE_PIC", mCurrentPhotoPath);
                     this.startActivity(homeActivity);
                 }
             }

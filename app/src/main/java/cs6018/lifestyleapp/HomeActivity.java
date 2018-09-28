@@ -19,7 +19,8 @@ public class HomeActivity extends AppCompatActivity {
     final Fragment profileFrag = new ProfileFrag();
     final FragmentManager fragBoss = getSupportFragmentManager();
     Fragment active = profileFrag;
-    // User user = new User();
+
+    User user = new User();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -64,6 +65,47 @@ public class HomeActivity extends AppCompatActivity {
         fragBoss.beginTransaction().add(R.id.main_container, profileFrag, "3").hide(profileFrag).commit();
         fragBoss.beginTransaction().add(R.id.main_container, statsFrag, "2").hide(statsFrag).commit();
         fragBoss.beginTransaction().add(R.id.main_container,goalsFrag, "1").commit();
+
+        // Retrieve user info from SignUp Activity
+        dataRetrieve();
+
+        // Pass user info to fragments
+        dataPass();
+    }
+
+    /*
+     *  Retrieve user info from SignUp Activity
+     */
+    private void dataRetrieve() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user.setUserName(extras.getString("USERNAME"));
+            user.setAge(extras.getString("AGE"));
+            user.setSex(extras.getString("SEX"));
+            user.setHeight(Integer.valueOf(extras.getString("HEIGHT")));
+            user.setWeight(Integer.valueOf(extras.getString("WEIGHT")));
+            user.setNation(extras.getString("NATION"));
+            user.setCity(extras.getString("CITY"));
+            user.setProfilePic(extras.getString("PROFILE_PIC"));
+        }
+    }
+
+    /*
+     *  Pass user info to fragments
+     */
+    private void dataPass() {
+
+        Bundle profileBundle = new Bundle();
+        profileBundle.putString("item_username", user.getUserName());
+        profileBundle.putString("item_age", user.getAge());
+        profileBundle.putString("item_sex", user.getSex());
+        profileBundle.putString("item_height", String.valueOf(user.getHeight()));
+        profileBundle.putString("item_weight", String.valueOf(user.getWeight()));
+        profileBundle.putString("item_nation", user.getNation());
+        profileBundle.putString("item_city", user.getCity());
+        profileBundle.putString("item_pic", user.getProfilePic());
+
+        profileFrag.setArguments(profileBundle);
 
     }
 
