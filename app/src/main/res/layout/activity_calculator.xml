@@ -7,7 +7,6 @@
     tools:context=".CalculatorActivity">
 
     <!--Title-->
-
     <ImageView
         android:id="@+id/ic_calculator_back_arrow"
         android:clickable="true"
