@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
+    android:overScrollMode="ifContentScrolls"
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".SignupActivity">
 

@@ -63,13 +63,13 @@ public class HomeActivity extends AppCompatActivity {
 
         fragBoss.beginTransaction().add(R.id.main_container, toolsFrag, "4").hide(toolsFrag).commit();
         fragBoss.beginTransaction().add(R.id.main_container, profileFrag, "3").hide(profileFrag).commit();
-        fragBoss.beginTransaction().add(R.id.main_container, statsFrag, "2").hide(statsFrag).commit();
-        fragBoss.beginTransaction().add(R.id.main_container,goalsFrag, "1").commit();
+        fragBoss.beginTransaction().add(R.id.main_container, goalsFrag, "2").hide(goalsFrag).commit();
+        fragBoss.beginTransaction().add(R.id.main_container, statsFrag, "1").commit();
 
         // Retrieve user info from SignUp Activity
         dataRetrieve();
 
-        // Pass user info to fragments
+        // Pass user info to fragmentss
         dataPass();
     }
 
