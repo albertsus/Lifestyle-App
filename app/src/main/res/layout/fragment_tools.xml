@@ -34,6 +34,7 @@ tools:context=".ToolsFrag">
         android:layout_height="100dp"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="onClick"
         app:layout_constraintTop_toBottomOf="@id/tools_frag_title"
         >
         <ImageView
