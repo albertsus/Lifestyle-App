@@ -93,6 +93,10 @@ public class HomeActivity extends AppCompatActivity {
             user.setTargetDailyCalories(extras.getString("TARGET_CALORIES"));
             user.setTargetHikes(extras.getString("TARGET_HIKES"));
             user.setWeightGoal(extras.getString("WEIGHT_GOAL"));
+
+            user.setBmi(String.valueOf(CalculatorUtils.computeBMI(user.getWeight(), user.getHeight())));
+            user.setBmr(String.valueOf(CalculatorUtils.computeBMR(user.getWeight(),
+                    user.getHeight(), user.getSex(), user.getAge())));
         }
     }
 
@@ -111,6 +115,9 @@ public class HomeActivity extends AppCompatActivity {
         profileBundle.putString("item_city", user.getCity());
         profileBundle.putString("item_pic", user.getProfilePic());
 
+        profileBundle.putString("item_bmi", user.getBmi());
+        profileBundle.putString("item_bmr", user.getBmr());
+
         profileBundle.putString("target_weight", user.getTargetWeight());
         profileBundle.putString("target_bmi", user.getTargetBMI());
         profileBundle.putString("target_calories", user.getTargetDailyCalories());
@@ -119,7 +126,7 @@ public class HomeActivity extends AppCompatActivity {
 
         profileFrag.setArguments(profileBundle);
         goalsFrag.setArguments(profileBundle);
-
+        statsFrag.setArguments(profileBundle);
     }
 
 }

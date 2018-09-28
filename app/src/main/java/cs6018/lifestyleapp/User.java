@@ -11,6 +11,8 @@ public class User {
     private String height;
     private String weight;
     private String profilePic;
+    private String bmi;
+    private String bmr;
 
     // User Goals Data
     private String targetWeight;
@@ -82,6 +84,14 @@ public class User {
     public String getProfilePic() { return profilePic; }
 
     public void setProfilePic(String pic) { this.profilePic = pic; }
+
+    public String getBmi() { return bmi; }
+
+    public void setBmi(String bmi) { this.bmi = bmi; }
+
+    public String getBmr() { return bmr; }
+
+    public void setBmr(String bmr) { this.bmr = bmr; }
 
     public String getTargetWeight() {
         return targetWeight;
