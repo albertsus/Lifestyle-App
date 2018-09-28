@@ -122,4 +122,30 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Handle events, the submission of the serach field and GPS coordinates.
+     *
+     * @param view
+     */
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.frame_weather: {
+                Intent weatherIntent = new Intent(this, WeatherActivity.class);
+                startActivity(weatherIntent);
+                break;
+            }
+            case R.id.frame_hike: {
+                Intent hikeIntent = new Intent(this, WeatherActivity.class);
+                startActivity(hikeIntent);
+                break;
+            }
+            case R.id.frame_calculator: {
+                Intent calculatorIntent = new Intent(this, WeatherActivity.class);
+                startActivity(calculatorIntent);
+                break;
+            }
+        }
+    }
+
 }

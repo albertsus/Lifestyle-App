@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF3366</color>
     <color name="defaultBackgroundColor">#EEEEEE</color>
+    <color name="lightBackgroundColor">#FFFFFF</color>
     <color name="textLabelDefault">#B9B9B9</color>
 
 </resources>
