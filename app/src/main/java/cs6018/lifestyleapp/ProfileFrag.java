@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,7 @@ public class ProfileFrag extends Fragment {
     private TextView mTvNation;
     private TextView mTvHeight;
     private TextView mTvWeight;
+
 
     private Button mBtUpdate;
 
@@ -41,13 +44,6 @@ public class ProfileFrag extends Fragment {
         mTvHeight = (TextView) view.findViewById(R.id.tv_height_data);
         mTvWeight = (TextView) view.findViewById(R.id.tv_weight_data);
 
-//        mBtUpdate = (Button) view.findViewById(R.id.bt_update_profile);
-//        mBtUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Todo
-//            }
-//        });
 
         //Get the data that was sent in
         String userName = getArguments().getString("item_username");
@@ -66,6 +62,7 @@ public class ProfileFrag extends Fragment {
         mTvWeight.setText(weight);
         mTvNation.setText(nation);
         mTvCity.setText(city);
+
 
         return view;
     }
