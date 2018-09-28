@@ -6,4 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".HikeActivity">
 
+    <TextView
+        android:id="@+id/hike_activity_title"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hike"
+        tools:text="Hike"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:paddingLeft="16dp" />
+    <ImageView
+        android:id="@+id/period"
+        android:layout_height="32dp"
+        android:paddingBottom="16dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/hike_activity_title"
+        app:layout_constraintBottom_toBottomOf="@id/hike_activity_title"
+        android:src="@drawable/ic_period" />
+
 </android.support.constraint.ConstraintLayout>
