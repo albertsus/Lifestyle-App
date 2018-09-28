@@ -10,6 +10,7 @@ public class User {
     private String nation;
     private Integer height;
     private Integer weight;
+    private String profilePic;
 
     // User Goals Data
     private Integer targetWeight;
@@ -77,6 +78,10 @@ public class User {
         this.weight = weight;
     }
 
+    public String getProfilePic() { return profilePic; }
+
+    public void setProfilePic(String pic) { this.profilePic = pic; }
+
     public Integer getTargetWeight() {
         return targetWeight;
     }
@@ -108,6 +113,5 @@ public class User {
     public void setTargetDailyCalories(Integer targetDailyCalories) {
         this.targetDailyCalories = targetDailyCalories;
     }
-
 
 }
