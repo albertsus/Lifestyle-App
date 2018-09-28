@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -70,22 +71,6 @@ public class HomeActivity extends AppCompatActivity {
 
         // Pass user info to fragments
         dataPass();
-
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-//        if (findViewById(R.id.main_fragment_container) != null) {
-//
-//            // Handle restoring from a previous state.
-//            if (savedInstanceState != null) {
-//                return;
-//            }
-//
-//            toolsFrag.setRetainInstance(true);
-//            profileFrag.setRetainInstance(true);
-//            goalsFrag.setRetainInstance(true);
-//            statsFrag.setRetainInstance(true);
-//
-//        }
     }
 
     /*
@@ -122,6 +107,33 @@ public class HomeActivity extends AppCompatActivity {
 
         profileFrag.setArguments(profileBundle);
 
+    }
+
+    /** Handles the tools fragment buttons
+     *
+     * @param view the current view.
+     */
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.frame_weather: {
+                Intent weatherIntent = new Intent(this, WeatherActivity.class);
+                startActivity(weatherIntent);
+                break;
+            }
+
+            case R.id.frame_hike: {
+                Intent hikeIntent = new Intent(this, HikeActivity.class);
+                startActivity(hikeIntent);
+                break;
+            }
+
+            case R.id.frame_calculator: {
+                Intent calculatorIntent = new Intent(this, CalculatorActivity.class);
+                startActivity(calculatorIntent);
+                break;
+            }
+        }
     }
 
 }
