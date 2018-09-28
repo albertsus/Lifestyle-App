@@ -1,7 +1,5 @@
 package cs6018.lifestyleapp;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,11 +11,6 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ToolsFrag.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ToolsFrag#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class ToolsFrag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -110,8 +103,6 @@ public class ToolsFrag extends Fragment {
 //        void onFragmentInteraction(Uri uri);
 //    }
 
-    public TextView countTv;
-    public Button countBtn;
 
     public ToolsFrag() {
         // Required empty public constructor
@@ -121,21 +112,8 @@ public class ToolsFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tools, container, false);
-        countTv = (TextView) view.findViewById(R.id.count_tv);
-        countTv.setText("0");
-        countBtn = (Button) view.findViewById(R.id.count_btn);
-        countBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                increaseCount();
-            }
-        });
+
         return view;
     }
 
-    private void increaseCount() {
-        int current = Integer.parseInt((String) countTv.getText());
-        countTv.setText(String.valueOf(current+1));
-
-    }
 }
