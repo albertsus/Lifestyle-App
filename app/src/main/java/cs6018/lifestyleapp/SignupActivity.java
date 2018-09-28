@@ -92,7 +92,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "cs6018.adammiles.com.part2", photoFile);
+                Uri photoURI = FileProvider.getUriForFile(this, "cs6018.lifestyleapp", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
