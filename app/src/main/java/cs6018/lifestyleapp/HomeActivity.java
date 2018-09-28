@@ -18,7 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     final Fragment toolsFrag = new ToolsFrag();
     final Fragment profileFrag = new ProfileFrag();
     final FragmentManager fragBoss = getSupportFragmentManager();
-    Fragment active = profileFrag;
+    Fragment active = statsFrag;
 
     User user = new User();
 
@@ -123,7 +123,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Handle events, the submission of the serach field and GPS coordinates.
+     * Handle the tools activity click events.
      *
      * @param view
      */
