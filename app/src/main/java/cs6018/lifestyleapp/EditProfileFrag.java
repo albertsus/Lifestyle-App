@@ -44,7 +44,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private OnDataPass userProfilePasser;
+    private OnUserProfilePass userProfilePasser;
 
     public EditProfileFrag() {}
 
@@ -115,15 +115,15 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        userProfilePasser = (OnDataPass) context;
+        userProfilePasser = (OnUserProfilePass) context;
     }
 
     public void passData(User userProfile) {
-        userProfilePasser.onDataPass(userProfile);
+        userProfilePasser.passProfileData(userProfile);
     }
 
-    public interface OnDataPass {
-        void onDataPass(User userProfile);
+    public interface OnUserProfilePass {
+        void passProfileData(User userProfile);
     }
 
     /**

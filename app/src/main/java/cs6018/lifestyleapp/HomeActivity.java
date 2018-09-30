@@ -14,7 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class HomeActivity extends AppCompatActivity implements EditProfileFrag.OnDataPass {
+public class HomeActivity extends AppCompatActivity
+        implements EditProfileFrag.OnUserProfilePass, EditGoalsFrag.OnUserGoalsPass {
 
     final Fragment goalsFrag = new GoalsFrag();
     final Fragment statsFrag = new StatsFrag();
@@ -98,8 +99,14 @@ public class HomeActivity extends AppCompatActivity implements EditProfileFrag.O
     }
 
     @Override
-    public void onDataPass(User userProfile) {
+    public void passProfileData(User userProfile) {
         updateUserProfile(userProfile);
+        dataPass();
+    }
+
+    @Override
+    public void passGoalsData(User userGoals) {
+        updateUserGoals(userGoals);
         dataPass();
     }
 
@@ -118,8 +125,20 @@ public class HomeActivity extends AppCompatActivity implements EditProfileFrag.O
         System.out.println("Updated Username: " + user.getUserName());
     }
 
+    /**
+     * Update User goals
+     */
+    private void updateUserGoals (User newUserGoals) {
+        user.setTargetWeight(newUserGoals.getTargetWeight());
+        user.setTargetBMI(newUserGoals.getTargetBMI());
+        user.setTargetDailyCalories(newUserGoals.getTargetDailyCalories());
+        user.setTargetHikes(newUserGoals.getTargetHikes());
+        user.setWeightGoal(newUserGoals.getWeightGoal());
+        System.out.println("Updated TargetWeight: " + user.getTargetWeight());
+    }
+
     /*
-     *  Retrieve user info from SignUp Activity
+     *  Retrieve user info from SignUpActivity
      */
     private void dataRetrieve() {
         Bundle extras = getIntent().getExtras();

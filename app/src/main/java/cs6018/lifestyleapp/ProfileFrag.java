@@ -1,13 +1,19 @@
 package cs6018.lifestyleapp;
 
 import android.support.v4.app.FragmentTransaction;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -41,14 +47,13 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
         mTvWeight = (TextView) view.findViewById(R.id.tv_weight_data);
 
         mBtEdit = (Button) view.findViewById(R.id.bt_edit_profile);
+        mBtEdit.setOnClickListener(this);
 
         // Get the data that was sent in from HomeActivity
         getDataFromHomeActivity();
 
-        // Set the user profile
+        // Set the usaer profile
         setProfileData();
-
-        mBtEdit.setOnClickListener(this);
 
         return view;
     }
