@@ -28,10 +28,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     // Profile pic collection parameters and resources.
     ImageView mProfilePic;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    String mCurrentPhotoPath;
 
     // Input strings from form.
-    private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight;
+    private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight, mCurrentPhotoPath;
 
     private String mTargetWeight, mTargetBMI, mTargetHikes, mTargetCalories, mWeightGoal;
 

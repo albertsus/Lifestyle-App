@@ -9,13 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements EditProfileFrag.OnDataPass {
 
     final Fragment goalsFrag = new GoalsFrag();
     final Fragment statsFrag = new StatsFrag();
@@ -80,6 +81,7 @@ public class HomeActivity extends AppCompatActivity {
                 this.findViewById(R.id.navigation);
         BottomNavigationMenuView menuView = (BottomNavigationMenuView)
                 bottomNavigationView.getChildAt(0);
+
         for (int i = 0; i < menuView.getChildCount(); i++) {
             final View iconView =
                     menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
@@ -95,6 +97,27 @@ public class HomeActivity extends AppCompatActivity {
                             displayMetrics);
             iconView.setLayoutParams(layoutParams);
         }
+    }
+
+    @Override
+    public void onDataPass(User userProfile) {
+        updateUserProfile(userProfile);
+        dataPass();
+    }
+
+    /**
+     * Update User profile
+     */
+    private void updateUserProfile(User newUserProfile) {
+        user.setUserName(newUserProfile.getUserName());
+        user.setAge(newUserProfile.getAge());
+        user.setSex(newUserProfile.getSex());
+        user.setNation(newUserProfile.getNation());
+        user.setCity(newUserProfile.getCity());
+        user.setHeight(newUserProfile.getHeight());
+        user.setWeight(newUserProfile.getWeight());
+        user.setProfilePic(newUserProfile.getProfilePic());
+        System.out.println("Updated Username: " + user.getUserName());
     }
 
     /*

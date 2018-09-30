@@ -1,5 +1,6 @@
 package cs6018.lifestyleapp;
 
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import org.w3c.dom.Text;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFrag extends Fragment {
+public class ProfileFrag extends Fragment implements View.OnClickListener {
+
+    private String mUserName, mAge, mSex, mHeight, mWeight, mNation, mCity, mCurrentPhotoPath;
 
     private TextView mTvUserName;
     private TextView mTvAge;
@@ -28,8 +31,7 @@ public class ProfileFrag extends Fragment {
     private TextView mTvHeight;
     private TextView mTvWeight;
 
-
-    private Button mBtUpdate;
+    private Button mBtEdit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,25 +46,75 @@ public class ProfileFrag extends Fragment {
         mTvHeight = (TextView) view.findViewById(R.id.tv_height_data);
         mTvWeight = (TextView) view.findViewById(R.id.tv_weight_data);
 
+        mBtEdit = (Button) view.findViewById(R.id.bt_edit_profile);
 
-        //Get the data that was sent in
-        String userName = getArguments().getString("item_username");
-        String age = getArguments().getString("item_age");
-        String sex = getArguments().getString("item_sex");
-        String height = getArguments().getString("item_height");
-        String weight = getArguments().getString("item_weight");
-        String nation = getArguments().getString("item_nation");
-        String city = getArguments().getString("item_city");
-        String pic = getArguments().getString("item_pic");
+        // Get the data that was sent in from HomeActivity
+        getDataFromHomeActivity();
 
-        mTvUserName.setText(userName);
-        mTvAge.setText(age);
-        mTvSex.setText(sex);
-        mTvHeight.setText(height);
-        mTvWeight.setText(weight);
-        mTvNation.setText(nation);
-        mTvCity.setText(city);
+        // Set the user profile
+        setProfileData();
+
+        mBtEdit.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        // Create new fragment and transaction
+        Fragment editProfileFrag = new EditProfileFrag();
+
+        // Give editProfile an argument from the profileFrag
+        Bundle profileBundle = new Bundle();
+        passProfileDataToEditProfile(profileBundle);
+        editProfileFrag.setArguments(profileBundle);
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack
+        transaction.replace(R.id.main_container, editProfileFrag);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
+    /**
+     * Get the data that was sent in from HomeActivity
+     */
+    private void getDataFromHomeActivity() {
+        mUserName = getArguments().getString("item_username");
+        mAge = getArguments().getString("item_age");
+        mSex = getArguments().getString("item_sex");
+        mHeight = getArguments().getString("item_height");
+        mWeight = getArguments().getString("item_weight");
+        mNation = getArguments().getString("item_nation");
+        mCity = getArguments().getString("item_city");
+        mCurrentPhotoPath = getArguments().getString("item_pic");
+    }
+
+    /*
+     * Set the profile data
+     */
+    private void setProfileData() {
+        mTvUserName.setText(mUserName);
+        mTvAge.setText(mAge);
+        mTvSex.setText(mSex);
+        mTvHeight.setText(mHeight);
+        mTvWeight.setText(mWeight);
+        mTvNation.setText(mNation);
+        mTvCity.setText(mCity);
+    }
+
+    private void passProfileDataToEditProfile(Bundle profileBundle) {
+        profileBundle.putString("item_username", mUserName);
+        profileBundle.putString("item_age", mAge);
+        profileBundle.putString("item_sex", mSex);
+        profileBundle.putString("item_height", mHeight);
+        profileBundle.putString("item_weight", mWeight);
+        profileBundle.putString("item_nation", mNation);
+        profileBundle.putString("item_city", mCity);
+        profileBundle.putString("item_pic", mCurrentPhotoPath);
     }
 }
