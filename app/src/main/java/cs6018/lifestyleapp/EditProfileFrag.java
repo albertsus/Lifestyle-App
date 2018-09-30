@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
@@ -21,15 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by suchaofan on 9/28/18.
@@ -37,28 +33,18 @@ import java.util.Map;
 
 public class EditProfileFrag extends Fragment implements View.OnClickListener {
 
-    private String mUserName, mAge, mSex, mCity, mNation, mHeight, mWeight;
+    private User userProfile = new User();
+    private String mUserName, mAge, mSex, mCity, mNation, mHeight, mWeight, mCurrentPhotoPath;
 
-    private EditText mEtUserName;
-    private EditText mEtAge;
-    private EditText mEtCity;
-    private EditText mEtNation;
-    private EditText mEtHeight;
-    private EditText mEtWeight;
-
+    private EditText mEtUserName, mEtAge, mEtCity, mEtNation, mEtHeight, mEtWeight;
     private Spinner sexSpinner;
-
     private Button mBtUpdate;
     private ImageButton mBtPicture;
-
-    // Profile pic collection parameters and resources.
     private ImageView mProfilePic;
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private String mCurrentPhotoPath;
 
-    private User userProfile = new User();
-
-    OnDataPass userProfilePasser;
+    private OnDataPass userProfilePasser;
 
     public EditProfileFrag() {}
 
@@ -103,27 +89,23 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
             }
 
             case R.id.bt_update_profile: {
-                // Handle empty submissions.
-                if (mUserName.matches("") || mCity.matches("")
-                        || mAge.matches("") || mHeight.matches("")
-                        || mWeight.matches("") || mNation.matches("")) {
-                    Toast toast = Toast.makeText(getActivity(),
-                            "Please enter all fields", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
+                // Check valid data entered
+                if (!isValidData()) {
                     break;
-                }
-                else {
+                } else {
+                    // Show updated success info
                     Toast toast = Toast.makeText(getActivity(),
                             "Updated Profile Success!", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
 
+                    // Update User Profile
                     updateProfile();
 
                     // Pass data to HomeActivity and update user profile
                     passData(userProfile);
 
+                    // Route to ProfileFrag
                     getFragmentManager().popBackStackImmediate();
                 }
             }
@@ -187,6 +169,19 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         userProfile.setHeight(mHeight);
         userProfile.setWeight(mWeight);
         userProfile.setProfilePic(mCurrentPhotoPath);
+    }
+
+    private boolean isValidData() {
+        if (mUserName.matches("") || mCity.matches("")
+                || mAge.matches("") || mHeight.matches("")
+                || mWeight.matches("") || mNation.matches("")) {
+            Toast toast = Toast.makeText(getActivity(),
+                    "Invalid data entered", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
+            return false;
+        }
+        return true;
     }
 
     /**

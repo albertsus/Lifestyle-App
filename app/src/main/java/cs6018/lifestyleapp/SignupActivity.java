@@ -25,23 +25,138 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
-    // Profile pic collection parameters and resources.
-    ImageView mProfilePic;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    // Input strings from form.
+    // Define User profile info
     private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight, mCurrentPhotoPath;
-
     private String mTargetWeight, mTargetBMI, mTargetHikes, mTargetCalories, mWeightGoal;
 
-    // UI elements.
-    Button mButtonCreate;
-    ImageButton mButtonPicture;
-    EditText etUserName, etAge, etCity, etNation, etHeight, etWeight;
-    Spinner spinnerSex;
+    // Define UI view elements
+    private EditText etUserName, etAge, etCity, etNation, etHeight, etWeight;
+    private EditText etTargetWeight, etTargetBMI, etTargetHikes, etTargetCalories;
+    private Spinner spinnerSex, spinnerWeightGoal;
+    private Button mButtonCreate;
+    private ImageButton mButtonPicture;
+    private ImageView mProfilePic; // Profile pic collection parameters and resources.
 
-    EditText etTargetWeight, etTargetBMI, etTargetHikes, etTargetCalories;
-    Spinner spinnerWeightGoal;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+
+        // Find view elements from layout
+        etUserName = findViewById(R.id.et_userName);
+        etAge = findViewById(R.id.et_age);
+        etCity = findViewById(R.id.et_city);
+        etNation = findViewById(R.id.et_nation);
+        spinnerSex = findViewById(R.id.spinner_sex);
+        etHeight = findViewById(R.id.et_height);
+        etWeight = findViewById(R.id.et_weight);
+
+        etTargetWeight = findViewById(R.id.et_target_weight);
+        etTargetBMI = findViewById(R.id.et_target_bmi);
+        etTargetCalories = findViewById(R.id.et_target_calories);
+        etTargetHikes = findViewById(R.id.et_target_hikes);
+        spinnerWeightGoal = findViewById(R.id.spinner_weight_goal);
+
+        Spinner sexSpinner = (Spinner) findViewById(R.id.spinner_sex);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sex_array, R.layout.spinner_layout);
+        adapter.setDropDownViewResource(R.layout.spinner_layout);
+        sexSpinner.setAdapter(adapter);
+
+        Spinner weightGoalSpinner = (Spinner) findViewById(R.id.spinner_weight_goal);
+        ArrayAdapter<CharSequence> wgAdapter = ArrayAdapter.createFromResource(this, R.array.weigth_goal_array, R.layout.spinner_layout);
+        wgAdapter.setDropDownViewResource(R.layout.spinner_layout);
+        weightGoalSpinner.setAdapter(wgAdapter);
+
+        mButtonCreate = findViewById(R.id.button_get_started);
+        mButtonCreate.setOnClickListener(this);
+
+        mButtonPicture = findViewById(R.id.button_get_user_picture);
+        mButtonPicture.setOnClickListener(this);
+
+    }
+
+    /** Handles the profile picture getter and user creation buttons.
+     *
+     * @param view the current view.
+     */
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.button_get_user_picture: {
+                dispatchTakePictureIntent();
+                break;
+            }
+
+            case R.id.button_get_started: {
+                // Set the user profile
+                setUserProfile();
+
+                // Check valid data entered
+                if (!isValidData()) {
+                    break;
+                } else {
+                    //Create new Intent Object, and specify class
+                    Intent homeActivity = new Intent(this, HomeActivity.class);
+                    //Send Intent from SignupActivity to HomeActivity
+                    passDataSignupToHomeActivity(homeActivity);
+                    // Start the HomeActivity
+                    this.startActivity(homeActivity);
+                }
+            }
+        }
+    }
+
+    private void setUserProfile() {
+        // Set user basic profile data
+        mUserName = etUserName.getText().toString();
+        mAge = etAge.getText().toString();
+        mCity = etCity.getText().toString();
+        mNation = etNation.getText().toString();
+        mSex = (String) spinnerSex.getSelectedItem();
+        mHeight = etHeight.getText().toString();
+        mWeight = etWeight.getText().toString();
+
+        // Set user target data
+        mTargetWeight = etTargetWeight.getText().toString();
+        mTargetBMI = etTargetBMI.getText().toString();
+        mTargetCalories = etTargetCalories.getText().toString();
+        mTargetHikes = etTargetHikes.getText().toString();
+        mWeightGoal = (String) spinnerWeightGoal.getSelectedItem();
+    }
+
+    private boolean isValidData() {
+        if (mUserName.matches("") || mCity.matches("")
+                || mAge.matches("") || mHeight.matches("")
+                || mWeight.matches("") || mNation.matches("")) {
+            Toast toast = Toast.makeText(SignupActivity.this,
+                    "Invalid data entered", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
+            return false;
+        }
+        return true;
+    }
+
+    private void passDataSignupToHomeActivity(Intent homeActivity) {
+        homeActivity.putExtra("USERNAME", mUserName);
+        homeActivity.putExtra("AGE", mAge);
+        homeActivity.putExtra("SEX", mSex);
+        homeActivity.putExtra("HEIGHT", mHeight);
+        homeActivity.putExtra("WEIGHT", mWeight);
+        homeActivity.putExtra("NATION", mNation);
+        homeActivity.putExtra("CITY", mCity);
+        homeActivity.putExtra("PROFILE_PIC", mCurrentPhotoPath);
+
+        homeActivity.putExtra("TARGET_WEIGHT", mTargetWeight);
+        homeActivity.putExtra("TARGET_BMI", mTargetBMI);
+        homeActivity.putExtra("TARGET_CALORIES", mTargetCalories);
+        homeActivity.putExtra("TARGET_HIKES", mTargetHikes);
+        homeActivity.putExtra("WEIGHT_GOAL", mWeightGoal);
+    }
 
     /**
      * Helper function stores the image to a file.
@@ -96,121 +211,5 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
-    }
-
-    /** Handles the profile picture getter and user creation buttons.
-     *
-     * @param view the current view.
-     */
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.button_get_user_picture: {
-                dispatchTakePictureIntent();
-                break;
-            }
-
-            case R.id.button_get_started: {
-                // Get the user data from the input fields.
-                etUserName = findViewById(R.id.et_userName);
-                mUserName = etUserName.getText().toString();
-
-                etAge = findViewById(R.id.et_age);
-                mAge = etAge.getText().toString();
-
-                etCity = findViewById(R.id.et_city);
-                mCity = etCity.getText().toString();
-
-                etNation = findViewById(R.id.et_nation);
-                mNation = etNation.getText().toString();
-
-                spinnerSex = findViewById(R.id.spinner_sex);
-                mSex = (String) spinnerSex.getSelectedItem();
-
-                etHeight = findViewById(R.id.et_height);
-                mHeight = etHeight.getText().toString();
-
-                etWeight = findViewById(R.id.et_weight);
-                mWeight = etWeight.getText().toString();
-
-                etTargetWeight = findViewById(R.id.et_target_weight);
-                mTargetWeight = etTargetWeight.getText().toString();
-
-                etTargetBMI = findViewById(R.id.et_target_bmi);
-                mTargetBMI = etTargetBMI.getText().toString();
-
-                etTargetCalories = findViewById(R.id.et_target_calories);
-                mTargetCalories = etTargetCalories.getText().toString();
-
-                etTargetHikes = findViewById(R.id.et_target_hikes);
-                mTargetHikes = etTargetHikes.getText().toString();
-
-                spinnerWeightGoal = findViewById(R.id.spinner_weight_goal);
-                mWeightGoal = (String) spinnerWeightGoal.getSelectedItem();
-
-                // Handle empty submissions.
-                if (mUserName.matches("") || mCity.matches("")
-                        || mAge.matches("") || mHeight.matches("")
-                        || mWeight.matches("") || mNation.matches("")) {
-                    Toast toast = Toast.makeText(SignupActivity.this,
-                            "Please enter all fields", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.TOP, 0, 0);
-                    toast.show();
-                    break;
-                }
-                else {
-                    //Create new Intent Object, and specify class
-                    Intent homeActivity = new Intent(this, HomeActivity.class);
-                    //Set data using putExtra method which take any key and value which we want to send
-                    homeActivity.putExtra("USERNAME", mUserName);
-                    homeActivity.putExtra("AGE", mAge);
-                    homeActivity.putExtra("SEX", mSex);
-                    homeActivity.putExtra("HEIGHT", mHeight);
-                    homeActivity.putExtra("WEIGHT", mWeight);
-                    homeActivity.putExtra("NATION", mNation);
-                    homeActivity.putExtra("CITY", mCity);
-                    homeActivity.putExtra("PROFILE_PIC", mCurrentPhotoPath);
-
-                    homeActivity.putExtra("TARGET_WEIGHT", mTargetWeight);
-                    homeActivity.putExtra("TARGET_BMI", mTargetBMI);
-                    homeActivity.putExtra("TARGET_CALORIES", mTargetCalories);
-                    homeActivity.putExtra("TARGET_HIKES", mTargetHikes);
-                    homeActivity.putExtra("WEIGHT_GOAL", mWeightGoal);
-
-                    this.startActivity(homeActivity);
-                }
-            }
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-
-        Spinner sexSpinner = (Spinner) findViewById(R.id.spinner_sex);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sex_array, R.layout.spinner_layout);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.spinner_layout);
-        // Apply the adapter to the spinner
-        sexSpinner.setAdapter(adapter);
-
-
-        Spinner weightGoalSpinner = (Spinner) findViewById(R.id.spinner_weight_goal);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> wgAdapter = ArrayAdapter.createFromResource(this, R.array.weigth_goal_array, R.layout.spinner_layout);
-        // Specify the layout to use when the list of choices appears
-        wgAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        // Apply the adapter to the spinner
-        weightGoalSpinner.setAdapter(wgAdapter);
-
-        mButtonCreate = findViewById(R.id.button_get_started);
-        mButtonCreate.setOnClickListener(this);
-
-        mButtonPicture = findViewById(R.id.button_get_user_picture);
-        mButtonPicture.setOnClickListener(this);
-
     }
 }
