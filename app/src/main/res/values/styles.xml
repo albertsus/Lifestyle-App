@@ -11,9 +11,9 @@
 
     <!-- The launcher theme. It sets the main window background to the launch_screen drawable -->
     <style name="AppTheme.Launcher">
-    <item name="android:windowBackground">@drawable/launch_screen</item>
-    <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->
-    <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->
+        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
     </style>
 
     <!-- Toolbar styles. -->
@@ -27,6 +27,7 @@
         <item name="android:elevation">0dp</item>
 
     </style>
+
     <style name="Custom.Widget.Toolbar.Button.Navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:minWidth">48dp</item>
         <item name="maxButtonHeight">70dp</item>
@@ -36,5 +37,17 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 </resources>

@@ -76,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         // Pass user info to fragmentss
         dataPass();
 
+        // Customize the size of the bottom navigation component.
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 this.findViewById(R.id.navigation);
         BottomNavigationMenuView menuView = (BottomNavigationMenuView)
