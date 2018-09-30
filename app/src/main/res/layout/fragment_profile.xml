@@ -275,11 +275,11 @@
             />
 
         <Button
-            android:id="@+id/bt_update_profile"
+            android:id="@+id/bt_edit_profile"
             android:layout_width="360dp"
             android:layout_height="64dp"
             android:gravity="center_horizontal"
-            android:text="Update!"
+            android:text="Edit"
             android:textSize="36sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

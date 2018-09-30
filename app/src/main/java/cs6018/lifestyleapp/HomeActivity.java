@@ -10,12 +10,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+        implements EditProfileFrag.OnUserProfilePass, EditGoalsFrag.OnUserGoalsPass {
 
     final Fragment goalsFrag = new GoalsFrag();
     final Fragment statsFrag = new StatsFrag();
@@ -81,6 +81,7 @@ public class HomeActivity extends AppCompatActivity {
                 this.findViewById(R.id.navigation);
         BottomNavigationMenuView menuView = (BottomNavigationMenuView)
                 bottomNavigationView.getChildAt(0);
+
         for (int i = 0; i < menuView.getChildCount(); i++) {
             final View iconView =
                     menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
@@ -98,8 +99,47 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void passProfileData(User userProfile) {
+        updateUserProfile(userProfile);
+        dataPass();
+    }
+
+    @Override
+    public void passGoalsData(User userGoals) {
+        updateUserGoals(userGoals);
+        dataPass();
+    }
+
+    /**
+     * Update User profile
+     */
+    private void updateUserProfile(User newUserProfile) {
+        user.setUserName(newUserProfile.getUserName());
+        user.setAge(newUserProfile.getAge());
+        user.setSex(newUserProfile.getSex());
+        user.setNation(newUserProfile.getNation());
+        user.setCity(newUserProfile.getCity());
+        user.setHeight(newUserProfile.getHeight());
+        user.setWeight(newUserProfile.getWeight());
+        user.setProfilePic(newUserProfile.getProfilePic());
+        System.out.println("Updated Username: " + user.getUserName());
+    }
+
+    /**
+     * Update User goals
+     */
+    private void updateUserGoals (User newUserGoals) {
+        user.setTargetWeight(newUserGoals.getTargetWeight());
+        user.setTargetBMI(newUserGoals.getTargetBMI());
+        user.setTargetDailyCalories(newUserGoals.getTargetDailyCalories());
+        user.setTargetHikes(newUserGoals.getTargetHikes());
+        user.setWeightGoal(newUserGoals.getWeightGoal());
+        System.out.println("Updated TargetWeight: " + user.getTargetWeight());
+    }
+
     /*
-     *  Retrieve user info from SignUp Activity
+     *  Retrieve user info from SignUpActivity
      */
     private void dataRetrieve() {
         Bundle extras = getIntent().getExtras();
