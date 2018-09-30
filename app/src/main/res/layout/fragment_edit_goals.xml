@@ -199,23 +199,22 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_weight_goal"
                 />
 
-            <Button
-                android:id="@+id/bt_update_goals"
-                android:layout_width="360dp"
-                android:layout_height="64dp"
-                android:gravity="center_horizontal"
-                android:text="Update!"
-                android:textSize="36sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/Widget.AppCompat.Button.Colored"
-                app:layout_constraintTop_toBottomOf="@id/tv_weight_goal"
-                />
-
 
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/bt_update_goals"
+        android:layout_width="360dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="Update!"
+        android:textSize="36sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
 
 
 </FrameLayout>
