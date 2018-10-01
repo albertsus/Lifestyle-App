@@ -84,9 +84,9 @@ public class StatsFrag extends Fragment {
     }
 
     private void setBar(final SeekBar sb, final TextView tv, String maxStr, String progressStr) {
-        final int max = Integer.valueOf(maxStr), progresss = Integer.valueOf(progressStr);
+        final int max = Integer.valueOf(maxStr), progress = Integer.valueOf(progressStr);
         sb.setMax(max);
-        sb.setProgress(progresss);
+        sb.setProgress(progress);
         int val = (sb.getProgress() * (950 - 2 * 24)) / sb.getMax();
         final int Pos = val + 180 + 24 / 2;
         tv.setText("" + sb.getProgress());
@@ -95,8 +95,8 @@ public class StatsFrag extends Fragment {
         // Tricks to fix the index thumb -> probably wrong
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                sb.setProgress(progresss);
+            public void onProgressChanged(SeekBar seekBar, int prog, boolean b) {
+                sb.setProgress(progress);
             }
 
             @Override
