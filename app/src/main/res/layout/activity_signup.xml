@@ -299,7 +299,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="150"
+        android:text="200"
         android:hint="(lbs)"
         android:textSize="36sp"
         android:textStyle="bold"
