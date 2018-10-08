@@ -66,7 +66,6 @@ public class StatsFrag extends Fragment {
         mTargetBMI = getArguments().getString("target_bmi");
         mTargetCalories = getArguments().getString("target_calories");
         mTargetHikes = getArguments().getString("target_hikes");
-
     }
 
     private void setTargetData() {
