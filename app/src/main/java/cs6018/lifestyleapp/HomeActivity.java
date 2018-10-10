@@ -214,10 +214,16 @@ public class HomeActivity extends AppCompatActivity
             }
             case R.id.frame_calculator: {
                 Intent calculatorIntent = new Intent(this, CalculatorActivity.class);
+                passFromHomeToCalculatorAct(calculatorIntent);
                 startActivity(calculatorIntent);
                 break;
             }
         }
+    }
+
+    private void passFromHomeToCalculatorAct(Intent intent) {
+        intent.putExtra("bmr", user.getBmr());
+        intent.putExtra("bmi", user.getBmi());
     }
 
 }
