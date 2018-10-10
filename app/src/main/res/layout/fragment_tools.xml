@@ -24,6 +24,10 @@ tools:context=".ToolsFrag">
         android:layout_height="32dp"
         android:paddingBottom="16dp"
         android:layout_width="wrap_content"
+        android:onClick="onBackClick"
+        android:background="@drawable/ripple"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintStart_toEndOf="@id/tools_frag_title"
         app:layout_constraintBottom_toBottomOf="@id/tools_frag_title"
         android:src="@drawable/ic_period" />
@@ -36,6 +40,7 @@ tools:context=".ToolsFrag">
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClick"
+        android:background="@drawable/ripple"
         app:layout_constraintTop_toBottomOf="@id/tools_frag_title"
         >
         <ImageView
@@ -95,6 +100,7 @@ tools:context=".ToolsFrag">
         app:layout_constraintTop_toBottomOf="@id/frame_weather"
         android:layout_height="100dp"
         android:onClick="onClick"
+        android:background="@drawable/ripple"
         android:clickable="true"
         android:focusable="true">
         <ImageView
@@ -154,6 +160,7 @@ tools:context=".ToolsFrag">
         android:layout_height="100dp"
         app:layout_constraintTop_toBottomOf="@id/frame_hike"
         android:onClick="onClick"
+        android:background="@drawable/ripple"
         android:clickable="true"
         android:focusable="true">
         <ImageView

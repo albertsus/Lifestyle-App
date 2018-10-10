@@ -30,6 +30,4 @@ public class ToolsFrag extends Fragment {
         return view;
     }
 
-
-
 }

@@ -36,12 +36,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@drawable/shadow"
-
-        app:itemIconTint="@color/colorPrimaryDark"
-        app:itemTextColor="@color/colorPrimaryDark"
+        android:background="?android:attr/windowBackground"
+        app:itemBackground="@drawable/shadow"
+        android:foreground="?attr/selectableItemBackground"
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black"
         app:menu="@menu/navigation" />
-    <!--app:itemIconTint="@drawable/nav_item_color_state"
-        app:itemTextColor="@drawable/nav_item_color_state"-->
 
 </android.support.constraint.ConstraintLayout>
