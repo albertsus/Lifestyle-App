@@ -98,11 +98,11 @@ public class WeatherActivity extends AppCompatActivity {
         public void onChanged(@Nullable final WeatherData weatherData) {
             // Update the UI if this data variable changes
             if(weatherData!=null) {
-                mTvTempCurrent.setText("" + Math.round(weatherData.getTemperature().getTemp() - 273.15) + " \\u00B0C");
+                mTvTempCurrent.setText("" + Math.round(weatherData.getTemperature().getTemp() - 273.15) + "\u00B0");
+                mTvTempHigh.setText("" + Math.round(weatherData.getTemperature().getMaxTemp()  - 273.15) + "\u00B0");
+                mTvTempLow.setText("" + Math.round(weatherData.getTemperature().getMinTemp() - 273.15) + "\u00B0");
                 mTvHumidity.setText("" + weatherData.getCurrentCondition().getHumidity() + "%");
                 mTvWeatherSummary.setText("" + weatherData.getCurrentCondition().getDescr());
-                mTvTempHigh.setText("" + weatherData.getTemperature().getMaxTemp());
-                mTvTempLow.setText("" + weatherData.getTemperature().getMinTemp());
                 mTvLocation.setText("" + weatherData.getLocationData().getCity());
             }
         }

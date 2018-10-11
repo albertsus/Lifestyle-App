@@ -10,7 +10,7 @@ public class WeatherData {
     private Clouds mClouds = new Clouds();
 
 
-    public  class CurrentCondition {
+    public class CurrentCondition {
         private long mWeatherId;
         private String mCondition;
         private String mDescr;
