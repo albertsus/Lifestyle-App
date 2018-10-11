@@ -1,5 +1,6 @@
 package cs6018.lifestyleapp;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
@@ -28,6 +29,7 @@ public class WeatherViewModel extends AndroidViewModel {
         return jsonData;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void loadData(){
         new AsyncTask<String,Void,String>(){
             @Override
@@ -55,5 +57,6 @@ public class WeatherViewModel extends AndroidViewModel {
                 }
             }
         }.execute(mLocation);
+        System.out.println(jsonData);
     }
 }
