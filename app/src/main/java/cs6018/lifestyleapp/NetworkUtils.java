@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class NetworkUtils {
-    private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
+    private static String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
     private static String APPIDQUERY = "&appid=";
     private static final String app_id="16226ead81ad3fd5e1f007915477ff4d";
 

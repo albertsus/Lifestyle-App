@@ -34,7 +34,7 @@ public class WeatherActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
 
-    private String testLocationString = "40.759926, -111.884888";
+    private String testLocationString = "lat=40.759926&lon=-111.884888";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +60,25 @@ public class WeatherActivity extends AppCompatActivity {
         //Set the observer
         mWeatherViewModel.getData().observe(this, nameObserver);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            System.out.println("location: " + location);
-                            if (location != null) {
-                                mLocation = location;
-                                mWeatherViewModel.setLocation(Double.toString(mLocation.getLatitude()) + ", " + Double.toString(mLocation.getLongitude()));
-                            }
-                            // hard coded default for testing api and view update
-                            else {
-                                mWeatherViewModel.setLocation(testLocationString);
-                            }
-                        }
-                    });
-            return;
-        }
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            mFusedLocationClient.getLastLocation()
+//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                        @Override
+//                        public void onSuccess(Location location) {
+//                            // Got last known location. In some rare situations this can be null.
+//                            System.out.println("location: " + location);
+//                            if (location != null) {
+//                                mLocation = location;
+//                                mWeatherViewModel.setLocation(Double.toString(mLocation.getLatitude()) + ", " + Double.toString(mLocation.getLongitude()));
+//                            }
+//                            // hard coded default for testing api and view update
+//                            else {
+//                                mWeatherViewModel.setLocation(testLocationString);
+//                            }
+//                        }
+//                    });
+//            return;
+//        }
         // hard coded default for testing api and view update
         mWeatherViewModel.setLocation(testLocationString);
 
