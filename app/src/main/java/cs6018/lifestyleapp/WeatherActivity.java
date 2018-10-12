@@ -11,11 +11,18 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -27,6 +34,8 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView mTvHumidity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private ImageView mWeatherIcon;
+
     private TextView mTvWind;
 
     private WeatherViewModel mWeatherViewModel;
@@ -34,6 +43,7 @@ public class WeatherActivity extends AppCompatActivity {
     private Location mLocation;
 
     private String testLocationString = "lat=40.759926&lon=-111.884888";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,28 +67,36 @@ public class WeatherActivity extends AppCompatActivity {
 
         //Set the observer
         mWeatherViewModel.getData().observe(this, nameObserver);
+        mWeatherIcon = (ImageView) findViewById(R.id.ic_weather_large);
 
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            mFusedLocationClient.getLastLocation()
-//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-//                        @Override
-//                        public void onSuccess(Location location) {
-//                            // Got last known location. In some rare situations this can be null.
-//                            System.out.println("location: " + location);
-//                            if (location != null) {
-//                                mLocation = location;
-//                                mWeatherViewModel.setLocation(Double.toString(mLocation.getLatitude()) + ", " + Double.toString(mLocation.getLongitude()));
-//                            }
-//                            // hard coded default for testing api and view update
-//                            else {
-//                                mWeatherViewModel.setLocation(testLocationString);
-//                            }
-//                        }
-//                    });
-//            return;
-//        }
-        // hard coded default for testing api and view update
-        mWeatherViewModel.setLocation(testLocationString);
+        final ImageButton backButton = findViewById(R.id.ic_weather_back_arrow);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            System.out.println("location: " + location);
+                            if (location != null) {
+                                mLocation = location;
+                                mWeatherViewModel.setLocation(Double.toString(mLocation.getLatitude()) + ", " + Double.toString(mLocation.getLongitude()));
+                            }
+                            // hard coded default for testing api and view update
+                            else {
+                                mWeatherViewModel.setLocation(testLocationString);
+                            }
+                        }
+                    });
+            return;
+        } else {
+            mWeatherViewModel.setLocation(testLocationString);
+        }
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -86,6 +104,7 @@ public class WeatherActivity extends AppCompatActivity {
             public void onRefresh() {
                 // loadWeatherData(mLocation);
                 loadWeatherData(testLocationString);
+
             }
         });
     }
@@ -102,6 +121,45 @@ public class WeatherActivity extends AppCompatActivity {
                 mTvHumidity.setText("" + weatherData.getCurrentCondition().getHumidity() + "%");
                 mTvWeatherSummary.setText("" + weatherData.getCurrentCondition().getDescr());
                 mTvLocation.setText("" + weatherData.getLocationData().getCity());
+                mTvWind.setText("" + weatherData.getWind().getSpeed() + " mph");
+
+                List<String> conditions = new ArrayList<String>(Arrays.asList(weatherData.getCurrentCondition().getDescr().split(" ")));
+
+                if (conditions.contains("rain")) {
+                    if (conditions.contains("light")) {
+                        mWeatherIcon.setImageResource(R.drawable.ic_light_rain);
+                    } else { mWeatherIcon.setImageResource(R.drawable.ic_rain); }
+                }
+
+                else if (conditions.contains("wind") || conditions.contains("windy") || conditions.contains("breezy")) {
+                    mWeatherIcon.setImageResource(R.drawable.ic_windy);
+                }
+
+                else if (conditions.contains("thunderstorm") || conditions.contains("thunderstorm") || conditions.contains("lightning")) {
+                    mWeatherIcon.setImageResource(R.drawable.ic_thunderstorm);
+                }
+
+                else if (conditions.contains("partly") && (conditions.contains("cloudy") || conditions.contains("sunny"))) {
+                    mWeatherIcon.setImageResource(R.drawable.ic_partly_cloudy_day);
+                }
+
+                else if (conditions.contains("cloudy") || conditions.contains("overcast")) {
+                    mWeatherIcon.setImageResource(R.drawable.ic_cloudy);
+                }
+
+                else if (conditions.contains("snow")) {
+                    if (conditions.contains("light")) {
+                        mWeatherIcon.setImageResource(R.drawable.ic_light_snow);
+                    } else { mWeatherIcon.setImageResource(R.drawable.ic_snow); }
+                }
+
+                else if (conditions.contains("sunny")){
+                    mWeatherIcon.setImageResource(R.drawable.ic_sunny);
+                } else if (conditions.contains("clear")){
+                    mWeatherIcon.setImageResource((R.drawable.ic_clear_night));
+                } else {
+                    mWeatherIcon.setImageResource((R.drawable.ic_weather_big));
+                }
             }
         }
     };

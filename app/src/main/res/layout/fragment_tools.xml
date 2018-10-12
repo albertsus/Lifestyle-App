@@ -24,7 +24,6 @@ tools:context=".ToolsFrag">
         android:layout_height="32dp"
         android:paddingBottom="16dp"
         android:layout_width="wrap_content"
-        android:onClick="onBackClick"
         android:background="@drawable/ripple"
         android:clickable="true"
         android:focusable="true"

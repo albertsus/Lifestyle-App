@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <!--Title-->
-            <ImageView
+            <ImageButton
                 android:id="@+id/ic_weather_back_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,7 +22,9 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="24dp"
                 android:paddingBottom="24dp"
+                android:onClick="onClick"
                 app:layout_constraintStart_toStartOf="parent"
+                android:background="@color/colorPrimary"
                 android:src="@drawable/ic_back_arrow"  />
             <TextView
                 android:id="@+id/weather_activity_title"
