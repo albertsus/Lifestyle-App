@@ -29,7 +29,6 @@ public class WeatherViewModel extends AndroidViewModel {
         return jsonData;
     }
 
-    @SuppressLint("StaticFieldLeak")
     private void loadData(){
         new AsyncTask<String,Void,String>(){
             @Override
