@@ -30,7 +30,7 @@ public class JSONWeatherUtils {
 
         weatherData.setCurrentCondition(currentCondition);
 
-        //Get the temperature, wind and cloud data.
+        //Get the temperature, wind and cloud data
         WeatherData.Temperature temperature = weatherData.getTemperature();
         temperature.setMaxTemp(jsonMain.getDouble("temp_max"));
         temperature.setMinTemp(jsonMain.getDouble("temp_min"));
