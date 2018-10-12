@@ -28,7 +28,6 @@ public class WeatherActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private TextView mTvWind;
-    private TextView mTvUVIndex;
 
     private WeatherViewModel mWeatherViewModel;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -52,7 +51,6 @@ public class WeatherActivity extends AppCompatActivity {
 
         mTvHumidity = (TextView) findViewById(R.id.tv_humidity);
         mTvWind = (TextView) findViewById(R.id.tv_wind);
-        mTvUVIndex = (TextView) findViewById(R.id.tv_uvindex);
 
         //Create the view model
         mWeatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
