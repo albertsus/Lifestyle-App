@@ -1,5 +1,7 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -33,7 +35,6 @@ import java.util.Date;
 
 public class EditProfileFrag extends Fragment implements View.OnClickListener {
 
-    private User userProfile = new User();
     private String mUserName, mAge, mSex, mCity, mNation, mHeight, mWeight, mCurrentPhotoPath;
 
     private EditText mEtUserName, mEtAge, mEtCity, mEtNation, mEtHeight, mEtWeight;
@@ -44,7 +45,9 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private OnUserProfilePass userProfilePasser;
+    private ProfileViewModel mProfileViewModel;
+
+    private User mUser = User.getInstance();
 
     public EditProfileFrag() {}
 
@@ -72,6 +75,12 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sex_array, R.layout.spinner_layout);
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         sexSpinner.setAdapter(adapter);
+
+        //Create the view model
+        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+
+        //Set the observer
+        mProfileViewModel.getData().observe(this, nameObserver);
 
         // Init the profile data received from ProfileFrag
         InitProfileData();
@@ -102,8 +111,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
                     // Update User Profile
                     updateProfile();
 
-                    // Pass data to HomeActivity and update user profile
-                    passData(userProfile);
+                    loadProfileData(mUser);
 
                     // Route to ProfileFrag
                     getFragmentManager().popBackStackImmediate();
@@ -112,18 +120,20 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        userProfilePasser = (OnUserProfilePass) context;
-    }
+    //create an observer that watches the LiveData<User> object
+    final Observer<User> nameObserver = new Observer<User>() {
+        @Override
+        public void onChanged(@Nullable final User user) {
+            // Update the UI if this data variable changes
+            if (user != null) {
+                System.out.println("Edit ProfileFrag");
+            }
+        }
+    };
 
-    public void passData(User userProfile) {
-        userProfilePasser.passProfileData(userProfile);
-    }
-
-    public interface OnUserProfilePass {
-        void passProfileData(User userProfile);
+    void loadProfileData(User user) {
+        //pass the user in to the view model
+        mProfileViewModel.setUser(user);
     }
 
     /**
@@ -131,14 +141,14 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
      */
     private void InitProfileData() {
         // Get data from ProfileFrag
-        mUserName = getArguments().getString("item_username");
-        mAge = getArguments().getString("item_age");
-        mSex = getArguments().getString("item_sex");
-        mHeight = getArguments().getString("item_height");
-        mWeight = getArguments().getString("item_weight");
-        mNation = getArguments().getString("item_nation");
-        mCity = getArguments().getString("item_city");
-        mCurrentPhotoPath = getArguments().getString("item_pic");
+        mUserName = mUser.getUserName();
+        mAge = mUser.getAge();
+        mSex = mUser.getSex();
+        mHeight = mUser.getHeight();
+        mWeight = mUser.getWeight();
+        mNation = mUser.getNation();
+        mCity = mUser.getCity();
+        mCurrentPhotoPath = mUser.getProfilePic();
 
         // Set the profile data
         mEtUserName.setText(mUserName);
@@ -153,22 +163,14 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
      * Update the profile once click 'Edit' Button
      */
     private void updateProfile() {
-        mUserName = mEtUserName.getText().toString();
-        mAge = mEtAge.getText().toString();
-        mSex = (String) sexSpinner.getSelectedItem();
-        mCity = mEtCity.getText().toString();
-        mNation = mEtNation.getText().toString();
-        mHeight = mEtHeight.getText().toString();
-        mWeight = mEtWeight.getText().toString();
-
-        userProfile.setUserName(mUserName);
-        userProfile.setAge(mAge);
-        userProfile.setSex(mSex);
-        userProfile.setCity(mCity);
-        userProfile.setNation(mNation);
-        userProfile.setHeight(mHeight);
-        userProfile.setWeight(mWeight);
-        userProfile.setProfilePic(mCurrentPhotoPath);
+        mUser.setUserName(mEtUserName.getText().toString());
+        mUser.setAge(mEtAge.getText().toString());
+        mUser.setSex((String) sexSpinner.getSelectedItem());
+        mUser.setCity(mEtCity.getText().toString());
+        mUser.setNation(mEtNation.getText().toString());
+        mUser.setHeight(mEtHeight.getText().toString());
+        mUser.setWeight(mEtWeight.getText().toString());
+        //mUser.setProfilePic(mCurrentPhotoPath);
     }
 
     private boolean isValidData() {

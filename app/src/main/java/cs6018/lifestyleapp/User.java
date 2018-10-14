@@ -2,6 +2,16 @@ package cs6018.lifestyleapp;
 
 public class User {
 
+    private static User INSTANCE = null;
+
+    // Returns a single instance of this class, creating it if necessary.
+    public static User getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new User();
+        }
+        return INSTANCE;
+    }
+
     // User Profile Data
     private String userName;
     private String sex;

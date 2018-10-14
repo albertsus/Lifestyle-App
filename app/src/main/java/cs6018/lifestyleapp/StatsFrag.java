@@ -1,8 +1,11 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +21,12 @@ import android.widget.TextView;
 public class StatsFrag extends Fragment {
 
     private String mWeight, mBMI, mHikes, mCalories;
-    private String mTargetWeight, mTargetBMI, mTargetCalories, mTargetHikes;
     private TextView mTvWeight, mTvBMI, mTvHikes, mTvCalories;
     private TextView mTvTargetWeight, mTvTargetBMI, mTvTargetCalories, mTvTargetHikes;
 
     private SeekBar sbWeight, sbBMI, sbHikes, sbCalories;
+
+    private ProfileViewModel mProfileViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,42 +48,45 @@ public class StatsFrag extends Fragment {
         sbHikes = (SeekBar) view.findViewById(R.id.sb_hikes);
         sbCalories = (SeekBar) view.findViewById(R.id.sb_calories);
 
-        getData();
+        mHikes = "2";
+        mCalories = "500";
 
-        setTargetData();
+        //Create the view model
+        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
-        setProgress();
+        //Set the observer
+        mProfileViewModel.getData().observe(this, nameObserver);
+
+        loadProfileData(User.getInstance());
 
         return view;
     }
 
-    private void getData() {
-        mWeight = getArguments().getString("item_weight");
-        mBMI = getArguments().getString("item_bmi");
-        mCalories = getArguments().getString("item_calories");
-        mHikes = getArguments().getString("item_hikes");
-        // Todo: replace the hard-coded data here to real data
-        mHikes = "2";
-        mCalories = "500";
+    //create an observer that watches the LiveData<User> object
+    final Observer<User> nameObserver = new Observer<User>() {
+        @Override
+        public void onChanged(@Nullable final User user) {
+            // Update the UI if this data variable changes
+            if (user != null) {
+                mTvTargetWeight.setText(user.getTargetWeight());
+                mTvTargetBMI.setText(user.getTargetBMI());
+                mTvTargetCalories.setText(user.getTargetDailyCalories());
+                mTvTargetHikes.setText(user.getTargetHikes());
+                setProgress(user);
+            }
+        }
+    };
 
-        mTargetWeight = getArguments().getString("target_weight");
-        mTargetBMI = getArguments().getString("target_bmi");
-        mTargetCalories = getArguments().getString("target_calories");
-        mTargetHikes = getArguments().getString("target_hikes");
+    void loadProfileData(User user) {
+        //pass the user in to the view model
+        mProfileViewModel.setUser(user);
     }
 
-    private void setTargetData() {
-        mTvTargetWeight.setText(mTargetWeight);
-        mTvTargetBMI.setText(mTargetBMI);
-        mTvTargetCalories.setText(mTargetCalories);
-        mTvTargetHikes.setText(mTargetHikes);
-    }
-
-    private void setProgress() {
-        setBar(sbWeight, mTvWeight, mTargetWeight, mWeight);
-        setBar(sbBMI, mTvBMI, mTargetBMI, mBMI);
-        setBar(sbHikes, mTvHikes, mTargetHikes, mHikes);
-        setBar(sbCalories, mTvCalories, mTargetCalories, mCalories);
+    private void setProgress(User user) {
+        setBar(sbWeight, mTvWeight, user.getTargetWeight(), user.getWeight());
+        setBar(sbBMI, mTvBMI, user.getTargetBMI(), user.getBmi());
+        setBar(sbHikes, mTvHikes, user.getTargetHikes(), mHikes);
+        setBar(sbCalories, mTvCalories, user.getTargetDailyCalories(), mCalories);
     }
 
     private void setBar(final SeekBar sb, final TextView tv, String maxStr, String progressStr) {

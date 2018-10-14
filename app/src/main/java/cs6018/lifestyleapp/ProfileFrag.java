@@ -1,5 +1,8 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
@@ -21,17 +24,11 @@ import org.w3c.dom.Text;
  */
 public class ProfileFrag extends Fragment implements View.OnClickListener {
 
-    private String mUserName, mAge, mSex, mHeight, mWeight, mNation, mCity, mCurrentPhotoPath;
-
-    private TextView mTvUserName;
-    private TextView mTvAge;
-    private TextView mTvSex;
-    private TextView mTvCity;
-    private TextView mTvNation;
-    private TextView mTvHeight;
-    private TextView mTvWeight;
+    private TextView mTvUserName,  mTvAge, mTvSex, mTvCity, mTvNation, mTvHeight, mTvWeight;
 
     private Button mBtEdit;
+
+    private ProfileViewModel mProfileViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,24 +46,43 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
         mBtEdit = (Button) view.findViewById(R.id.bt_edit_profile);
         mBtEdit.setOnClickListener(this);
 
-        // Get the data that was sent in from HomeActivity
-        getDataFromHomeActivity();
+        //Create the view model
+        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
-        // Set the usaer profile
-        setProfileData();
+        //Set the observer
+        mProfileViewModel.getData().observe(this, nameObserver);
+
+        loadProfileData(User.getInstance());
 
         return view;
+    }
+
+    //create an observer that watches the LiveData<User> object
+    final Observer<User> nameObserver = new Observer<User>() {
+        @Override
+        public void onChanged(@Nullable final User user) {
+            // Update the UI if this data variable changes
+            if (user != null) {
+                mTvUserName.setText(user.getUserName());
+                mTvAge.setText(user.getAge());
+                mTvSex.setText(user.getSex());
+                mTvHeight.setText(user.getHeight());
+                mTvWeight.setText(user.getWeight());
+                mTvNation.setText(user.getNation());
+                mTvCity.setText(user.getCity());
+            }
+        }
+    };
+
+    void loadProfileData(User user) {
+        //pass the user in to the view model
+        mProfileViewModel.setUser(user);
     }
 
     @Override
     public void onClick(View view) {
         // Create new fragment and transaction
         Fragment editProfileFrag = new EditProfileFrag();
-
-        // Give editProfile an argument from the profileFrag
-        Bundle profileBundle = new Bundle();
-        passProfileDataToEditProfile(profileBundle);
-        editProfileFrag.setArguments(profileBundle);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
@@ -77,43 +93,5 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
 
         // Commit the transaction
         transaction.commit();
-    }
-
-    /**
-     * Get the data that was sent in from HomeActivity
-     */
-    private void getDataFromHomeActivity() {
-        mUserName = getArguments().getString("item_username");
-        mAge = getArguments().getString("item_age");
-        mSex = getArguments().getString("item_sex");
-        mHeight = getArguments().getString("item_height");
-        mWeight = getArguments().getString("item_weight");
-        mNation = getArguments().getString("item_nation");
-        mCity = getArguments().getString("item_city");
-        mCurrentPhotoPath = getArguments().getString("item_pic");
-    }
-
-    /*
-     * Set the profile data
-     */
-    private void setProfileData() {
-        mTvUserName.setText(mUserName);
-        mTvAge.setText(mAge);
-        mTvSex.setText(mSex);
-        mTvHeight.setText(mHeight);
-        mTvWeight.setText(mWeight);
-        mTvNation.setText(mNation);
-        mTvCity.setText(mCity);
-    }
-
-    private void passProfileDataToEditProfile(Bundle profileBundle) {
-        profileBundle.putString("item_username", mUserName);
-        profileBundle.putString("item_age", mAge);
-        profileBundle.putString("item_sex", mSex);
-        profileBundle.putString("item_height", mHeight);
-        profileBundle.putString("item_weight", mWeight);
-        profileBundle.putString("item_nation", mNation);
-        profileBundle.putString("item_city", mCity);
-        profileBundle.putString("item_pic", mCurrentPhotoPath);
     }
 }

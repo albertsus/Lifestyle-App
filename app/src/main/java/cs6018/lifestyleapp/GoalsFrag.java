@@ -1,8 +1,11 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -16,11 +19,11 @@ import android.widget.TextView;
  */
 public class GoalsFrag extends Fragment implements View.OnClickListener{
 
-    private String mTargetWeight, mTargetBMI, mTargetCalories, mTargetHikes, mWeightGoal;
-
     private TextView mTvTargetWeight, mTvTargetBMI, mTvTargetCalories, mTvTargetHikes, mTvWeightGoal;
 
     private Button mBtEdit;
+
+    private ProfileViewModel mProfileViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,24 +39,41 @@ public class GoalsFrag extends Fragment implements View.OnClickListener{
         mBtEdit = (Button) view.findViewById(R.id.bt_edit_goals);
         mBtEdit.setOnClickListener(this);
 
-        // Get the data that was sent in from HomeActivity
-        getDataFromHomeActivity();
+        //Create the view model
+        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
-        // Set the usaer target data
-        setTargetData();
+        //Set the observer
+        mProfileViewModel.getData().observe(this, nameObserver);
+
+        loadProfileData(User.getInstance());
 
         return view;
+    }
+
+    //create an observer that watches the LiveData<User> object
+    final Observer<User> nameObserver = new Observer<User>() {
+        @Override
+        public void onChanged(@Nullable final User user) {
+            // Update the UI if this data variable changes
+            if (user != null) {
+                mTvTargetWeight.setText(user.getTargetWeight());
+                mTvTargetBMI.setText(user.getTargetBMI());
+                mTvTargetCalories.setText(user.getTargetDailyCalories());
+                mTvTargetHikes.setText(user.getTargetHikes());
+                mTvWeightGoal.setText(user.getWeightGoal());
+            }
+        }
+    };
+
+    void loadProfileData(User user) {
+        //pass the user in to the view model
+        mProfileViewModel.setUser(user);
     }
 
     @Override
     public void onClick(View view) {
         // Create new fragment and transaction
         Fragment editGoalsFrag = new EditGoalsFrag();
-
-        // Give editGoalsFrag an argument from the goalsFrag
-        Bundle goalsBundle = new Bundle();
-        passToEditTarget(goalsBundle);
-        editGoalsFrag.setArguments(goalsBundle);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
@@ -66,33 +86,4 @@ public class GoalsFrag extends Fragment implements View.OnClickListener{
         transaction.commit();
     }
 
-    /**
-     * Get the data that was sent in from HomeActivity
-     */
-    private void getDataFromHomeActivity() {
-        mTargetWeight = getArguments().getString("target_weight");
-        mTargetBMI = getArguments().getString("target_bmi");
-        mTargetCalories = getArguments().getString("target_calories");
-        mTargetHikes = getArguments().getString("target_hikes");
-        mWeightGoal = getArguments().getString("weight_goal");
-    }
-
-    /*
-     * Set the user target data
-     */
-    private void setTargetData() {
-        mTvTargetWeight.setText(mTargetWeight);
-        mTvTargetBMI.setText(mTargetBMI);
-        mTvTargetCalories.setText(mTargetCalories);
-        mTvTargetHikes.setText(mTargetHikes);
-        mTvWeightGoal.setText(mWeightGoal);
-    }
-
-    private void passToEditTarget(Bundle goalsBundle) {
-        goalsBundle.putString("target_weight", mTargetWeight);
-        goalsBundle.putString("target_bmi", mTargetBMI);
-        goalsBundle.putString("target_calories", mTargetCalories);
-        goalsBundle.putString("target_hikes", mTargetHikes);
-        goalsBundle.putString("weight_goal", mWeightGoal);
-    }
 }
