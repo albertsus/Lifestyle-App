@@ -1,7 +1,10 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,15 +23,15 @@ import android.widget.Toast;
 
 public class EditGoalsFrag extends Fragment implements View.OnClickListener {
 
-    private User userGoals = new User();
-
     private String mTargetWeight, mTargetBMI, mTargetCalories, mTargetHikes, mWeightGoal;
 
     private EditText mEtTargetWeight, mEtTargetBMI, mEtTargetCalories, mEtTargetHikes;
     private Spinner spinnerWeightGoal;
     private Button mBtUpdate;
 
-    private OnUserGoalsPass userGoalsPasser;
+    private ProfileViewModel mProfileViewModel;
+
+    private User mUser = User.getInstance();
 
     public EditGoalsFrag() {}
 
@@ -51,6 +54,12 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.weigth_goal_array, R.layout.spinner_layout);
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         spinnerWeightGoal.setAdapter(adapter);
+
+        //Create the view model
+        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+
+        //Set the observer
+        mProfileViewModel.getData().observe(this, nameObserver);
 
         // Init the target data received from GoalsFrag
         InitGoalsData();
@@ -75,8 +84,7 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
                     // Update User Goals
                     updateGoals();
 
-                    // Pass data to HomeActivity and update user goals
-                    passGoalsData(userGoals);
+                    loadProfileData(mUser);
 
                     // Route to ProfileFrag
                     getFragmentManager().popBackStackImmediate();
@@ -84,33 +92,32 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        userGoalsPasser = (OnUserGoalsPass) context;
-    }
+    //create an observer that watches the LiveData<User> object
+    final Observer<User> nameObserver = new Observer<User>() {
+        @Override
+        public void onChanged(@Nullable final User user) {
+            // Update the UI if this data variable changes
+            if (user != null) {
+                System.out.println("Edit GoalsFrag");
+            }
+        }
+    };
 
-    public void passGoalsData(User userGoals) {
-        userGoalsPasser.passGoalsData(userGoals);
+    void loadProfileData(User user) {
+        //pass the user in to the view model
+        mProfileViewModel.setUser(user);
     }
-
-    public interface OnUserGoalsPass {
-        void passGoalsData(User userGoals);
-    }
-
 
     /**
      * Init the goals data when first in the fragment
      */
     private void InitGoalsData() {
-        // Get data from GoalsFrag
-        mTargetWeight = getArguments().getString("target_weight");
-        mTargetBMI = getArguments().getString("target_bmi");
-        mTargetCalories = getArguments().getString("target_calories");
-        mTargetHikes = getArguments().getString("target_hikes");
-        mWeightGoal = getArguments().getString("weight_goal");
-
         // Set the profile data
+        mTargetWeight = mUser.getTargetWeight();
+        mTargetBMI = mUser.getTargetBMI();
+        mTargetCalories = mUser.getTargetDailyCalories();
+        mTargetHikes = mUser.getTargetHikes();
+
         mEtTargetWeight.setText(mTargetWeight);
         mEtTargetBMI.setText(mTargetBMI);
         mEtTargetCalories.setText(mTargetCalories);
@@ -133,16 +140,10 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
      * Update the goals once click 'Edit' Button
      */
     private void updateGoals() {
-        mTargetWeight = mEtTargetWeight.getText().toString();
-        mTargetBMI = mEtTargetBMI.getText().toString();
-        mTargetCalories = mEtTargetCalories.getText().toString();
-        mTargetHikes = mEtTargetHikes.getText().toString();
-        mWeightGoal = (String) spinnerWeightGoal.getSelectedItem();
-
-        userGoals.setTargetWeight(mTargetWeight);
-        userGoals.setTargetBMI(mTargetBMI);
-        userGoals.setTargetDailyCalories(mTargetCalories);
-        userGoals.setTargetHikes(mTargetHikes);
-        userGoals.setWeightGoal(mWeightGoal);
+        mUser.setTargetWeight(mEtTargetWeight.getText().toString());
+        mUser.setTargetBMI(mEtTargetBMI.getText().toString());
+        mUser.setTargetDailyCalories(mEtTargetCalories.getText().toString());
+        mUser.setTargetHikes(mEtTargetHikes.getText().toString());
+        mUser.setWeightGoal((String) spinnerWeightGoal.getSelectedItem());
     }
 }

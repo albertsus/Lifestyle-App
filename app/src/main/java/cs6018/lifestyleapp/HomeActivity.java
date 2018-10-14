@@ -1,8 +1,11 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -14,8 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class HomeActivity extends AppCompatActivity
-        implements EditProfileFrag.OnUserProfilePass, EditGoalsFrag.OnUserGoalsPass {
+public class HomeActivity extends AppCompatActivity {
 
     final Fragment goalsFrag = new GoalsFrag();
     final Fragment statsFrag = new StatsFrag();
@@ -23,9 +25,7 @@ public class HomeActivity extends AppCompatActivity
     final Fragment profileFrag = new ProfileFrag();
     final FragmentManager fragBoss = getSupportFragmentManager();
     Fragment active = statsFrag;
-
-    User user = new User();
-
+    
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -70,12 +70,6 @@ public class HomeActivity extends AppCompatActivity
         fragBoss.beginTransaction().add(R.id.main_container, goalsFrag, "2").hide(goalsFrag).commit();
         fragBoss.beginTransaction().add(R.id.main_container, statsFrag, "1").commit();
 
-        // Retrieve user info from SignUp Activity
-        dataRetrieve();
-
-        // Pass user info to fragmentss
-        dataPass();
-
         // Customize the size of the bottom navigation component.
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 this.findViewById(R.id.navigation);
@@ -99,101 +93,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void passProfileData(User userProfile) {
-        updateUserProfile(userProfile);
-        dataPass();
-    }
-
-    @Override
-    public void passGoalsData(User userGoals) {
-        updateUserGoals(userGoals);
-        dataPass();
-    }
-
-    /**
-     * Update User profile
-     */
-    private void updateUserProfile(User newUserProfile) {
-        user.setUserName(newUserProfile.getUserName());
-        user.setAge(newUserProfile.getAge());
-        user.setSex(newUserProfile.getSex());
-        user.setNation(newUserProfile.getNation());
-        user.setCity(newUserProfile.getCity());
-        user.setHeight(newUserProfile.getHeight());
-        user.setWeight(newUserProfile.getWeight());
-        user.setProfilePic(newUserProfile.getProfilePic());
-        System.out.println("Updated Username: " + user.getUserName());
-    }
-
-    /**
-     * Update User goals
-     */
-    private void updateUserGoals (User newUserGoals) {
-        user.setTargetWeight(newUserGoals.getTargetWeight());
-        user.setTargetBMI(newUserGoals.getTargetBMI());
-        user.setTargetDailyCalories(newUserGoals.getTargetDailyCalories());
-        user.setTargetHikes(newUserGoals.getTargetHikes());
-        user.setWeightGoal(newUserGoals.getWeightGoal());
-        System.out.println("Updated TargetWeight: " + user.getTargetWeight());
-    }
-
-    /*
-     *  Retrieve user info from SignUpActivity
-     */
-    private void dataRetrieve() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            user.setUserName(extras.getString("USERNAME"));
-            user.setAge(extras.getString("AGE"));
-            user.setSex(extras.getString("SEX"));
-            user.setHeight(extras.getString("HEIGHT"));
-            user.setWeight(extras.getString("WEIGHT"));
-            user.setNation(extras.getString("NATION"));
-            user.setCity(extras.getString("CITY"));
-            user.setProfilePic(extras.getString("PROFILE_PIC"));
-
-            user.setTargetWeight(extras.getString("TARGET_WEIGHT"));
-            user.setTargetBMI(extras.getString("TARGET_BMI"));
-            user.setTargetDailyCalories(extras.getString("TARGET_CALORIES"));
-            user.setTargetHikes(extras.getString("TARGET_HIKES"));
-            user.setWeightGoal(extras.getString("WEIGHT_GOAL"));
-
-            user.setBmi(String.valueOf(CalculatorUtils.computeBMI(user.getWeight(), user.getHeight())));
-            user.setBmr(String.valueOf(CalculatorUtils.computeBMR(user.getWeight(),
-                    user.getHeight(), user.getSex(), user.getAge())));
-        }
-    }
-
-    /*
-     *  Pass user info to fragments
-     */
-    private void dataPass() {
-
-        Bundle profileBundle = new Bundle();
-        profileBundle.putString("item_username", user.getUserName());
-        profileBundle.putString("item_age", user.getAge());
-        profileBundle.putString("item_sex", user.getSex());
-        profileBundle.putString("item_height", String.valueOf(user.getHeight()));
-        profileBundle.putString("item_weight", String.valueOf(user.getWeight()));
-        profileBundle.putString("item_nation", user.getNation());
-        profileBundle.putString("item_city", user.getCity());
-        profileBundle.putString("item_pic", user.getProfilePic());
-
-        profileBundle.putString("item_bmi", user.getBmi());
-        profileBundle.putString("item_bmr", user.getBmr());
-
-        profileBundle.putString("target_weight", user.getTargetWeight());
-        profileBundle.putString("target_bmi", user.getTargetBMI());
-        profileBundle.putString("target_calories", user.getTargetDailyCalories());
-        profileBundle.putString("target_hikes", user.getTargetHikes());
-        profileBundle.putString("weight_goal", user.getWeightGoal());
-
-        profileFrag.setArguments(profileBundle);
-        goalsFrag.setArguments(profileBundle);
-        statsFrag.setArguments(profileBundle);
-    }
-
     /**
      * Handle the tools activity click events.
      *
@@ -214,16 +113,9 @@ public class HomeActivity extends AppCompatActivity
             }
             case R.id.frame_calculator: {
                 Intent calculatorIntent = new Intent(this, CalculatorActivity.class);
-                passFromHomeToCalculatorAct(calculatorIntent);
                 startActivity(calculatorIntent);
                 break;
             }
         }
     }
-
-    private void passFromHomeToCalculatorAct(Intent intent) {
-        intent.putExtra("bmr", user.getBmr());
-        intent.putExtra("bmi", user.getBmi());
-    }
-
 }

@@ -1,6 +1,9 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +13,6 @@ import android.widget.TextView;
 
 public class CalculatorActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String mBMR, mBMI;
     private TextView mTvBMR, mTvBMI, mTvBMIPro, mTvBMIStart, mTvBMIEnd;
 
     private Button mBtnBMR, mBtnBMI;
@@ -20,6 +22,10 @@ public class CalculatorActivity extends AppCompatActivity implements View.OnClic
     static final int UNDERWEIGHT_BMI = 19;
     static final int OVERWEIGHT_BMI = 25;
     static final int MAXIMUM_BMI = 40;
+
+    private ProfileViewModel mProfileViewModel;
+
+    private User mUser = User.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +46,29 @@ public class CalculatorActivity extends AppCompatActivity implements View.OnClic
         mBtnBMI = findViewById(R.id.btn_bmi);
         mBtnBMI.setOnClickListener(this);
 
-        Intent intent = getIntent();
-        mBMR = intent.getStringExtra("bmr");
-        mBMI = intent.getStringExtra("bmi");
+        //Create the view model
+        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+
+        //Set the observer
+        mProfileViewModel.getData().observe(this, nameObserver);
+
+        loadProfileData(mUser);
+    }
+
+    //create an observer that watches the LiveData<User> object
+    final Observer<User> nameObserver = new Observer<User>() {
+        @Override
+        public void onChanged(@Nullable final User user) {
+            // Update the UI if this data variable changes
+            if (user != null) {
+                System.out.println("CalculatorActivity");
+            }
+        }
+    };
+
+    void loadProfileData(User user) {
+        //pass the user in to the view model
+        mProfileViewModel.setUser(user);
     }
 
     @Override
@@ -50,12 +76,12 @@ public class CalculatorActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
 
             case R.id.btn_bmr: {
-                mTvBMR.setText(mBMR);
+                mTvBMR.setText(mUser.getBmr());
                 break;
             }
 
             case R.id.btn_bmi: {
-                mTvBMI.setText(mBMI);
+                mTvBMI.setText(mUser.getBmi());
                 setProgress();
                 break;
             }
@@ -63,7 +89,7 @@ public class CalculatorActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void setProgress() {
-        final int progress= Integer.valueOf(mBMI);
+        final int progress= Integer.valueOf(mUser.getBmi());
         mSbBMI.setMax(MAXIMUM_BMI);
         mSbBMI.setProgress(progress);
         int val = (progress * (950 - 2 * 24)) / MAXIMUM_BMI;

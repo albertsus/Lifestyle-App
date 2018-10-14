@@ -1,5 +1,7 @@
 package cs6018.lifestyleapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -40,6 +42,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView mProfilePic; // Profile pic collection parameters and resources.
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private ProfileViewModel mProfileViewModel;
+
+     private User mUser = User.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +108,36 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 } else {
                     //Create new Intent Object, and specify class
                     Intent homeActivity = new Intent(this, HomeActivity.class);
-                    //Send Intent from SignupActivity to HomeActivity
-                    passDataSignupToHomeActivity(homeActivity);
+
+                    //Create the view model
+                    mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+
+                    //Set the observer
+                    mProfileViewModel.getData().observe(this, nameObserver);
+
+                    loadProfileData(mUser);
+
                     // Start the HomeActivity
                     this.startActivity(homeActivity);
                 }
             }
         }
+    }
+
+    //create an observer that watches the LiveData<User> object
+    final Observer<User> nameObserver = new Observer<User>() {
+        @Override
+        public void onChanged(@Nullable final User user) {
+            // Update the UI if this data variable changes
+            if (user != null) {
+                System.out.println("profile updated in SignUpActivity!");
+            }
+        }
+    };
+
+    void loadProfileData(User user) {
+        //pass the user in to the view model
+        mProfileViewModel.setUser(user);
     }
 
     private void setUserProfile() {
@@ -127,6 +156,22 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mTargetCalories = etTargetCalories.getText().toString();
         mTargetHikes = etTargetHikes.getText().toString();
         mWeightGoal = (String) spinnerWeightGoal.getSelectedItem();
+
+        mUser.setUserName(mUserName);
+        mUser.setAge(mAge);
+        mUser.setCity(mCity);
+        mUser.setNation(mNation);
+        mUser.setSex(mSex);
+        mUser.setHeight(mHeight);
+        mUser.setWeight(mWeight);
+        mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight)));
+        mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
+
+        mUser.setTargetWeight(mTargetWeight);
+        mUser.setTargetBMI(mTargetBMI);
+        mUser.setTargetDailyCalories(mTargetCalories);
+        mUser.setTargetHikes(mTargetHikes);
+        mUser.setWeightGoal(mWeightGoal);
     }
 
     private boolean isValidData() {
@@ -140,23 +185,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             return false;
         }
         return true;
-    }
-
-    private void passDataSignupToHomeActivity(Intent homeActivity) {
-        homeActivity.putExtra("USERNAME", mUserName);
-        homeActivity.putExtra("AGE", mAge);
-        homeActivity.putExtra("SEX", mSex);
-        homeActivity.putExtra("HEIGHT", mHeight);
-        homeActivity.putExtra("WEIGHT", mWeight);
-        homeActivity.putExtra("NATION", mNation);
-        homeActivity.putExtra("CITY", mCity);
-        homeActivity.putExtra("PROFILE_PIC", mCurrentPhotoPath);
-
-        homeActivity.putExtra("TARGET_WEIGHT", mTargetWeight);
-        homeActivity.putExtra("TARGET_BMI", mTargetBMI);
-        homeActivity.putExtra("TARGET_CALORIES", mTargetCalories);
-        homeActivity.putExtra("TARGET_HIKES", mTargetHikes);
-        homeActivity.putExtra("WEIGHT_GOAL", mWeightGoal);
     }
 
     /**
