@@ -103,7 +103,6 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 loadWeatherData(testLocationString);
-
             }
         });
     }
