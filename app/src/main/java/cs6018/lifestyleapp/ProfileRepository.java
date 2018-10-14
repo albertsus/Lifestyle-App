@@ -18,7 +18,6 @@ public class ProfileRepository {
 
     public void setUser(User user) {
         mUser = user;
-        System.out.println("mUser in setUser: " + mUser);
         loadData();
     }
 
@@ -30,17 +29,7 @@ public class ProfileRepository {
         new AsyncTask<User,Void,User>() {
             @Override
             protected User doInBackground(User... strings) {
-                User user = strings[0];
-                System.out.println("user in async: " + user);
-                // User retrievedJsonData = null;
-//                if (user != null) {
-//                    try {
-//                        retrievedJsonData = mUser;
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-                return user;
+                return strings[0];
             }
 
             @Override
@@ -54,7 +43,5 @@ public class ProfileRepository {
             }
         }.execute(mUser);
     }
-
-
 }
 

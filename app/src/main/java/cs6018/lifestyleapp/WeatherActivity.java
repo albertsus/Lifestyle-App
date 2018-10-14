@@ -102,7 +102,6 @@ public class WeatherActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // loadWeatherData(mLocation);
                 loadWeatherData(testLocationString);
 
             }
@@ -129,31 +128,19 @@ public class WeatherActivity extends AppCompatActivity {
                     if (conditions.contains("light")) {
                         mWeatherIcon.setImageResource(R.drawable.ic_light_rain);
                     } else { mWeatherIcon.setImageResource(R.drawable.ic_rain); }
-                }
-
-                else if (conditions.contains("wind") || conditions.contains("windy") || conditions.contains("breezy")) {
+                } else if (conditions.contains("wind") || conditions.contains("windy") || conditions.contains("breezy")) {
                     mWeatherIcon.setImageResource(R.drawable.ic_windy);
-                }
-
-                else if (conditions.contains("thunderstorm") || conditions.contains("thunderstorm") || conditions.contains("lightning")) {
+                } else if (conditions.contains("thunderstorm") || conditions.contains("thunderstorm") || conditions.contains("lightning")) {
                     mWeatherIcon.setImageResource(R.drawable.ic_thunderstorm);
-                }
-
-                else if (conditions.contains("partly") && (conditions.contains("cloudy") || conditions.contains("sunny"))) {
+                } else if (conditions.contains("partly") && (conditions.contains("cloudy") || conditions.contains("sunny"))) {
                     mWeatherIcon.setImageResource(R.drawable.ic_partly_cloudy_day);
-                }
-
-                else if (conditions.contains("cloudy") || conditions.contains("overcast")) {
+                } else if (conditions.contains("cloudy") || conditions.contains("overcast")) {
                     mWeatherIcon.setImageResource(R.drawable.ic_cloudy);
-                }
-
-                else if (conditions.contains("snow")) {
+                } else if (conditions.contains("snow")) {
                     if (conditions.contains("light")) {
                         mWeatherIcon.setImageResource(R.drawable.ic_light_snow);
                     } else { mWeatherIcon.setImageResource(R.drawable.ic_snow); }
-                }
-
-                else if (conditions.contains("sunny")){
+                } else if (conditions.contains("sunny")){
                     mWeatherIcon.setImageResource(R.drawable.ic_sunny);
                 } else if (conditions.contains("clear")){
                     mWeatherIcon.setImageResource((R.drawable.ic_clear_night));
@@ -166,8 +153,6 @@ public class WeatherActivity extends AppCompatActivity {
 
     void loadWeatherData(String location){
         //pass the location in to the view model
-        //mWeatherViewModel.setLocation(Double.toString(location.getLatitude()) + ", " + Double.toString(location.getLongitude()));
-        // hard coded default for testing api and view update
         mWeatherViewModel.setLocation(testLocationString);
     }
 }

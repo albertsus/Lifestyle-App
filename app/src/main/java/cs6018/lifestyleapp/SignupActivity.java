@@ -131,8 +131,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             // Update the UI if this data variable changes
             if (user != null) {
                 System.out.println("profile updated in SignUpActivity!");
-            } else {
-                System.out.println("user is null!");
             }
         }
     };
@@ -167,8 +165,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mUser.setHeight(mHeight);
         mUser.setWeight(mWeight);
         mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight)));
-        mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight,
-                mHeight, mSex, mAge)));
+        mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
 
         mUser.setTargetWeight(mTargetWeight);
         mUser.setTargetBMI(mTargetBMI);
