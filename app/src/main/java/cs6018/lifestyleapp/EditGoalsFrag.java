@@ -13,9 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by suchaofan on 9/29/18.
@@ -25,9 +28,16 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
 
     private String mTargetWeight, mTargetBMI, mTargetCalories, mTargetHikes, mWeightGoal;
 
-    private EditText mEtTargetWeight, mEtTargetBMI, mEtTargetCalories, mEtTargetHikes;
+    private SeekBar mSbTargetWeight, mSbTargetBMI, mSbTargetCalories, mSbTargetHikes;
+    private TextView mTvMinWeight, mTvMaxWeight, mTvMinBMI, mTvMaxBMI, mTvMinCalories, mTvMaxCalories, mTvMinHikes, mTvMaxHikes;
+    private TextView mTvTargetWeight, mTvTargetBMI, mTvTargetCalories, mTvTargetHikes;
     private Spinner spinnerWeightGoal;
     private Button mBtUpdate;
+
+    private static final int MIN_WEIGHT = 50, MAX_WEIGHT = 600;
+    private static final int MIN_BMI = 5, MAX_BMI = 50;
+    private static final int MIN_CALORIES = 500, MAX_CALORIES = 5000;
+    private static final int MIN_HIKES = 0, MAX_HIKES = 10;
 
     private ProfileViewModel mProfileViewModel;
 
@@ -41,10 +51,25 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_edit_goals, container, false);
 
-        mEtTargetWeight = view.findViewById(R.id.et_target_weight);
-        mEtTargetBMI = view.findViewById(R.id.et_target_bmi);
-        mEtTargetCalories = view.findViewById(R.id.et_target_calories);
-        mEtTargetHikes = view.findViewById(R.id.et_target_hikes);
+        mTvMinWeight = view.findViewById(R.id.tv_weight_start);
+        mTvMaxWeight = view.findViewById(R.id.tv_weight_end);
+        mTvMinBMI = view.findViewById(R.id.tv_bmi_start);
+        mTvMaxBMI = view.findViewById(R.id.tv_bmi_end);
+        mTvMinCalories = view.findViewById(R.id.tv_calories_start);
+        mTvMaxCalories = view.findViewById(R.id.tv_calories_end);
+        mTvMinHikes = view.findViewById(R.id.tv_hikes_start);
+        mTvMaxHikes = view.findViewById(R.id.tv_hikes_end);
+
+        mSbTargetWeight = view.findViewById(R.id.sb_target_weight);
+        mSbTargetBMI = view.findViewById(R.id.sb_target_bmi);
+        mSbTargetCalories = view.findViewById(R.id.sb_target_calories);
+        mSbTargetHikes = view.findViewById(R.id.sb_target_hikes);
+
+        mTvTargetWeight = view.findViewById(R.id.tv_weight_data);
+        mTvTargetBMI = view.findViewById(R.id.tv_bmi_data);
+        mTvTargetCalories = view.findViewById(R.id.tv_calories_data);
+        mTvTargetHikes = view.findViewById(R.id.tv_hikes_data);
+
         spinnerWeightGoal = view.findViewById(R.id.spinner_weight_goal);
 
         mBtUpdate = (Button) view.findViewById(R.id.bt_update_goals);
@@ -118,10 +143,44 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         mTargetCalories = mUser.getTargetDailyCalories();
         mTargetHikes = mUser.getTargetHikes();
 
-        mEtTargetWeight.setText(mTargetWeight);
-        mEtTargetBMI.setText(mTargetBMI);
-        mEtTargetCalories.setText(mTargetCalories);
-        mEtTargetHikes.setText(mTargetHikes);
+        mTvMinWeight.setText("" + MIN_WEIGHT);
+        mTvMaxWeight.setText("" + MAX_WEIGHT);
+        mTvMinBMI.setText("" + MIN_BMI);
+        mTvMaxBMI.setText("" + MAX_BMI);
+        mTvMinCalories.setText("" + MIN_CALORIES);
+        mTvMaxCalories.setText("" + MAX_CALORIES);
+        mTvMinHikes.setText("" + MIN_HIKES);
+        mTvMaxHikes.setText("" + MAX_HIKES);
+
+        setBar(mSbTargetWeight, mTvTargetWeight, Integer.valueOf(mUser.getTargetWeight()), MIN_WEIGHT, MAX_WEIGHT);
+        setBar(mSbTargetBMI, mTvTargetBMI, Integer.valueOf(mUser.getTargetBMI()), MIN_BMI, MAX_BMI);
+        setBar(mSbTargetCalories, mTvTargetCalories, Integer.valueOf(mUser.getTargetDailyCalories()), MIN_CALORIES, MAX_CALORIES);
+        setBar(mSbTargetHikes, mTvTargetHikes, Integer.valueOf(mUser.getTargetHikes()), MIN_HIKES, MAX_HIKES);
+    }
+
+    private void setBar(SeekBar sb, final TextView tv, int progress, int min, int max) {
+        sb.setMin(min);
+        sb.setMax(max);
+        sb.setProgress(progress);
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                int val = (progress * (seekBar.getWidth() - 2 * seekBar.getThumbOffset() - 135)) / seekBar.getMax();
+                tv.setText("" + progress);
+                tv.setX(seekBar.getX() + val + seekBar.getThumbOffset() / 2);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                tv.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                tv.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private boolean isValidData() {
@@ -140,10 +199,10 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
      * Update the goals once click 'Edit' Button
      */
     private void updateGoals() {
-        mUser.setTargetWeight(mEtTargetWeight.getText().toString());
-        mUser.setTargetBMI(mEtTargetBMI.getText().toString());
-        mUser.setTargetDailyCalories(mEtTargetCalories.getText().toString());
-        mUser.setTargetHikes(mEtTargetHikes.getText().toString());
+        mUser.setTargetWeight(String.valueOf(mSbTargetWeight.getProgress()));
+        mUser.setTargetBMI(String.valueOf(mSbTargetBMI.getProgress()));
+        mUser.setTargetDailyCalories(String.valueOf(mSbTargetCalories.getProgress()));
+        mUser.setTargetHikes(String.valueOf(mSbTargetHikes.getProgress()));
         mUser.setWeightGoal((String) spinnerWeightGoal.getSelectedItem());
     }
 }

@@ -60,19 +60,63 @@
                 app:layout_constraintTop_toBottomOf="@id/edit_goals_frag_title"
                 tools:text="Target Weight" />
 
-            <EditText
-                android:id="@+id/et_target_weight"
+            <TextView
+                android:id="@+id/tv_weight_data"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="33"
-                tools:text="33"
                 android:textSize="36sp"
                 android:textStyle="bold"
                 android:paddingStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/tv_target_weight"
+                app:layout_constraintStart_toStartOf="@id/sb_target_weight"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/tv_target_weight"
+                app:layout_constraintBottom_toTopOf="@id/sb_target_weight"
+                />
+
+            <SeekBar
+                android:id="@+id/sb_target_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginVertical="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/progress_drawable"
+                android:thumb="@drawable/thumb_drawable"
+                app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_target_weight"
+                android:thumbOffset="9.5dp" />
+
+            <TextView
+                android:id="@+id/tv_weight_start"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                tools:text="0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toStartOf="@id/sb_target_weight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_weight"
+                />
+
+            <TextView
+                android:id="@+id/tv_weight_end"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="33"
+                tools:text="33"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintEnd_toEndOf="@id/sb_target_weight"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_weight"
                 />
 
             <!--Target BMI -->
@@ -83,58 +127,72 @@
                 android:gravity="left|center_vertical"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
+                android:layout_marginTop="15dp"
                 android:text="Target BMI"
                 android:textColor="@color/textLabelDefault"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_target_weight"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_weight"
                 tools:text="Target BMI" />
 
-            <EditText
-                android:id="@+id/et_target_bmi"
+            <TextView
+                android:id="@+id/tv_bmi_data"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="33"
-                tools:text="33"
                 android:textSize="36sp"
                 android:textStyle="bold"
                 android:paddingStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/tv_target_bmi"
+                app:layout_constraintStart_toStartOf="@id/sb_target_bmi"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/tv_target_bmi"
+                app:layout_constraintBottom_toTopOf="@id/sb_target_bmi"
                 />
 
-            <!--Target Hikes -->
-            <TextView
-                android:id="@+id/tv_target_hikes"
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                android:gravity="left|center_vertical"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:text="Target Hikes"
-                android:textColor="@color/textLabelDefault"
-                android:textSize="24sp"
-                android:textStyle="bold"
+            <SeekBar
+                android:id="@+id/sb_target_bmi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginVertical="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/progress_drawable"
+                android:thumb="@drawable/thumb_drawable"
                 app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_target_bmi"
-                tools:text="Target Hikes" />
+                android:thumbOffset="9.5dp" />
 
-            <EditText
-                android:id="@+id/et_target_hikes"
+            <TextView
+                android:id="@+id/tv_bmi_start"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="33"
-                tools:text="33"
-                android:textSize="36sp"
+                android:text="0"
+                tools:text="0"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:paddingStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/tv_target_hikes"
+                app:layout_constraintStart_toStartOf="@id/sb_target_bmi"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/tv_target_hikes"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_bmi"
+                />
+
+            <TextView
+                android:id="@+id/tv_bmi_end"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="33"
+                tools:text="33"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintEnd_toEndOf="@id/sb_target_bmi"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_bmi"
                 />
 
             <!--Target Calories -->
@@ -145,27 +203,148 @@
                 android:gravity="left|center_vertical"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
+                android:layout_marginTop="15dp"
                 android:text="Target Calories"
                 android:textColor="@color/textLabelDefault"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_target_hikes"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_bmi"
                 tools:text="Target Calories" />
 
-            <EditText
-                android:id="@+id/et_target_calories"
+            <TextView
+                android:id="@+id/tv_calories_data"
                 android:textColor="@color/colorPrimaryDark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="33"
-                tools:text="33"
                 android:textSize="36sp"
                 android:textStyle="bold"
                 android:paddingStart="16dp"
-                app:layout_constraintStart_toEndOf="@id/tv_target_calories"
+                app:layout_constraintStart_toStartOf="@id/sb_target_calories"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/tv_target_calories"
+                app:layout_constraintBottom_toTopOf="@id/sb_target_calories"
+                />
+
+            <SeekBar
+                android:id="@+id/sb_target_calories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginVertical="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/progress_drawable"
+                android:thumb="@drawable/thumb_drawable"
+                app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_target_calories"
+                android:thumbOffset="9.5dp" />
+
+            <TextView
+                android:id="@+id/tv_calories_start"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                tools:text="0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toStartOf="@id/sb_target_calories"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_calories"
+                />
+
+            <TextView
+                android:id="@+id/tv_calories_end"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="33"
+                tools:text="33"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintEnd_toEndOf="@id/sb_target_calories"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_calories"
+                />
+
+            <!--Target Hikes -->
+            <TextView
+                android:id="@+id/tv_target_hikes"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                android:gravity="left|center_vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:layout_marginTop="15dp"
+                android:text="Target Calories"
+                android:textColor="@color/textLabelDefault"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_calories"
+                tools:text="Target Hikes" />
+
+            <TextView
+                android:id="@+id/tv_hikes_data"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toStartOf="@id/sb_target_hikes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/sb_target_hikes"
+                />
+
+            <SeekBar
+                android:id="@+id/sb_target_hikes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginVertical="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/progress_drawable"
+                android:thumb="@drawable/thumb_drawable"
+                app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_target_hikes"
+                android:thumbOffset="9.5dp" />
+
+            <TextView
+                android:id="@+id/tv_hikes_start"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                tools:text="0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toStartOf="@id/sb_target_hikes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_hikes"
+                />
+
+            <TextView
+                android:id="@+id/tv_hikes_end"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="33"
+                tools:text="33"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintEnd_toEndOf="@id/sb_target_hikes"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_hikes"
                 />
 
             <!--Target Weight Goal -->
@@ -175,13 +354,13 @@
                 android:layout_height="64dp"
                 android:gravity="left|center_vertical"
                 android:paddingStart="16dp"
-                android:paddingTop="16dp"
+                android:layout_marginTop="35dp"
                 android:text="Weight Goal"
                 android:textColor="@color/textLabelDefault"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/edit_goals_frag_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_target_calories"
+                app:layout_constraintTop_toBottomOf="@id/sb_target_hikes"
                 tools:text="Weight Goal" />
 
             <Spinner
@@ -199,22 +378,22 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_weight_goal"
                 />
 
+            <Button
+                android:id="@+id/bt_update_goals"
+                android:layout_width="360dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:text="Update!"
+                android:textSize="36sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                style="@style/Widget.AppCompat.Button.Colored"
+                app:layout_constraintTop_toBottomOf="@id/tv_weight_goal"
+                />
 
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-    <Button
-        android:id="@+id/bt_update_goals"
-        android:layout_width="360dp"
-        android:layout_height="64dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:text="Update!"
-        android:textSize="36sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        style="@style/Widget.AppCompat.Button.Colored"
-        />
-
 
 </FrameLayout>
