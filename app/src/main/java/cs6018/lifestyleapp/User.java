@@ -12,6 +12,42 @@ public class User {
         return INSTANCE;
     }
 
+    private static String startWeight = null;
+    private static String startBMI = null;
+    private static String startCalories = null;
+     private static String startHikes = null;
+
+    public static void setStartData(User mUser) {
+        if (startWeight == null) {
+            startWeight = mUser.getWeight();
+        }
+        if (startBMI == null) {
+            startBMI = mUser.getBmi();
+        }
+        if (startCalories == null) {
+            startCalories = mUser.getBmr();
+        }
+        if (startHikes == null) {
+            startHikes = "0";
+        }
+    }
+
+    public static String getStartWeight() {
+        return startWeight;
+    }
+
+    public static String getStartBMI() {
+        return startBMI;
+    }
+
+    public static String getStartCalories() {
+        return startCalories;
+    }
+
+    public static String getStartHikes() {
+        return startHikes;
+    }
+
     // User Profile Data
     private String userName;
     private String sex;
@@ -23,6 +59,7 @@ public class User {
     private String profilePic;
     private String bmi;
     private String bmr;
+    private String calories;
 
     // User Goals Data
     private String targetWeight;
@@ -90,6 +127,10 @@ public class User {
     public void setWeight(String weight) {
         this.weight = weight;
     }
+
+    public String getCalories() { return calories; }
+
+    public void setCalories(String calories) { this.calories = calories; }
 
     public String getProfilePic() { return profilePic; }
 

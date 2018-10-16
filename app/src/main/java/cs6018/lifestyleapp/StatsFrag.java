@@ -20,8 +20,9 @@ import android.widget.TextView;
  */
 public class StatsFrag extends Fragment {
 
-    private String mWeight, mBMI, mHikes, mCalories;
+    private String mHikes;
     private TextView mTvWeight, mTvBMI, mTvHikes, mTvCalories;
+    private TextView mTvStartWeight, mTvStartBMI, mTvStartCalories, mTvStartHikes;
     private TextView mTvTargetWeight, mTvTargetBMI, mTvTargetCalories, mTvTargetHikes;
 
     private SeekBar sbWeight, sbBMI, sbHikes, sbCalories;
@@ -38,6 +39,11 @@ public class StatsFrag extends Fragment {
         mTvCalories = (TextView) view.findViewById(R.id.tv_calories_data);
         mTvHikes = (TextView) view.findViewById(R.id.tv_hikes_data);
 
+        mTvStartWeight = (TextView) view.findViewById(R.id.tv_weight_start);
+        mTvStartBMI = (TextView) view.findViewById(R.id.tv_bmi_start);
+        mTvStartCalories = (TextView) view.findViewById(R.id.tv_calories_start);
+        mTvStartHikes = (TextView) view.findViewById(R.id.tv_hikes_start);
+
         mTvTargetWeight = (TextView) view.findViewById(R.id.tv_weight_end);
         mTvTargetBMI = (TextView) view.findViewById(R.id.tv_bmi_end);
         mTvTargetCalories = (TextView) view.findViewById(R.id.tv_calories_end);
@@ -49,7 +55,6 @@ public class StatsFrag extends Fragment {
         sbCalories = (SeekBar) view.findViewById(R.id.sb_calories);
 
         mHikes = "2";
-        mCalories = "500";
 
         //Create the view model
         mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
@@ -68,10 +73,6 @@ public class StatsFrag extends Fragment {
         public void onChanged(@Nullable final User user) {
             // Update the UI if this data variable changes
             if (user != null) {
-                mTvTargetWeight.setText(user.getTargetWeight());
-                mTvTargetBMI.setText(user.getTargetBMI());
-                mTvTargetCalories.setText(user.getTargetDailyCalories());
-                mTvTargetHikes.setText(user.getTargetHikes());
                 setProgress(user);
             }
         }
@@ -83,26 +84,49 @@ public class StatsFrag extends Fragment {
     }
 
     private void setProgress(User user) {
-        setBar(sbWeight, mTvWeight, user.getTargetWeight(), user.getWeight());
-        setBar(sbBMI, mTvBMI, user.getTargetBMI(), user.getBmi());
-        setBar(sbHikes, mTvHikes, user.getTargetHikes(), mHikes);
-        setBar(sbCalories, mTvCalories, user.getTargetDailyCalories(), mCalories);
+        setBar(sbWeight, mTvWeight, mTvStartWeight, mTvTargetWeight,
+                User.getStartWeight(), user.getTargetWeight(), user.getWeight());
+        setBar(sbBMI, mTvBMI, mTvStartBMI, mTvTargetBMI,
+                User.getStartBMI(), user.getTargetBMI(), user.getBmi());
+        setBar(sbHikes, mTvHikes, mTvStartHikes, mTvTargetHikes,
+                User.getStartHikes(), user.getTargetHikes(), mHikes);
+        setBar(sbCalories, mTvCalories, mTvStartCalories, mTvTargetCalories,
+                User.getStartCalories(), user.getTargetDailyCalories(), user.getCalories());
     }
 
-    private void setBar(final SeekBar sb, final TextView tv, String maxStr, String progressStr) {
-        final int max = Integer.valueOf(maxStr), progress = Integer.valueOf(progressStr);
-        sb.setMax(max);
-        sb.setProgress(progress);
-        int val = (sb.getProgress() * (950 - 2 * 24)) / sb.getMax();
-        final int Pos = val + 180 + 24 / 2;
-        tv.setText("" + sb.getProgress());
-        tv.setX(Pos - 270);
+    private void setBar(SeekBar sb, final TextView tvProg, TextView tvStart, TextView tvGoal,
+                        String startStr, String goalStr, String progressStr) {
+        final int start = Integer.valueOf(startStr),
+            goal = Integer.valueOf(goalStr),
+            progress = Integer.valueOf(progressStr);
 
-        // Tricks to fix the index thumb -> probably wrong
+        float pos;
+        if (start < goal) {
+            tvStart.setText("start [" + startStr + "]");
+            tvGoal.setText("goal [" + goalStr + "]");
+            sb.setMax(goal - start);
+            sb.setProgress(progress - start);
+            tvProg.setText("" + progress);
+            float progDiff = (progress > goal ? goal : progress) - start;
+            float totalDiff = goal - start;
+            pos = progress > goal ? 815 : (progDiff / totalDiff * 915);
+            tvProg.setX(pos);
+        } else {
+            tvGoal.setText("start [" + startStr + "]");
+            tvStart.setText("goal [" + goalStr + "]");
+            sb.setMax(start - goal);
+            sb.setProgress(progress - goal);
+            tvProg.setText("" + progress);
+            float progDiff = (progress > start ? start : progress) - goal;
+            float totalDiff = start - goal;
+            pos = progress > start ? 815 : (progDiff / totalDiff * 915);
+            tvProg.setX(pos);
+        }
+
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int prog, boolean b) {
-                sb.setProgress(progress);
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+
             }
 
             @Override
@@ -112,9 +136,19 @@ public class StatsFrag extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                tvProg.setVisibility(View.VISIBLE);
+                seekBar.setProgress(progress - start);
             }
         });
+
+//        int val = (sb.getProgress() * (sb.getWidth() - 2 * sb.getThumbOffset())) / sb.getMax();
+//        tvProg.setText("" + progress);
+//        tvProg.setX(sb.getX() + val + sb.getThumbOffset() / 2);
+
+//        int val = (sb.getProgress() * (950 - 2 * 24)) / sb.getMax();
+//        final int Pos = val + 180 + 24 / 2;
+//        tvProg.setText("" + sb.getProgress());
+//        tvProg.setX(Pos - 270);
 
     }
 }

@@ -170,6 +170,8 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         mUser.setNation(mEtNation.getText().toString());
         mUser.setHeight(mEtHeight.getText().toString());
         mUser.setWeight(mEtWeight.getText().toString());
+        mUser.setCalories(
+                String.valueOf(CalculatorUtils.computeBMR(mUser.getWeight(), mUser.getHeight(), mUser.getSex(), mUser.getAge())));
         //mUser.setProfilePic(mCurrentPhotoPath);
     }
 

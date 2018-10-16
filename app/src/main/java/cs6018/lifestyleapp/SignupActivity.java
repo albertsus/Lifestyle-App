@@ -45,7 +45,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     private ProfileViewModel mProfileViewModel;
 
-     private User mUser = User.getInstance();
+    private User mUser = User.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,12 +166,16 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mUser.setWeight(mWeight);
         mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight)));
         mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
+        mUser.setCalories(mUser.getBmr());
 
         mUser.setTargetWeight(mTargetWeight);
         mUser.setTargetBMI(mTargetBMI);
         mUser.setTargetDailyCalories(mTargetCalories);
         mUser.setTargetHikes(mTargetHikes);
         mUser.setWeightGoal(mWeightGoal);
+
+        // Set start data
+        User.setStartData(mUser);
     }
 
     private boolean isValidData() {

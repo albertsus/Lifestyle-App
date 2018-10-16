@@ -36,7 +36,7 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
 
     private static final int MIN_WEIGHT = 50, MAX_WEIGHT = 600;
     private static final int MIN_BMI = 5, MAX_BMI = 50;
-    private static final int MIN_CALORIES = 500, MAX_CALORIES = 5000;
+    private static final int MIN_CALORIES = 100, MAX_CALORIES = 5000;
     private static final int MIN_HIKES = 0, MAX_HIKES = 10;
 
     private ProfileViewModel mProfileViewModel;
@@ -165,9 +165,9 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                int val = (progress * (seekBar.getWidth() - 2 * seekBar.getThumbOffset() - 135)) / seekBar.getMax();
+                int val = (progress * (seekBar.getWidth() - 2 * seekBar.getThumbOffset())) / seekBar.getMax();
                 tv.setText("" + progress);
-                tv.setX(seekBar.getX() + val + seekBar.getThumbOffset() / 2);
+                tv.setX(seekBar.getX() + val + seekBar.getThumbOffset() / 2 - 100);
             }
 
             @Override
