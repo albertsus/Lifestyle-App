@@ -10,22 +10,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!--Title-->
-            <ImageButton
-                android:id="@+id/ic_weather_back_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintTop_toTopOf="parent"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="24dp"
-                android:paddingBottom="24dp"
-                android:onClick="onClick"
-                app:layout_constraintStart_toStartOf="parent"
-                android:background="@color/colorPrimary"
-                android:src="@drawable/ic_back_arrow"  />
+            <!--Title-->/>
             <TextView
                 android:id="@+id/weather_activity_title"
                 android:textColor="@android:color/black"
@@ -35,7 +20,6 @@
                 tools:text="Weather"
                 android:textSize="48sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/ic_weather_back_arrow"
                 android:paddingLeft="16dp" />
             <ImageView
                 android:id="@+id/period"

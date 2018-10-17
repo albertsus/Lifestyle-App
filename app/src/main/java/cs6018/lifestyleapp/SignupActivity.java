@@ -29,6 +29,9 @@ import java.util.Date;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
 
+    // debug flag
+    private boolean debug = true;
+
     // Define User profile info
     private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight, mCurrentPhotoPath;
     private String mTargetWeight, mTargetBMI, mTargetHikes, mTargetCalories, mWeightGoal;
@@ -50,7 +53,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        if (debug) {
+            setContentView(R.layout.activity_signup_debug);
+        }
+        else {
+            setContentView(R.layout.activity_signup);
+        }
 
         // Find view elements from layout
         etUserName = findViewById(R.id.et_userName);
@@ -99,6 +107,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             case R.id.button_get_started: {
+
                 // Set the user profile
                 setUserProfile();
 
@@ -106,6 +115,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 if (!isValidData()) {
                     break;
                 } else {
+
                     //Create new Intent Object, and specify class
                     Intent homeActivity = new Intent(this, HomeActivity.class);
 
@@ -140,7 +150,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mProfileViewModel.setUser(user);
     }
 
-    private void setUserProfile() {
+    private boolean setUserProfile() {
         // Set user basic profile data
         mUserName = etUserName.getText().toString();
         mAge = etAge.getText().toString();
@@ -157,33 +167,59 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         mTargetHikes = etTargetHikes.getText().toString();
         mWeightGoal = (String) spinnerWeightGoal.getSelectedItem();
 
-        mUser.setUserName(mUserName);
-        mUser.setAge(mAge);
-        mUser.setCity(mCity);
-        mUser.setNation(mNation);
-        mUser.setSex(mSex);
-        mUser.setHeight(mHeight);
-        mUser.setWeight(mWeight);
-        mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight)));
-        mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
-        mUser.setCalories(mUser.getBmr());
+        // Check valid data entered
+        if (!isValidData()) {
+            return false;
+        } else {
+            mUser.setUserName(mUserName);
+            mUser.setAge(mAge);
+            mUser.setCity(mCity);
+            mUser.setNation(mNation);
+            mUser.setSex(mSex);
+            mUser.setHeight(mHeight);
+            mUser.setWeight(mWeight);
+            mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight)));
+            mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
+            mUser.setCalories(mUser.getBmr());
 
-        mUser.setTargetWeight(mTargetWeight);
-        mUser.setTargetBMI(mTargetBMI);
-        mUser.setTargetDailyCalories(mTargetCalories);
-        mUser.setTargetHikes(mTargetHikes);
-        mUser.setWeightGoal(mWeightGoal);
+            mUser.setTargetWeight(mTargetWeight);
+            mUser.setTargetBMI(mTargetBMI);
+            mUser.setTargetDailyCalories(mTargetCalories);
+            mUser.setTargetHikes(mTargetHikes);
+            mUser.setWeightGoal(mWeightGoal);
 
-        // Set start data
-        User.setStartData(mUser);
+            // Set start data
+            User.setStartData(mUser);
+            return true;
+        }
     }
 
     private boolean isValidData() {
-        if (mUserName.matches("") || mCity.matches("")
-                || mAge.matches("") || mHeight.matches("")
-                || mWeight.matches("") || mNation.matches("")) {
+        if (mUserName.matches("")
+                || mCity.matches("")
+                || mAge.matches("")
+                || mHeight.matches("")
+                || mWeight.matches("")
+                || mNation.matches("")
+                || mTargetWeight.matches("")
+                || mTargetHikes.matches("")
+                || mTargetBMI.matches("")
+                || mTargetCalories.matches("")) {
             Toast toast = Toast.makeText(SignupActivity.this,
                     "Invalid data entered", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
+            return false;
+        }
+
+        if (!mAge.matches("^(0|[1-9][0-9]*)$")
+                || !mHeight.matches("^(0|[1-9][0-9]*)$")
+                || !mWeight.matches("^(0|[1-9][0-9]*)$")
+                || !mTargetHikes.matches("^(0|[1-9][0-9]*)$")
+                || !mTargetBMI.matches("^(0|[1-9][0-9]*)$")
+                || !mTargetCalories.matches("^(0|[1-9][0-9]*)$")) {
+            Toast toast = Toast.makeText(SignupActivity.this,
+                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP, 0, 0);
             toast.show();
             return false;

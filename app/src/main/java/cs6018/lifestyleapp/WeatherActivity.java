@@ -24,7 +24,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+
 public class WeatherActivity extends AppCompatActivity {
+
+
 
     private TextView mTvLocation;
     private TextView mTvWeatherSummary;
@@ -43,7 +47,7 @@ public class WeatherActivity extends AppCompatActivity {
     private Location mLocation;
 
     private String testLocationString = "lat=-0.127&lon=51.5";
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +72,6 @@ public class WeatherActivity extends AppCompatActivity {
         mWeatherViewModel.getData().observe(this, nameObserver);
         mWeatherIcon = (ImageView) findViewById(R.id.ic_weather_large);
 
-        final ImageButton backButton = findViewById(R.id.ic_weather_back_arrow);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -84,7 +81,7 @@ public class WeatherActivity extends AppCompatActivity {
                             System.out.println("location: " + location);
                             if (location != null) {
                                 mLocation = location;
-                                mWeatherViewModel.setLocation(Double.toString(mLocation.getLatitude()) + ", " + Double.toString(mLocation.getLongitude()));
+                                mWeatherViewModel.setLocation("lat=" + Double.toString(mLocation.getLatitude()) + "&lon=" + Double.toString(mLocation.getLongitude()));
                             }
                             // hard coded default for testing api and view update
                             else {

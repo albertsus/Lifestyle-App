@@ -8,6 +8,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -62,7 +64,7 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
         @Override
         public void onChanged(@Nullable final User user) {
             // Update the UI if this data variable changes
-            if (user != null) {
+            if (user != null && isValidData()) {
                 mTvUserName.setText(user.getUserName());
                 mTvAge.setText(user.getAge());
                 mTvSex.setText(user.getSex());
@@ -71,6 +73,7 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
                 mTvNation.setText(user.getNation());
                 mTvCity.setText(user.getCity());
             }
+
         }
     };
 
@@ -82,16 +85,50 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         // Create new fragment and transaction
-        Fragment editProfileFrag = new EditProfileFrag();
+        if (isValidData()) {
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            Fragment editProfileFrag = new EditProfileFrag();
 
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack
-        transaction.replace(R.id.main_container, editProfileFrag);
-        transaction.addToBackStack(null);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        // Commit the transaction
-        transaction.commit();
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack
+            transaction.replace(R.id.main_container, editProfileFrag);
+            transaction.addToBackStack(null);
+
+            // Commit the transaction
+            transaction.commit();
+        } else {
+            Toast toast = Toast.makeText(getActivity(),
+                    "Invalid data entered", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
+        }
+    }
+
+    private boolean isValidData() {
+        if (mTvUserName.getText().toString().matches("")
+                || mTvCity.getText().toString().matches("")
+                || mTvAge.getText().toString().matches("")
+                || mTvHeight.getText().toString().matches("")
+                || mTvWeight.getText().toString().matches("")
+                || mTvNation.getText().toString().matches("")) {
+            Toast toast = Toast.makeText(getActivity(),
+                    "Invalid data entered", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
+            return false;
+        }
+
+        if (!mTvAge.getText().toString().matches("^(0|[1-9][0-9]*)$")
+                || !mTvHeight.getText().toString().matches("^(0|[1-9][0-9]*)$")
+                || !mTvWeight.getText().toString().matches("^(0|[1-9][0-9]*)$")) {
+            Toast toast = Toast.makeText(getActivity(),
+                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
+            return false;
+        }
+        return true;
     }
 }

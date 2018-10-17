@@ -7,19 +7,6 @@
     tools:context=".CalculatorActivity">
 
     <!--Title-->
-    <ImageView
-        android:id="@+id/ic_calculator_back_arrow"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_back_arrow"  />
     <TextView
         android:id="@+id/calculator_activity_title"
         android:textColor="@android:color/black"
@@ -29,7 +16,6 @@
         tools:text="Calculator"
         android:textSize="48sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/ic_calculator_back_arrow"
         android:paddingLeft="16dp" />
     <ImageView
         android:id="@+id/period"
