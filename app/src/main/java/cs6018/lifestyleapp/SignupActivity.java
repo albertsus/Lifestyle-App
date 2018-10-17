@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -27,6 +26,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cs6018.lifestyleapp.Utils.JSONProfileUtils;
+
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
 
     // debug flag
@@ -35,6 +36,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     // Define User profile info
     private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight, mCurrentPhotoPath;
     private String mTargetWeight, mTargetBMI, mTargetHikes, mTargetCalories, mWeightGoal;
+
+    // Profile JSON data
+    private String profileJSon;
 
     // Define UI view elements
     private EditText etUserName, etAge, etCity, etNation, etHeight, etWeight;
@@ -125,7 +129,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     //Set the observer
                     mProfileViewModel.getData().observe(this, nameObserver);
 
-                    loadProfileData(mUser);
+                    loadProfileData(mUserName, profileJSon);
 
                     // Start the HomeActivity
                     this.startActivity(homeActivity);
@@ -145,9 +149,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         }
     };
 
-    void loadProfileData(User user) {
+    void loadProfileData(String userName, String profileJSon) {
         //pass the user in to the view model
-        mProfileViewModel.setUser(user);
+        mProfileViewModel.setUser(userName, profileJSon);
     }
 
     private boolean setUserProfile() {
@@ -190,6 +194,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             // Set start data
             User.setStartData(mUser);
+
+            // Load user info to Json data
+            profileJSon = JSONProfileUtils.toProfileJSonData(mUser);
             return true;
         }
     }
@@ -212,18 +219,18 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             return false;
         }
 
-        if (!mAge.matches("^(0|[1-9][0-9]*)$")
-                || !mHeight.matches("^(0|[1-9][0-9]*)$")
-                || !mWeight.matches("^(0|[1-9][0-9]*)$")
-                || !mTargetHikes.matches("^(0|[1-9][0-9]*)$")
-                || !mTargetBMI.matches("^(0|[1-9][0-9]*)$")
-                || !mTargetCalories.matches("^(0|[1-9][0-9]*)$")) {
-            Toast toast = Toast.makeText(SignupActivity.this,
-                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP, 0, 0);
-            toast.show();
-            return false;
-        }
+//        if (!mAge.matches("^(0|[1-9][0-9]*)$")
+//                || !mHeight.matches("^(0|[1-9][0-9]*)$")
+//                || !mWeight.matches("^(0|[1-9][0-9]*)$")
+//                || !mTargetHikes.matches("^(0|[1-9][0-9]*)$")
+//                || !mTargetBMI.matches("^(0|[1-9][0-9]*)$")
+//                || !mTargetCalories.matches("^(0|[1-9][0-9]*)$")) {
+//            Toast toast = Toast.makeText(SignupActivity.this,
+//                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
+//            toast.setGravity(Gravity.TOP, 0, 0);
+//            toast.show();
+//            return false;
+//        }
         return true;
     }
 

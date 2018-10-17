@@ -2,7 +2,6 @@ package cs6018.lifestyleapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,13 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import cs6018.lifestyleapp.Utils.JSONProfileUtils;
 
 /**
  * Created by suchaofan on 9/29/18.
@@ -109,7 +107,7 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
                     // Update User Goals
                     updateGoals();
 
-                    loadProfileData(mUser);
+                    loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
 
                     // Route to ProfileFrag
                     getFragmentManager().popBackStackImmediate();
@@ -128,9 +126,9 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         }
     };
 
-    void loadProfileData(User user) {
+    void loadProfileData(String userName, String profileJSon) {
         //pass the user in to the view model
-        mProfileViewModel.setUser(user);
+        mProfileViewModel.setUser(userName, profileJSon);
     }
 
     /**

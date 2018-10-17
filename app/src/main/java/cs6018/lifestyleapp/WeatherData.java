@@ -1,5 +1,7 @@
 package cs6018.lifestyleapp;
 
+import cs6018.lifestyleapp.LocationData;
+
 public class WeatherData {
     private LocationData mLocationData;
     private CurrentCondition mCurrentCondition = new CurrentCondition();

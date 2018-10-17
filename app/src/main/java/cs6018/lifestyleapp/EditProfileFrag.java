@@ -2,7 +2,6 @@ package cs6018.lifestyleapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -28,6 +27,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import cs6018.lifestyleapp.Utils.JSONProfileUtils;
 
 /**
  * Created by suchaofan on 9/28/18.
@@ -111,7 +112,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
                     // Update User Profile
                     updateProfile();
 
-                    loadProfileData(mUser);
+                    loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
 
                     // Route to ProfileFrag
                     getFragmentManager().popBackStackImmediate();
@@ -131,9 +132,9 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         }
     };
 
-    void loadProfileData(User user) {
+    void loadProfileData(String userName, String profileJSon) {
         //pass the user in to the view model
-        mProfileViewModel.setUser(user);
+        mProfileViewModel.setUser(userName, profileJSon);
     }
 
     /**

@@ -1,11 +1,11 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
-import java.util.logging.Logger;
+import cs6018.lifestyleapp.LocationData;
+import cs6018.lifestyleapp.WeatherData;
 
 //Declare methods as static. We don't want to create objects of this class.
 public class JSONWeatherUtils {

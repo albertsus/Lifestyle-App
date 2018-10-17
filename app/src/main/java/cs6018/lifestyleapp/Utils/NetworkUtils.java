@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -2,17 +2,16 @@ package cs6018.lifestyleapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import cs6018.lifestyleapp.Utils.JSONProfileUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +27,8 @@ public class StatsFrag extends Fragment {
     private SeekBar sbWeight, sbBMI, sbHikes, sbCalories;
 
     private ProfileViewModel mProfileViewModel;
+
+    private User mUser = User.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +63,7 @@ public class StatsFrag extends Fragment {
         //Set the observer
         mProfileViewModel.getData().observe(this, nameObserver);
 
-        loadProfileData(User.getInstance());
+        loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
 
         return view;
     }
@@ -78,9 +79,9 @@ public class StatsFrag extends Fragment {
         }
     };
 
-    void loadProfileData(User user) {
+    void loadProfileData(String userName, String profileJSon) {
         //pass the user in to the view model
-        mProfileViewModel.setUser(user);
+        mProfileViewModel.setUser(userName, profileJSon);
     }
 
     private void setProgress(User user) {

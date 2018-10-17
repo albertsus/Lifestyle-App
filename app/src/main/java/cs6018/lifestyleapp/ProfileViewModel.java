@@ -11,18 +11,18 @@ import android.support.annotation.NonNull;
  */
 
 public class ProfileViewModel extends AndroidViewModel {
-    private MutableLiveData<User> userData;
+    private MutableLiveData<User> jsonData;
     private ProfileRepository mProfileRepository;
 
     public ProfileViewModel(@NonNull Application application) {
         super(application);
-        mProfileRepository = new ProfileRepository();
-        userData = mProfileRepository.getData();
+        mProfileRepository = new ProfileRepository(application);
+        jsonData = mProfileRepository.getData();
     }
 
-    public void setUser(User user) {
-        mProfileRepository.setUser(user);
+    public void setUser(String userName, String userJson) {
+        mProfileRepository.setUser(userName, userJson);
     }
 
-    public LiveData<User> getData() { return userData ; }
+    public LiveData<User> getData() { return jsonData ; }
 }

@@ -2,7 +2,6 @@ package cs6018.lifestyleapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import cs6018.lifestyleapp.Utils.JSONProfileUtils;
 
 public class CalculatorActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,7 +53,7 @@ public class CalculatorActivity extends AppCompatActivity implements View.OnClic
         //Set the observer
         mProfileViewModel.getData().observe(this, nameObserver);
 
-        loadProfileData(mUser);
+        loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
     }
 
     //create an observer that watches the LiveData<User> object
@@ -66,9 +67,9 @@ public class CalculatorActivity extends AppCompatActivity implements View.OnClic
         }
     };
 
-    void loadProfileData(User user) {
+    void loadProfileData(String userName, String profileJSon) {
         //pass the user in to the view model
-        mProfileViewModel.setUser(user);
+        mProfileViewModel.setUser(userName, profileJSon);
     }
 
     @Override

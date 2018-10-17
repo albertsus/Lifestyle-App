@@ -1,6 +1,5 @@
 package cs6018.lifestyleapp;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
@@ -11,6 +10,10 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
+
+import cs6018.lifestyleapp.Utils.JSONWeatherUtils;
+import cs6018.lifestyleapp.Utils.NetworkUtils;
+import cs6018.lifestyleapp.WeatherData;
 
 public class WeatherViewModel extends AndroidViewModel {
     private final MutableLiveData<WeatherData> jsonData =

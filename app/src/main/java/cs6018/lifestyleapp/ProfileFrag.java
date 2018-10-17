@@ -4,8 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -13,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import cs6018.lifestyleapp.Utils.JSONProfileUtils;
 
 
 /**
@@ -31,6 +27,8 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
     private Button mBtEdit;
 
     private ProfileViewModel mProfileViewModel;
+
+    private User mUser = User.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +52,7 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
         //Set the observer
         mProfileViewModel.getData().observe(this, nameObserver);
 
-        loadProfileData(User.getInstance());
+        loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
 
         return view;
     }
@@ -77,9 +75,9 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
         }
     };
 
-    void loadProfileData(User user) {
+    void loadProfileData(String userName, String profileJSon) {
         //pass the user in to the view model
-        mProfileViewModel.setUser(user);
+        mProfileViewModel.setUser(userName, profileJSon);
     }
 
     @Override
@@ -120,15 +118,15 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
             return false;
         }
 
-        if (!mTvAge.getText().toString().matches("^(0|[1-9][0-9]*)$")
-                || !mTvHeight.getText().toString().matches("^(0|[1-9][0-9]*)$")
-                || !mTvWeight.getText().toString().matches("^(0|[1-9][0-9]*)$")) {
-            Toast toast = Toast.makeText(getActivity(),
-                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP, 0, 0);
-            toast.show();
-            return false;
-        }
+//        if (!mTvAge.getText().toString().matches("^(0|[1-9][0-9]*)$")
+//                || !mTvHeight.getText().toString().matches("^(0|[1-9][0-9]*)$")
+//                || !mTvWeight.getText().toString().matches("^(0|[1-9][0-9]*)$")) {
+//            Toast toast = Toast.makeText(getActivity(),
+//                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
+//            toast.setGravity(Gravity.TOP, 0, 0);
+//            toast.show();
+//            return false;
+//        }
         return true;
     }
 }
