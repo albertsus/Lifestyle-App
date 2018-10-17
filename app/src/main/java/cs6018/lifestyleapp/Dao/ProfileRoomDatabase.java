@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.Dao;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;

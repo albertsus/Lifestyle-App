@@ -14,6 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cs6018.lifestyleapp.Impl.GoalsFrag;
+import cs6018.lifestyleapp.Impl.ProfileFrag;
+import cs6018.lifestyleapp.Impl.StatsFrag;
+import cs6018.lifestyleapp.Impl.ToolsFrag;
+
 public class HomeActivity extends AppCompatActivity {
 
     final Fragment goalsFrag = new GoalsFrag();

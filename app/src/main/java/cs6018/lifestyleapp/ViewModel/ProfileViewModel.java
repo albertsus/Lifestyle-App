@@ -1,10 +1,13 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
+
+import cs6018.lifestyleapp.Data.User;
+import cs6018.lifestyleapp.Repository.ProfileRepository;
 
 /**
  * Created by suchaofan on 10/13/18.

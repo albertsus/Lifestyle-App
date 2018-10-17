@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cs6018.lifestyleapp.Data.WeatherData;
+import cs6018.lifestyleapp.ViewModel.WeatherViewModel;
+
 public class WeatherActivity extends AppCompatActivity {
 
     private TextView mTvLocation;

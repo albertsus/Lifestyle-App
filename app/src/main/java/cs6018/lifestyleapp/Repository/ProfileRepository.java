@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.Repository;
 
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
@@ -6,11 +6,11 @@ import android.os.AsyncTask;
 
 import org.json.JSONException;
 
-import cs6018.lifestyleapp.ProfileDao;
-import cs6018.lifestyleapp.ProfileRoomDatabase;
+import cs6018.lifestyleapp.Dao.ProfileDao;
+import cs6018.lifestyleapp.Dao.ProfileRoomDatabase;
+import cs6018.lifestyleapp.Dao.ProfileTable;
 import cs6018.lifestyleapp.Utils.JSONProfileUtils;
-import cs6018.lifestyleapp.ProfileTable;
-import cs6018.lifestyleapp.User;
+import cs6018.lifestyleapp.Data.User;
 
 /**
  * Created by suchaofan on 10/13/18.

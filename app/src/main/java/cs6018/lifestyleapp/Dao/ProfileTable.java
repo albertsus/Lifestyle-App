@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.Dao;
 
 /**
  * Created by suchaofan on 10/17/18.

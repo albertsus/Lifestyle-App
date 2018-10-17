@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import cs6018.lifestyleapp.Data.User;
 import cs6018.lifestyleapp.Utils.JSONProfileUtils;
+import cs6018.lifestyleapp.ViewModel.ProfileViewModel;
 
 public class CalculatorActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.Data;
 
 public class LocationData {
     private double mLatitude;
