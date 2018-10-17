@@ -42,9 +42,8 @@ public class WeatherActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mLocation;
 
-    private String testLocationString = "lat=40.759926&lon=-111.884888";
-
-
+    private String testLocationString = "lat=-0.127&lon=51.5";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
