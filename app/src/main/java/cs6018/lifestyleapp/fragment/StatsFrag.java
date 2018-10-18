@@ -58,7 +58,7 @@ public class StatsFrag extends Fragment {
         sbHikes = (SeekBar) view.findViewById(R.id.sb_hikes);
         sbCalories = (SeekBar) view.findViewById(R.id.sb_calories);
 
-        mHikes = "2";
+        mHikes = "0";
 
         //Create the view model
         mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
