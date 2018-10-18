@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp.Impl;
+package cs6018.lifestyleapp.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import cs6018.lifestyleapp.Data.User;
+import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.R;
-import cs6018.lifestyleapp.Utils.JSONProfileUtils;
-import cs6018.lifestyleapp.ViewModel.ProfileViewModel;
+import cs6018.lifestyleapp.utils.JSONProfileUtils;
+import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 
 /**
  * A simple {@link Fragment} subclass.

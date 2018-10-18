@@ -28,7 +28,7 @@
         </provider>
 
         <activity
-            android:name=".SplashScreen"
+            android:name=".activity.SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,11 +36,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".CalculatorActivity" />
-        <activity android:name=".WeatherActivity" />
-        <activity android:name=".HikeActivity" />
+        <activity android:name=".activity.SignupActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.CalculatorActivity" />
+        <activity android:name=".activity.WeatherActivity" />
+        <activity android:name=".activity.HikeActivity" />
 
     </application>
 

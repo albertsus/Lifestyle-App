@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp.Data;
+package cs6018.lifestyleapp.general;
 
 public class User {
 

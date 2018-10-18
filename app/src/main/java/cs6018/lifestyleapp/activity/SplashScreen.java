@@ -1,13 +1,12 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
+
+import cs6018.lifestyleapp.R;
+import cs6018.lifestyleapp.activity.SignupActivity;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

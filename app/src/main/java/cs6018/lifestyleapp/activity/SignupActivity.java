@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.activity;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -26,10 +26,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cs6018.lifestyleapp.Data.User;
-import cs6018.lifestyleapp.Utils.CalculatorUtils;
-import cs6018.lifestyleapp.Utils.JSONProfileUtils;
-import cs6018.lifestyleapp.ViewModel.ProfileViewModel;
+import cs6018.lifestyleapp.general.User;
+import cs6018.lifestyleapp.R;
+import cs6018.lifestyleapp.utils.CalculatorUtils;
+import cs6018.lifestyleapp.utils.JSONProfileUtils;
+import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
 

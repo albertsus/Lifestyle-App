@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cs6018.lifestyleapp.Data.WeatherData;
-import cs6018.lifestyleapp.ViewModel.WeatherViewModel;
+import cs6018.lifestyleapp.R;
+import cs6018.lifestyleapp.general.WeatherData;
+import cs6018.lifestyleapp.viewModel.WeatherViewModel;
 
 public class WeatherActivity extends AppCompatActivity {
 

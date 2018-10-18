@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cs6018.lifestyleapp.Impl.GoalsFrag;
-import cs6018.lifestyleapp.Impl.ProfileFrag;
-import cs6018.lifestyleapp.Impl.StatsFrag;
-import cs6018.lifestyleapp.Impl.ToolsFrag;
+import cs6018.lifestyleapp.R;
+import cs6018.lifestyleapp.fragment.GoalsFrag;
+import cs6018.lifestyleapp.fragment.ProfileFrag;
+import cs6018.lifestyleapp.fragment.StatsFrag;
+import cs6018.lifestyleapp.fragment.ToolsFrag;
 
 public class HomeActivity extends AppCompatActivity {
 

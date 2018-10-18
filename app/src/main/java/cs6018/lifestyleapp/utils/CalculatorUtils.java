@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp.Utils;
+package cs6018.lifestyleapp.utils;
 
 public class CalculatorUtils {
 

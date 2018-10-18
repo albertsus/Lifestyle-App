@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp.ViewModel;
+package cs6018.lifestyleapp.viewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -11,9 +11,9 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-import cs6018.lifestyleapp.Utils.JSONWeatherUtils;
-import cs6018.lifestyleapp.Utils.NetworkUtils;
-import cs6018.lifestyleapp.Data.WeatherData;
+import cs6018.lifestyleapp.utils.JSONWeatherUtils;
+import cs6018.lifestyleapp.utils.NetworkUtils;
+import cs6018.lifestyleapp.general.WeatherData;
 
 public class WeatherViewModel extends AndroidViewModel {
     private final MutableLiveData<WeatherData> jsonData =

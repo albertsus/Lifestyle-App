@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp.Impl;
+package cs6018.lifestyleapp.fragment;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import cs6018.lifestyleapp.R;
 

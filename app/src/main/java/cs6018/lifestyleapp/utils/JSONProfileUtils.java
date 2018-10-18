@@ -1,9 +1,9 @@
-package cs6018.lifestyleapp.Utils;
+package cs6018.lifestyleapp.utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cs6018.lifestyleapp.Data.User;
+import cs6018.lifestyleapp.general.User;
 
 /**
  * Created by suchaofan on 10/17/18.

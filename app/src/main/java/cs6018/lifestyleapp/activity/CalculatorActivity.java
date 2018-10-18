@@ -1,4 +1,4 @@
-package cs6018.lifestyleapp;
+package cs6018.lifestyleapp.activity;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -10,9 +10,10 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import cs6018.lifestyleapp.Data.User;
-import cs6018.lifestyleapp.Utils.JSONProfileUtils;
-import cs6018.lifestyleapp.ViewModel.ProfileViewModel;
+import cs6018.lifestyleapp.R;
+import cs6018.lifestyleapp.general.User;
+import cs6018.lifestyleapp.utils.JSONProfileUtils;
+import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 
 public class CalculatorActivity extends AppCompatActivity implements View.OnClickListener {
 

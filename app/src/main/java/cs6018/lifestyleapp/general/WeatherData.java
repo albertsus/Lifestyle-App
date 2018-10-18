@@ -1,6 +1,4 @@
-package cs6018.lifestyleapp.Data;
-
-import cs6018.lifestyleapp.Data.LocationData;
+package cs6018.lifestyleapp.general;
 
 public class WeatherData {
     private LocationData mLocationData;
