@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ybs.countrypicker.CountryPicker;
@@ -63,11 +64,12 @@ public class ProfileEnterFrag extends Fragment
     private String profileJSon;
 
     // Define UI view elements
+    private TextView tvCalcBmi, tvRecBmi;
     private EditText etUserName, etAge, etCity, etHeight, etWeight;
     private EditText etTargetWeight, etTargetBMI, etTargetHikes, etTargetCalories;
     private RadioGroup rgSex, rgWeightGoal;
     private RadioButton rbSex, rbWeightGoal;
-    private Button mButtonCreate, mBtnCountry;
+    private Button mButtonCreate, mBtnCountry, mBtnBmi;
     private FloatingActionButton mFabtn;
     private ImageButton mButtonPicture;
     private ImageView mProfilePic; // Profile pic collection parameters and resources.
@@ -100,7 +102,11 @@ public class ProfileEnterFrag extends Fragment
             throw new ClassCastException("The hosting activity of the fragment" +
                     "forgot to implement onFragmentInteractionListener");
         }
+
         // Find view elements from layout
+        tvCalcBmi = view.findViewById(R.id.tv_calc_bmi);
+        tvRecBmi = view.findViewById(R.id.tv_rec_bmi);
+
         etUserName = view.findViewById(R.id.et_userName);
         etAge = view.findViewById(R.id.et_age);
         etCity = view.findViewById(R.id.et_city);
@@ -133,6 +139,9 @@ public class ProfileEnterFrag extends Fragment
 
         mBtnCountry = view.findViewById(R.id.btn_country);
         mBtnCountry.setOnClickListener(this);
+
+        mBtnBmi = view.findViewById(R.id.btn_bmi);
+        mBtnBmi.setOnClickListener(this);
 
         mButtonCreate = view.findViewById(R.id.button_get_started);
         mButtonCreate.setOnClickListener(this);
@@ -167,6 +176,11 @@ public class ProfileEnterFrag extends Fragment
                 break;
             }
 
+            case R.id.btn_bmi: {
+                recommendBMI();
+                break;
+            }
+
             case R.id.next: {
                 // Check valid data entered
                 if (isValidData()) {
@@ -198,7 +212,7 @@ public class ProfileEnterFrag extends Fragment
         mUser.setSex(mSex);
         mUser.setHeight(mHeight);
         mUser.setWeight(mWeight);
-        mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight)));
+        mUser.setBmi(CalculatorUtils.computeBMI(mWeight, mHeight).toString());
         mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
         mUser.setCalories(mUser.getBmr());
 
@@ -264,12 +278,27 @@ public class ProfileEnterFrag extends Fragment
         picker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
-                // Implement your code here
                 mNation = name;
-                Toast.makeText(getActivity(), mNation, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), mNation, Toast.LENGTH_SHORT).show();
                 picker.dismiss();
             }
         });
+    }
+
+    private void recommendBMI() {
+        if (etHeight.getText().toString() != "" && etWeight.getText().toString() != "") {
+            Float bmi = CalculatorUtils.computeBMI(etWeight.getText().toString(), etHeight.getText().toString());
+            tvCalcBmi.setText("BMI: " + bmi.toString());
+            if (bmi < 18.5) {
+                tvRecBmi.setText("Under Weight");
+            } else if (bmi > 18.5 && bmi < 24.99) {
+                tvRecBmi.setText("Normal Weight");
+            } else if (bmi > 25 && bmi < 29.99) {
+                tvRecBmi.setText("Over Weight");
+            } else {
+                tvRecBmi.setText("Obesity");
+            }
+        }
     }
 
     /**

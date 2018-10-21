@@ -334,6 +334,37 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_target_bmi"
             />
 
+        <Button
+            android:id="@+id/btn_bmi"
+            android:layout_width="35dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/ic_bmi"
+            app:layout_constraintStart_toEndOf="@id/et_target_bmi"
+            app:layout_constraintBottom_toBottomOf="@id/et_target_bmi"
+            />
+
+        <TextView
+            android:id="@+id/tv_calc_bmi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:textSize="15dp"
+            app:layout_constraintStart_toEndOf="@id/btn_bmi"
+            app:layout_constraintTop_toTopOf="@id/btn_bmi"
+            />
+
+        <TextView
+            android:id="@+id/tv_rec_bmi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:textSize="15dp"
+            app:layout_constraintStart_toEndOf="@id/btn_bmi"
+            app:layout_constraintTop_toBottomOf="@id/tv_calc_bmi"
+            />
+
         <!--Target Hikes -->
         <TextView
             android:id="@+id/tv_target_hikes"
