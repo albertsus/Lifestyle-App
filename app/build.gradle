@@ -50,6 +50,9 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+
+    // Dependency for country picker
+    compile 'com.github.yesterselga:country-picker-android:1.0'
 }
 
 apply plugin: 'kotlin-android'

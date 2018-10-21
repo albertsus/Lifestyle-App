@@ -27,6 +27,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.ybs.countrypicker.CountryPicker;
+import com.ybs.countrypicker.CountryPickerListener;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -60,11 +63,11 @@ public class ProfileEnterFrag extends Fragment
     private String profileJSon;
 
     // Define UI view elements
-    private EditText etUserName, etAge, etCity, etNation, etHeight, etWeight;
+    private EditText etUserName, etAge, etCity, etHeight, etWeight;
     private EditText etTargetWeight, etTargetBMI, etTargetHikes, etTargetCalories;
     private RadioGroup rgSex, rgWeightGoal;
     private RadioButton rbSex, rbWeightGoal;
-    private Button mButtonCreate;
+    private Button mButtonCreate, mBtnCountry;
     private FloatingActionButton mFabtn;
     private ImageButton mButtonPicture;
     private ImageView mProfilePic; // Profile pic collection parameters and resources.
@@ -101,7 +104,6 @@ public class ProfileEnterFrag extends Fragment
         etUserName = view.findViewById(R.id.et_userName);
         etAge = view.findViewById(R.id.et_age);
         etCity = view.findViewById(R.id.et_city);
-        etNation = view.findViewById(R.id.et_nation);
         etHeight = view.findViewById(R.id.et_height);
         etWeight = view.findViewById(R.id.et_weight);
 
@@ -128,6 +130,9 @@ public class ProfileEnterFrag extends Fragment
                 rbWeightGoal = (RadioButton) view.findViewById(checkedId);
             }
         });
+
+        mBtnCountry = view.findViewById(R.id.btn_country);
+        mBtnCountry.setOnClickListener(this);
 
         mButtonCreate = view.findViewById(R.id.button_get_started);
         mButtonCreate.setOnClickListener(this);
@@ -157,6 +162,11 @@ public class ProfileEnterFrag extends Fragment
                 break;
             }
 
+            case R.id.btn_country: {
+                selectCountry();
+                break;
+            }
+
             case R.id.next: {
                 // Check valid data entered
                 if (isValidData()) {
@@ -164,6 +174,7 @@ public class ProfileEnterFrag extends Fragment
                     setUserProfile();
                     mListener.onFloatingButtonClicked(mUserName, profileJSon);
                 }
+                break;
             }
 
             case R.id.button_get_started: {
@@ -173,6 +184,7 @@ public class ProfileEnterFrag extends Fragment
                     setUserProfile();
                     mListener.onFloatingButtonClicked(mUserName, profileJSon);
                 }
+                break;
             }
 
         }
@@ -208,7 +220,7 @@ public class ProfileEnterFrag extends Fragment
                 || (mCity = etCity.getText().toString()).matches("")
                 || (mAge = etAge.getText().toString()).matches("")
                 || (mHeight = etHeight.getText().toString()).matches("")
-                || (mNation = etNation.getText().toString()).matches("")
+                || mNation.matches("")
                 || (mWeight = etWeight.getText().toString()).matches("")
                 || (rbSex == null)
                 || (mSex = rbSex.getText().toString()).matches("")
@@ -244,6 +256,20 @@ public class ProfileEnterFrag extends Fragment
             return false;
         }
         return true;
+    }
+
+    private void selectCountry() {
+        final CountryPicker picker = CountryPicker.newInstance("Select Country");  // dialog title
+        picker.show(getActivity().getSupportFragmentManager(), "COUNTRY_PICKER");
+        picker.setListener(new CountryPickerListener() {
+            @Override
+            public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
+                // Implement your code here
+                mNation = name;
+                Toast.makeText(getActivity(), mNation, Toast.LENGTH_SHORT).show();
+                picker.dismiss();
+            }
+        });
     }
 
     /**
