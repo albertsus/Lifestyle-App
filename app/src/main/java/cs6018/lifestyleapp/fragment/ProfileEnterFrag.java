@@ -234,7 +234,7 @@ public class ProfileEnterFrag extends Fragment
                 || (mCity = etCity.getText().toString()).matches("")
                 || (mAge = etAge.getText().toString()).matches("")
                 || (mHeight = etHeight.getText().toString()).matches("")
-                || mNation.matches("")
+                || (mNation.matches(""))
                 || (mWeight = etWeight.getText().toString()).matches("")
                 || (rbSex == null)
                 || (mSex = rbSex.getText().toString()).matches("")
@@ -279,6 +279,7 @@ public class ProfileEnterFrag extends Fragment
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
                 mNation = name;
+                mBtnCountry.setBackgroundResource(flagDrawableResID);
                 // Toast.makeText(getActivity(), mNation, Toast.LENGTH_SHORT).show();
                 picker.dismiss();
             }
