@@ -1,6 +1,7 @@
 package cs6018.lifestyleapp.utils;
 
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
@@ -45,7 +46,7 @@ public class Logger {
 
     @SuppressWarnings("deprecation")
     public static void log(String msg) {
-        if (!BuildConfig.DEBUG) return;
+        if (BuildConfig.DEBUG) return;
         android.util.Log.d(APP, msg);
         try {
             if (fw == null) {
