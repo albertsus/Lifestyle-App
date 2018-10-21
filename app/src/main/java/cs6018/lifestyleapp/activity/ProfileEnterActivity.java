@@ -10,9 +10,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import cs6018.lifestyleapp.BuildConfig;
 import cs6018.lifestyleapp.R;
 import cs6018.lifestyleapp.fragment.ProfileEnterFrag;
 import cs6018.lifestyleapp.general.User;
+import cs6018.lifestyleapp.utils.Logger;
 import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 
 /**
@@ -62,7 +64,13 @@ public class ProfileEnterActivity extends AppCompatActivity implements
         public void onChanged(@Nullable final User user) {
             // Update the UI if this data variable changes
             if (user != null) {
-                System.out.println("profile updated in SignUpActivity!");
+                if (BuildConfig.DEBUG) {
+                    Logger.log("Profile Updated");
+                }
+            } else {
+                if (BuildConfig.DEBUG) {
+                    Logger.log("Observe User is null");
+                }
             }
         }
     };

@@ -32,12 +32,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cs6018.lifestyleapp.BuildConfig;
 import cs6018.lifestyleapp.R;
 import cs6018.lifestyleapp.activity.HomeActivity;
 import cs6018.lifestyleapp.activity.SignupActivity;
 import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.utils.CalculatorUtils;
 import cs6018.lifestyleapp.utils.JSONProfileUtils;
+import cs6018.lifestyleapp.utils.Logger;
 import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 
 /**
@@ -48,7 +50,7 @@ public class ProfileEnterFrag extends Fragment
         implements View.OnClickListener{
 
     // debug flag
-    private boolean debug = true;
+    private boolean debug = false;
 
     // Define User profile info
     private String mUserName, mAge, mCity, mSex, mNation, mHeight, mWeight, mCurrentPhotoPath;
@@ -172,6 +174,7 @@ public class ProfileEnterFrag extends Fragment
                     mListener.onFloatingButtonClicked(mUserName, profileJSon);
                 }
             }
+
         }
     }
 
@@ -215,6 +218,9 @@ public class ProfileEnterFrag extends Fragment
                 || (mTargetCalories = etTargetCalories.getText().toString()).matches("")
                 || (rbWeightGoal == null)
                 || (mWeightGoal = rbWeightGoal.getText().toString()).matches("")) {
+            if (BuildConfig.DEBUG) {
+                Logger.log("Detect Invalid Profile Data");
+            }
             Toast toast = Toast.makeText(getActivity(),
                     "Invalid data entered", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP, 0, 0);
@@ -222,18 +228,21 @@ public class ProfileEnterFrag extends Fragment
             return false;
         }
 
-//        if (!mAge.matches("^(0|[1-9][0-9]*)$")
-//                || !mHeight.matches("^(0|[1-9][0-9]*)$")
-//                || !mWeight.matches("^(0|[1-9][0-9]*)$")
-//                || !mTargetHikes.matches("^(0|[1-9][0-9]*)$")
-//                || !mTargetBMI.matches("^(0|[1-9][0-9]*)$")
-//                || !mTargetCalories.matches("^(0|[1-9][0-9]*)$")) {
-//            Toast toast = Toast.makeText(SignupActivity.this,
-//                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
-//            toast.setGravity(Gravity.TOP, 0, 0);
-//            toast.show();
-//            return false;
-//        }
+        if (!mAge.matches("^(0|[1-9][0-9]*)$")
+                || !mHeight.matches("^(0|[1-9][0-9]*)$")
+                || !mWeight.matches("^(0|[1-9][0-9]*)$")
+                || !mTargetHikes.matches("^(0|[1-9][0-9]*)$")
+                || !mTargetBMI.matches("^(0|[1-9][0-9]*)$")
+                || !mTargetCalories.matches("^(0|[1-9][0-9]*)$")) {
+            if (BuildConfig.DEBUG) {
+                Logger.log("Detect Invalid Digit");
+            }
+            Toast toast = Toast.makeText(getActivity(),
+                    "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP, 0, 0);
+            toast.show();
+            return false;
+        }
         return true;
     }
 
