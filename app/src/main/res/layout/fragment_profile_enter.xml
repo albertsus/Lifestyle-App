@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    android:overScrollMode="ifContentScrolls"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".activity.SignupActivity">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.ProfileEnterFrag">
+
+        <!--UserProfilePic-->
+        <ImageView
+            android:id="@+id/iv_profile_pic"
+            android:layout_width="@dimen/profile_img_size"
+            android:layout_height="@dimen/profile_img_size"
+            android:visibility="visible"
+            android:paddingTop="20dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_userName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_default_user_image"
+            tools:ignore="VectorDrawableCompat" />
+
+        <ImageButton
+            android:id="@+id/button_get_user_picture"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="@dimen/profile_img_button_size"
+            android:layout_height="@dimen/profile_img_button_size"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toEndOf="@id/iv_profile_pic"
+            app:layout_constraintTop_toTopOf="@id/iv_profile_pic"
+            app:srcCompat="@drawable/ic_icon_camera"
+            tools:ignore="VectorDrawableCompat" />
+
+        <!--User Name-->
+        <TextView
+            android:id="@+id/tv_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="22dp"
+            android:text="User Name"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_pic" />
+
+        <EditText
+            android:id="@+id/et_userName"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Your User Name"
+            tools:text="UserName"
+            android:text="UserName"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_userName"
+            app:layout_constraintBottom_toBottomOf="@id/tv_userName"
+            />
+
+        <!--Age-->
+        <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Age"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_userName"
+            tools:text="Age" />
+
+        <EditText
+            android:id="@+id/et_age"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint=" Age"
+            tools:text="33"
+            android:text="33"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_age"
+            app:layout_constraintBottom_toBottomOf="@id/tv_age"
+            />
+
+        <!--Gender-->
+        <TextView
+            android:id="@+id/tv_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Gender"
+            tools:text="Gender"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_age"
+            />
+
+        <RadioGroup
+            android:id="@+id/rg_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            app:layout_constraintStart_toEndOf="@id/tv_sex"
+            app:layout_constraintBottom_toBottomOf="@id/tv_sex"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Male"/>
+            <RadioButton
+                android:id="@+id/female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"/>
+        </RadioGroup>
+
+        <!--City-->
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="City"
+            tools:text="City"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_sex"
+            />
+
+        <EditText
+            android:id="@+id/et_city"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Your Hood"
+            tools:text="City"
+            android:text="City"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_city"
+            app:layout_constraintBottom_toBottomOf="@id/tv_city"
+            />
+
+        <!--Nation-->
+        <TextView
+            android:id="@+id/tv_nation"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Country"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_city"
+            />
+
+        <EditText
+            android:id="@+id/et_nation"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Country"
+            tools:text="Country"
+            android:text="Country"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_nation"
+            app:layout_constraintBottom_toBottomOf="@id/tv_nation"
+            />
+
+        <!--Height-->
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Height"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_nation"
+            />
+
+        <EditText
+            android:id="@+id/et_height"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="inches"
+            android:text="74"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_height"
+            app:layout_constraintBottom_toBottomOf="@id/tv_height"
+            />
+
+        <!--Weight-->
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Weight"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_height"
+            />
+
+        <EditText
+            android:id="@+id/et_weight"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint=" (lbs)"
+            android:text="160"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_weight"
+            app:layout_constraintBottom_toBottomOf="@id/tv_weight"
+            />
+
+        <!--Target Weight-->
+        <TextView
+            android:id="@+id/tv_target_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Target Weight"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_weight"
+            app:layout_constraintTop_toBottomOf="@id/tv_weight"
+            />
+
+        <EditText
+            android:id="@+id/et_target_weight"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint=" (lbs)"
+            android:text="200"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_target_weight"
+            app:layout_constraintBottom_toBottomOf="@id/tv_target_weight"
+            />
+
+        <!--Target BMI -->
+        <TextView
+            android:id="@+id/tv_target_bmi"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Target BMI"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_target_weight"
+            />
+
+        <EditText
+            android:id="@+id/et_target_bmi"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="BMI"
+            android:text="22"
+            android:hint="BMI Goal"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_target_bmi"
+            app:layout_constraintBottom_toBottomOf="@id/tv_target_bmi"
+            />
+
+        <!--Target Hikes -->
+        <TextView
+            android:id="@+id/tv_target_hikes"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Target Hikes"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_target_bmi"
+            />
+
+        <EditText
+            android:id="@+id/et_target_hikes"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="3"
+            tools:text="Hikes"
+            android:hint="Hikes Goal"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_target_hikes"
+            app:layout_constraintBottom_toBottomOf="@id/tv_target_hikes"
+            />
+
+        <!--Target Calories -->
+        <TextView
+            android:id="@+id/tv_target_calories"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Target Calories"
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_target_hikes"
+            />
+
+        <EditText
+            android:id="@+id/et_target_calories"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Calories"
+            android:hint="Calorie Goal"
+            android:text="2000"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            android:paddingStart="@dimen/text_padding"
+            app:layout_constraintStart_toEndOf="@id/tv_target_calories"
+            app:layout_constraintBottom_toBottomOf="@id/tv_target_calories"
+            />
+
+        <!--Target Weight Goal -->
+        <TextView
+            android:id="@+id/tv_weight_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:gravity="left|center_vertical"
+            android:paddingStart="@dimen/text_padding"
+            android:paddingTop="@dimen/text_padding"
+            android:text="Weight Goal "
+            android:textColor="@color/textLabelDefault"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tv_target_calories"
+            tools:text="Weight Goal " />
+
+        <RadioGroup
+            android:id="@+id/rg_weight_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            app:layout_constraintStart_toEndOf="@id/tv_weight_goal"
+            app:layout_constraintBottom_toBottomOf="@id/tv_weight_goal"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/lose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Lose"/>
+            <RadioButton
+                android:id="@+id/gain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gain"/>
+            <RadioButton
+                android:id="@+id/maintain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maintain"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_get_started"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="@dimen/btn_height"
+            android:gravity="center_horizontal"
+            android:paddingTop="15dp"
+            android:text="Get Started!"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/Widget.AppCompat.Button.Colored"
+            app:layout_constraintTop_toBottomOf="@id/tv_weight_goal"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>

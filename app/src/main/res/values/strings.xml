@@ -6,6 +6,15 @@
     <string name="title_tools">Tools</string>
     <string name="hello_blank_fragment">blank</string>
 
+    <!-- RadioGroup: Gender -->
+    <string name="Male">Male</string>
+    <string name="Female">Female</string>
+
+    <!-- RadioGroup: WeightGoal -->
+    <string name="Lose">Lose</string>
+    <string name="Gain">Gain</string>
+    <string name="Maintain">Maintain</string>
+
     <string-array name="sex_array">
         <item>Male</item>
         <item>Female</item>

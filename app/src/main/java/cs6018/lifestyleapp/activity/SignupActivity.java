@@ -32,7 +32,7 @@ import cs6018.lifestyleapp.utils.CalculatorUtils;
 import cs6018.lifestyleapp.utils.JSONProfileUtils;
 import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 
-public class SignupActivity extends AppCompatActivity implements View.OnClickListener{
+public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
     // debug flag
     private boolean debug = true;

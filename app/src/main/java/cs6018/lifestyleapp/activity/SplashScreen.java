@@ -40,7 +40,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void launch() {
         if (!isFinishing()) {
-            startActivity(new Intent(this, SignupActivity.class));
+            startActivity(new Intent(this, ProfileEnterActivity.class));
             finish();
         }
     }
