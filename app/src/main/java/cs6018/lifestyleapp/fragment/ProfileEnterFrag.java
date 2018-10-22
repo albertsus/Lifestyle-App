@@ -227,6 +227,7 @@ public class ProfileEnterFrag extends Fragment
                 || (mCity = etCity.getText().toString()).matches("")
                 || (mAge = etAge.getText().toString()).matches("")
                 || (mHeight = etHeight.getText().toString()).matches("")
+                || (mNation == null)
                 || (mNation.matches(""))
                 || (mWeight = etWeight.getText().toString()).matches("")
                 || (rbSex == null)

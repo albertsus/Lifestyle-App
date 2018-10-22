@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/landing"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
     tools:context=".activity.SignupActivity">
 
     <ImageView
