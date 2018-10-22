@@ -1,7 +1,5 @@
 package cs6018.lifestyleapp.fragment;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,19 +10,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,7 +122,6 @@ public class ProfileEnterFrag extends Fragment
             }
         });
 
-
         rgWeightGoal = (RadioGroup) view.findViewById(R.id.rg_weight_goal);
         rbWeightGoal = (RadioButton) view.findViewById(rgWeightGoal.getCheckedRadioButtonId());
         rgWeightGoal.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -200,7 +194,6 @@ public class ProfileEnterFrag extends Fragment
                 }
                 break;
             }
-
         }
     }
 
@@ -212,7 +205,7 @@ public class ProfileEnterFrag extends Fragment
         mUser.setSex(mSex);
         mUser.setHeight(mHeight);
         mUser.setWeight(mWeight);
-        mUser.setBmi(CalculatorUtils.computeBMI(mWeight, mHeight).toString());
+        mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight).intValue()));
         mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
         mUser.setCalories(mUser.getBmr());
 
