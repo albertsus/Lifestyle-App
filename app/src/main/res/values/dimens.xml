@@ -10,8 +10,11 @@
 
     <dimen name="design_bottom_navigation_height" tools:override="true">80dp</dimen>
 
-    <!-- Test Size -->
+    <!-- Text Size -->
     <dimen name="text_size">20dp</dimen>
+
+    <!-- Start-Goal Text Size -->
+    <dimen name="sg_text_size">15dp</dimen>
 
     <!-- Profile Image Size -->
     <dimen name="profile_img_size">130dp</dimen>
@@ -20,7 +23,7 @@
     <dimen name="profile_img_button_size">35dp</dimen>
 
     <!-- Normal Button Size -->
-    <dimen name="btn_width">190dp</dimen>
+    <dimen name="btn_width">340dp</dimen>
     <dimen name="btn_height">60dp</dimen>
 
     <!-- Text Padding -->
