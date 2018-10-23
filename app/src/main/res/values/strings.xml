@@ -6,6 +6,12 @@
     <string name="title_tools">Tools</string>
     <string name="hello_blank_fragment">blank</string>
 
+    <!-- Login Dialog -->
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_label">Login</string>
+
     <!-- RadioGroup: Gender -->
     <string name="Male">Male</string>
     <string name="Female">Female</string>
