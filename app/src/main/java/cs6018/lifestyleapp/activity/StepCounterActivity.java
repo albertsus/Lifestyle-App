@@ -1,5 +1,6 @@
 package cs6018.lifestyleapp.activity;
 
+<<<<<<< HEAD
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -79,5 +80,11 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
 
         }
     }
+=======
+public class StepCounterActivity {
+
+>>>>>>> 4b0db674b63eb115d94b512b49d15964377080e4
 
 }
+
+

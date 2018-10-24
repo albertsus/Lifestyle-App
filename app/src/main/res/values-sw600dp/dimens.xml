@@ -13,6 +13,16 @@
     <!-- Text Size -->
     <dimen name="text_size">24dp</dimen>
 
+    <!-- Tools Frag Image Size -->
+    <dimen name="img_size">75dp</dimen>
+
+    <!-- Tools Frag Tab Height -->
+    <dimen name="tab_ht">100dp</dimen>
+
+    <!-- Calculator Btn -->
+    <dimen name="calc_btn_width">180dp</dimen>
+    <dimen name="calc_btn_height">60dp</dimen>
+
     <!-- Start-Goal Text Size -->
     <dimen name="sg_text_size">20dp</dimen>
 
