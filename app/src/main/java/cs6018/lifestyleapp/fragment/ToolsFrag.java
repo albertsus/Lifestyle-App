@@ -1,7 +1,6 @@
 package cs6018.lifestyleapp.fragment;
 
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,6 @@ import cs6018.lifestyleapp.R;
  * A simple {@link Fragment} subclass.
  */
 public class ToolsFrag extends Fragment {
-
-    ConstraintLayout clWeather, clHike, clCalculator;
-
 
     public ToolsFrag() {
         // Required empty public constructor

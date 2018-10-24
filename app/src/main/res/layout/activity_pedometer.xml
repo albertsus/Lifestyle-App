@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/ripple"
+    android:layout_height="match_parent">
+
+    <!--Title-->/>
+    <TextView
+        android:id="@+id/weather_activity_title"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pedometer"
+        tools:text="Pedometer"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:paddingLeft="16dp" />
+    <ImageView
+        android:id="@+id/period"
+        android:layout_height="32dp"
+        android:paddingBottom="16dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/weather_activity_title"
+        app:layout_constraintBottom_toBottomOf="@id/weather_activity_title"
+        android:src="@drawable/ic_period" />
+
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"
+        android:id="@+id/cmTimer" />
+
+    <!--Button panel-->/>
+
+    <TextView
+        android:id="@+id/tvCurrentStepCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="241dp"
+        tools:layout_editor_absoluteY="361dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="2000"
+        tools:text="2000"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!--Button panel-->/>
+    <ImageButton
+        android:id="@+id/btn_start"
+        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:onClick="onClick"
+        android:paddingLeft="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_stop"
+        android:src="@drawable/ic_stop"/>
+
+    <ImageButton
+        android:id="@+id/btn_stop"
+        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="80dp"
+        android:text="Stop"
+        android:onClick="onClick"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentStepCount"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_start"/>
+
+    <ImageButton
+        android:id="@+id/btn_reset"
+        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:paddingRight="60dp"
+        android:onClick="onClick"
+        android:src="@drawable/ic_reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_stop"/>
+</android.support.constraint.ConstraintLayout>

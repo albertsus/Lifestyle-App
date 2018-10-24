@@ -42,6 +42,7 @@
         <activity android:name=".activity.CalculatorActivity" />
         <activity android:name=".activity.WeatherActivity" />
         <activity android:name=".activity.HikeActivity" />
+        <activity android:name=".activity.StepCounterActivity" />
 
     </application>
 
