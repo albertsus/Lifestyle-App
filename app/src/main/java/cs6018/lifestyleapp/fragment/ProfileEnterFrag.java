@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ybs.countrypicker.CountryPicker;
 import com.ybs.countrypicker.CountryPickerListener;
 
@@ -76,17 +79,21 @@ public class ProfileEnterFrag extends Fragment
 
     private User mUser = User.getInstance();
 
+    private DatabaseReference mDatabase;
+
     public ProfileEnterFrag(){
         // Required empty public constructor
     }
 
     public interface OnFloatingButtonClickListener {
-        public void onFloatingButtonClicked(String param1, String param2);
+        void onFloatingButtonClicked(String param1, String param2);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         final View view = inflater.inflate(R.layout.fragment_profile_enter, container, false);
 
@@ -205,6 +212,7 @@ public class ProfileEnterFrag extends Fragment
         mUser.setSex(mSex);
         mUser.setHeight(mHeight);
         mUser.setWeight(mWeight);
+        mUser.setProfilePic(mCurrentPhotoPath);
         mUser.setBmi(String.valueOf(CalculatorUtils.computeBMI(mWeight, mHeight).intValue()));
         mUser.setBmr(String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge)));
         mUser.setCalories(mUser.getBmr());
@@ -217,6 +225,9 @@ public class ProfileEnterFrag extends Fragment
 
         // Set start data
         User.setStartData(mUser);
+
+        // Insert profile data into database
+        mDatabase.child("Users").child(User.getUUID()).setValue(mUser);
 
         // Load user info to Json data
         profileJSon = JSONProfileUtils.toProfileJSonData(mUser);
@@ -239,7 +250,7 @@ public class ProfileEnterFrag extends Fragment
                 || (rbWeightGoal == null)
                 || (mWeightGoal = rbWeightGoal.getText().toString()).matches("")) {
             if (BuildConfig.DEBUG) {
-                Logger.log("Detect Invalid Profile Data");
+                Log.v("ValidDataCheck", "Detect Invalid Profile Data");
             }
             Toast toast = Toast.makeText(getActivity(),
                     "Invalid data entered", Toast.LENGTH_SHORT);
@@ -255,7 +266,7 @@ public class ProfileEnterFrag extends Fragment
                 || !mTargetBMI.matches("^(0|[1-9][0-9]*)$")
                 || !mTargetCalories.matches("^(0|[1-9][0-9]*)$")) {
             if (BuildConfig.DEBUG) {
-                Logger.log("Detect Invalid Digit");
+                Log.v("ValidDataCheck", "Detect Invalid Digit");
             }
             Toast toast = Toast.makeText(getActivity(),
                     "Please enter numbers for the height, weight, target hikes, target BMI, and target calories fields", Toast.LENGTH_SHORT);
