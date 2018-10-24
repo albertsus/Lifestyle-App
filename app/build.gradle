@@ -53,7 +53,15 @@ dependencies {
 
     // Dependency for country picker
     compile 'com.github.yesterselga:country-picker-android:1.0'
-}
 
+    // Firebase Dependencies
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:16.0.4'
+    implementation 'com.google.firebase:firebase-database:16.0.3'
+
+
+}
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+

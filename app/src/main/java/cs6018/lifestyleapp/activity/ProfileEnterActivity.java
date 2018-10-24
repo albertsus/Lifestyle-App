@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import cs6018.lifestyleapp.BuildConfig;
 import cs6018.lifestyleapp.R;
@@ -65,11 +66,11 @@ public class ProfileEnterActivity extends AppCompatActivity implements
             // Update the UI if this data variable changes
             if (user != null) {
                 if (BuildConfig.DEBUG) {
-                    Logger.log("Profile Updated");
+                    Log.v("ProfileEnterActivity", "Profile Updated");
                 }
             } else {
                 if (BuildConfig.DEBUG) {
-                    Logger.log("Observe User is null");
+                    Log.v("ProfileEnterActivity", "Observe User is null");
                 }
             }
         }
