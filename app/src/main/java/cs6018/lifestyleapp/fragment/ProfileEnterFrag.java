@@ -85,8 +85,12 @@ public class ProfileEnterFrag extends Fragment
         // Required empty public constructor
     }
 
+//    public interface OnFloatingButtonClickListener {
+//        void onFloatingButtonClicked(String param1, String param2);
+//    }
+
     public interface OnFloatingButtonClickListener {
-        void onFloatingButtonClicked(String param1, String param2);
+        void onFloatingButtonClicked();
     }
 
     @Override
@@ -187,7 +191,7 @@ public class ProfileEnterFrag extends Fragment
                 if (isValidData()) {
                     // Set the user profile
                     setUserProfile();
-                    mListener.onFloatingButtonClicked(mUserName, profileJSon);
+                    mListener.onFloatingButtonClicked();
                 }
                 break;
             }
@@ -197,7 +201,7 @@ public class ProfileEnterFrag extends Fragment
                 if (isValidData()) {
                     // Set the user profile
                     setUserProfile();
-                    mListener.onFloatingButtonClicked(mUserName, profileJSon);
+                    mListener.onFloatingButtonClicked();
                 }
                 break;
             }
@@ -224,7 +228,10 @@ public class ProfileEnterFrag extends Fragment
         mUser.setWeightGoal(mWeightGoal);
 
         // Set start data
-        User.setStartData(mUser);
+        mUser.setStartWeight(mUser.getWeight());
+        mUser.setStartBMI(mUser.getBmi());
+        mUser.setStartHikes("0");
+        mUser.setStartCalories(mUser.getCalories());
 
         // Insert profile data into database
         mDatabase.child("Users").child(User.getUUID()).setValue(mUser);

@@ -2,6 +2,7 @@ package cs6018.lifestyleapp.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -13,6 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.R;
@@ -29,14 +36,18 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
 
     private Button mBtEdit;
 
-    private ProfileViewModel mProfileViewModel;
+    // private ProfileViewModel mProfileViewModel;
 
-    private User mUser = User.getInstance();
+    // private User mUser = User.getInstance();
+
+    private DatabaseReference mDbUsers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
 
         mTvUserName = (TextView) view.findViewById(R.id.tv_userName_data);
         mTvAge = (TextView) view.findViewById(R.id.tv_age_data);
@@ -50,38 +61,60 @@ public class ProfileFrag extends Fragment implements View.OnClickListener {
         mBtEdit.setOnClickListener(this);
 
         //Create the view model
-        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        // mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
         //Set the observer
-        mProfileViewModel.getData().observe(this, nameObserver);
+        // mProfileViewModel.getData().observe(this, nameObserver);
 
-        loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
+        // loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
+
+        fillProfileInfo();
 
         return view;
     }
 
-    //create an observer that watches the LiveData<User> object
-    final Observer<User> nameObserver = new Observer<User>() {
-        @Override
-        public void onChanged(@Nullable final User user) {
-            // Update the UI if this data variable changes
-            if (user != null && isValidData()) {
-                mTvUserName.setText(user.getUserName());
-                mTvAge.setText(user.getAge());
-                mTvSex.setText(user.getSex());
-                mTvHeight.setText(user.getHeight());
-                mTvWeight.setText(user.getWeight());
-                mTvNation.setText(user.getNation());
-                mTvCity.setText(user.getCity());
+    private void fillProfileInfo() {
+        mDbUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mTvUserName.setText(dataSnapshot.child("userName").getValue(String.class));
+                mTvAge.setText(dataSnapshot.child("age").getValue(String.class));
+                mTvSex.setText(dataSnapshot.child("sex").getValue(String.class));
+                mTvNation.setText(dataSnapshot.child("nation").getValue(String.class));
+                mTvCity.setText(dataSnapshot.child("city").getValue(String.class));
+                mTvHeight.setText(dataSnapshot.child("height").getValue(String.class));
+                mTvWeight.setText(dataSnapshot.child("weight").getValue(String.class));
             }
 
-        }
-    };
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-    void loadProfileData(String userName, String profileJSon) {
-        //pass the user in to the view model
-        mProfileViewModel.setUser(userName, profileJSon);
+            }
+        });
     }
+
+    //create an observer that watches the LiveData<User> object
+//    final Observer<User> nameObserver = new Observer<User>() {
+//        @Override
+//        public void onChanged(@Nullable final User user) {
+//            // Update the UI if this data variable changes
+//            if (user != null && isValidData()) {
+//                mTvUserName.setText(user.getUserName());
+//                mTvAge.setText(user.getAge());
+//                mTvSex.setText(user.getSex());
+//                mTvHeight.setText(user.getHeight());
+//                mTvWeight.setText(user.getWeight());
+//                mTvNation.setText(user.getNation());
+//                mTvCity.setText(user.getCity());
+//            }
+//
+//        }
+//    };
+
+//    void loadProfileData(String userName, String profileJSon) {
+//        //pass the user in to the view model
+//        mProfileViewModel.setUser(userName, profileJSon);
+//    }
 
     @Override
     public void onClick(View view) {

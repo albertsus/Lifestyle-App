@@ -22,42 +22,6 @@ public class User {
         return UUID;
     }
 
-    private static String startWeight = null;
-    private static String startBMI = null;
-    private static String startCalories = null;
-    private static String startHikes = null;
-
-    public static void setStartData(User mUser) {
-        if (startWeight == null) {
-            startWeight = mUser.getWeight();
-        }
-        if (startBMI == null) {
-            startBMI = mUser.getBmi();
-        }
-        if (startCalories == null) {
-            startCalories = mUser.getBmr();
-        }
-        if (startHikes == null) {
-            startHikes = "0";
-        }
-    }
-
-    public static String getStartWeight() {
-        return startWeight;
-    }
-
-    public static String getStartBMI() {
-        return startBMI;
-    }
-
-    public static String getStartCalories() {
-        return startCalories;
-    }
-
-    public static String getStartHikes() {
-        return startHikes;
-    }
-
     // User Profile Data
     private String userName;
     private String sex;
@@ -77,6 +41,12 @@ public class User {
     private String targetHikes;
     private String targetDailyCalories;
     private String weightGoal;
+
+    // Target Start Data
+    private String startWeight;
+    private String startBMI;
+    private String startCalories;
+    private String startHikes;
 
 //    public User(String userName, String sex, String age, String city,
 //                String nation, String height, String weight, String profilePic,
@@ -212,5 +182,29 @@ public class User {
     public void setWeightGoal(String wg) {
         this.weightGoal = wg;
     }
+
+    public String getStartWeight() {
+        return startWeight;
+    }
+
+    public void setStartWeight(String startWeight) { this.startWeight = startWeight; }
+
+    public String getStartBMI() {
+        return startBMI;
+    }
+
+    public void setStartBMI(String startBMI) { this.startBMI = startBMI; }
+
+    public String getStartCalories() {
+        return startCalories;
+    }
+
+    public void setStartCalories(String startCalories) { this.startCalories = startCalories; }
+
+    public String getStartHikes() {
+        return startHikes;
+    }
+
+    public void setStartHikes(String startHikes) { this.startHikes = startHikes; }
 
 }

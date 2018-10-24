@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -22,6 +23,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,17 +57,21 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private ProfileViewModel mProfileViewModel;
+    // private ProfileViewModel mProfileViewModel;
 
-    private User mUser = User.getInstance();
+    // private User mUser = User.getInstance();
 
-    public EditProfileFrag() {}
+    // public EditProfileFrag() {}
+
+    private DatabaseReference mDbUsers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+
+        mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
 
         // Find view elements from layout
         mEtUserName = (EditText) view.findViewById(R.id.et_userName);
@@ -82,10 +93,10 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         sexSpinner.setAdapter(adapter);
 
         //Create the view model
-        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        // mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
         //Set the observer
-        mProfileViewModel.getData().observe(this, nameObserver);
+        // mProfileViewModel.getData().observe(this, nameObserver);
 
         // Init the profile data received from ProfileFrag
         InitProfileData();
@@ -116,7 +127,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
                     // Update User Profile
                     updateProfile();
 
-                    loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
+                    // loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
 
                     // Route to ProfileFrag
                     getFragmentManager().popBackStackImmediate();
@@ -126,57 +137,66 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     }
 
     //create an observer that watches the LiveData<User> object
-    final Observer<User> nameObserver = new Observer<User>() {
-        @Override
-        public void onChanged(@Nullable final User user) {
-            // Update the UI if this data variable changes
-            if (user != null) {
-                System.out.println("Edit ProfileFrag");
-            }
-        }
-    };
+//    final Observer<User> nameObserver = new Observer<User>() {
+//        @Override
+//        public void onChanged(@Nullable final User user) {
+//            // Update the UI if this data variable changes
+//            if (user != null) {
+//                System.out.println("Edit ProfileFrag");
+//            }
+//        }
+//    };
 
-    void loadProfileData(String userName, String profileJSon) {
-        //pass the user in to the view model
-        mProfileViewModel.setUser(userName, profileJSon);
-    }
+//    void loadProfileData(String userName, String profileJSon) {
+//        //pass the user in to the view model
+//        mProfileViewModel.setUser(userName, profileJSon);
+//    }
 
     /**
      * Init the profile data when first in the fragment
      */
     private void InitProfileData() {
-        // Get data from ProfileFrag
-        mUserName = mUser.getUserName();
-        mAge = mUser.getAge();
-        mSex = mUser.getSex();
-        mHeight = mUser.getHeight();
-        mWeight = mUser.getWeight();
-        mNation = mUser.getNation();
-        mCity = mUser.getCity();
-        mCurrentPhotoPath = mUser.getProfilePic();
+        mDbUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUserName = dataSnapshot.child("userName").getValue(String.class);
+                mAge = dataSnapshot.child("age").getValue(String.class);
+                mSex = dataSnapshot.child("age").getValue(String.class);
+                mNation = dataSnapshot.child("nation").getValue(String.class);
+                mCity = dataSnapshot.child("city").getValue(String.class);
+                mHeight = dataSnapshot.child("height").getValue(String.class);
+                mWeight = dataSnapshot.child("weight").getValue(String.class);
 
-        // Set the profile data
-        mEtUserName.setText(mUserName);
-        mEtAge.setText(mAge);
-        mEtHeight.setText(mHeight);
-        mEtWeight.setText(mWeight);
-        mEtNation.setText(mNation);
-        mEtCity.setText(mCity);
+                // Set the profile data
+                mEtUserName.setText(mUserName);
+                mEtAge.setText(mAge);
+                mEtHeight.setText(mHeight);
+                mEtWeight.setText(mWeight);
+                mEtNation.setText(mNation);
+                mEtCity.setText(mCity);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
      * Update the profile once click 'Edit' Button
      */
     private void updateProfile() {
-        mUser.setUserName(mEtUserName.getText().toString());
-        mUser.setAge(mEtAge.getText().toString());
-        mUser.setSex((String) sexSpinner.getSelectedItem());
-        mUser.setCity(mEtCity.getText().toString());
-        mUser.setNation(mEtNation.getText().toString());
-        mUser.setHeight(mEtHeight.getText().toString());
-        mUser.setWeight(mEtWeight.getText().toString());
-        mUser.setCalories(
-                String.valueOf(CalculatorUtils.computeBMR(mUser.getWeight(), mUser.getHeight(), mUser.getSex(), mUser.getAge())));
+        mDbUsers.child("userName").setValue(mEtUserName.getText().toString());
+        mDbUsers.child("age").setValue(mEtAge.getText().toString());
+        mDbUsers.child("sex").setValue(sexSpinner.getSelectedItem().toString());
+        mDbUsers.child("nation").setValue(mEtNation.getText().toString());
+        mDbUsers.child("city").setValue(mEtCity.getText().toString());
+        mDbUsers.child("height").setValue(mEtHeight.getText().toString());
+        mDbUsers.child("weight").setValue(mEtWeight.getText().toString());
+
+        String calories = String.valueOf(CalculatorUtils.computeBMR(mWeight, mHeight, mSex, mAge));
+        mDbUsers.child("calories").setValue(calories);
         //mUser.setProfilePic(mCurrentPhotoPath);
     }
 

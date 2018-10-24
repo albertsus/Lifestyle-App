@@ -3,6 +3,7 @@ package cs6018.lifestyleapp.fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.R;
@@ -22,21 +29,24 @@ import cs6018.lifestyleapp.viewModel.ProfileViewModel;
  */
 public class StatsFrag extends Fragment {
 
-    private String mHikes;
     private TextView mTvWeight, mTvBMI, mTvHikes, mTvCalories;
     private TextView mTvStartWeight, mTvStartBMI, mTvStartCalories, mTvStartHikes;
     private TextView mTvTargetWeight, mTvTargetBMI, mTvTargetCalories, mTvTargetHikes;
 
     private SeekBar sbWeight, sbBMI, sbHikes, sbCalories;
 
-    private ProfileViewModel mProfileViewModel;
+    // private ProfileViewModel mProfileViewModel;
 
-    private User mUser = User.getInstance();
+    // private User mUser = User.getInstance();
+
+    private DatabaseReference mDbUsers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
+
+        mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
 
         mTvWeight = (TextView) view.findViewById(R.id.tv_weight_data);
         mTvBMI = (TextView) view.findViewById(R.id.tv_bmi_data);
@@ -58,44 +68,75 @@ public class StatsFrag extends Fragment {
         sbHikes = (SeekBar) view.findViewById(R.id.sb_hikes);
         sbCalories = (SeekBar) view.findViewById(R.id.sb_calories);
 
-        mHikes = "0";
-
         //Create the view model
-        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        // mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
 
         //Set the observer
-        mProfileViewModel.getData().observe(this, nameObserver);
+        // mProfileViewModel.getData().observe(this, nameObserver);
 
-        loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
+        // loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
+
+        fillStatsInfo();
 
         return view;
     }
 
     //create an observer that watches the LiveData<User> object
-    final Observer<User> nameObserver = new Observer<User>() {
-        @Override
-        public void onChanged(@Nullable final User user) {
-            // Update the UI if this data variable changes
-            if (user != null) {
-                setProgress(user);
-            }
-        }
-    };
+//    final Observer<User> nameObserver = new Observer<User>() {
+//        @Override
+//        public void onChanged(@Nullable final User user) {
+//            // Update the UI if this data variable changes
+//            if (user != null) {
+//                setProgress(user);
+//            }
+//        }
+//    };
 
-    void loadProfileData(String userName, String profileJSon) {
-        //pass the user in to the view model
-        mProfileViewModel.setUser(userName, profileJSon);
+//    void loadProfileData(String userName, String profileJSon) {
+//        //pass the user in to the view model
+//        mProfileViewModel.setUser(userName, profileJSon);
+//    }
+
+    private void fillStatsInfo() {
+        mDbUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String weight = dataSnapshot.child("weight").getValue(String.class);
+                String bmi = dataSnapshot.child("bmi").getValue(String.class);
+                // String hikes = dataSnapshot.child("hikes").getValue(String.class);
+                String hikes = "0";
+                String calories = dataSnapshot.child("calories").getValue(String.class);
+
+                String targetWeight = dataSnapshot.child("targetWeight").getValue(String.class);
+                String targetBMI = dataSnapshot.child("targetBMI").getValue(String.class);
+                String targetHikes = dataSnapshot.child("targetHikes").getValue(String.class);
+                String targetDailyCalories = dataSnapshot.child("targetDailyCalories").getValue(String.class);
+
+                String startWeight = dataSnapshot.child("startWeight").getValue(String.class);
+                String startBMI = dataSnapshot.child("startBMI").getValue(String.class);
+                String startHikes = dataSnapshot.child("startHikes").getValue(String.class);
+                String startCalories = dataSnapshot.child("startCalories").getValue(String.class);
+
+                setProgress(weight, bmi, hikes, calories,
+                        targetWeight, targetBMI, targetHikes, targetDailyCalories,
+                        startWeight, startBMI, startHikes, startCalories);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    private void setProgress(User user) {
-        setBar(sbWeight, mTvWeight, mTvStartWeight, mTvTargetWeight,
-                User.getStartWeight(), user.getTargetWeight(), user.getWeight());
-        setBar(sbBMI, mTvBMI, mTvStartBMI, mTvTargetBMI,
-                User.getStartBMI(), user.getTargetBMI(), user.getBmi());
-        setBar(sbHikes, mTvHikes, mTvStartHikes, mTvTargetHikes,
-                User.getStartHikes(), user.getTargetHikes(), mHikes);
-        setBar(sbCalories, mTvCalories, mTvStartCalories, mTvTargetCalories,
-                User.getStartCalories(), user.getTargetDailyCalories(), user.getCalories());
+    private void setProgress(String w, String b, String h, String c,
+                             String tw, String tb, String th, String tc,
+                             String sw, String sb, String sh, String sc) {
+        setBar(sbWeight, mTvWeight, mTvStartWeight, mTvTargetWeight, sw, tw, w);
+        setBar(sbBMI, mTvBMI, mTvStartBMI, mTvTargetBMI, sb, tb, b);
+        setBar(sbHikes, mTvHikes, mTvStartHikes, mTvTargetHikes, sh, th, h);
+        setBar(sbCalories, mTvCalories, mTvStartCalories, mTvTargetCalories, sc, tc, c);
     }
 
     private void setBar(SeekBar sb, final TextView tvProg, TextView tvStart, TextView tvGoal,

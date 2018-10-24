@@ -25,7 +25,7 @@ import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 public class ProfileEnterActivity extends AppCompatActivity implements
         ProfileEnterFrag.OnFloatingButtonClickListener {
 
-    private ProfileViewModel mProfileViewModel;
+    // private ProfileViewModel mProfileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,42 +42,48 @@ public class ProfileEnterActivity extends AppCompatActivity implements
         collapsingToolbar.setTitle("PROFILE");
     }
 
+//    @Override
+//    public void onFloatingButtonClicked(String param1, String param2) {
+//        //Create new Intent Object, and specify class
+//        Intent homeActivity = new Intent(this, HomeActivity.class);
+//
+//        //Create the view model
+//        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+//
+//        //Set the observer
+//        mProfileViewModel.getData().observe(this, nameObserver);
+//
+//        loadProfileData(param1, param2);
+//
+//        // Start the HomeActivity
+//        this.startActivity(homeActivity);
+//    }
+
     @Override
-    public void onFloatingButtonClicked(String param1, String param2) {
-        //Create new Intent Object, and specify class
-        Intent homeActivity = new Intent(this, HomeActivity.class);
-
-        //Create the view model
-        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
-
-        //Set the observer
-        mProfileViewModel.getData().observe(this, nameObserver);
-
-        loadProfileData(param1, param2);
-
-        // Start the HomeActivity
-        this.startActivity(homeActivity);
+    public void onFloatingButtonClicked() {
+        // Start HomeActivity
+        this.startActivity(new Intent(this, HomeActivity.class));
     }
 
     //create an observer that watches the LiveData<User> object
-    final Observer<User> nameObserver = new Observer<User>() {
-        @Override
-        public void onChanged(@Nullable final User user) {
-            // Update the UI if this data variable changes
-            if (user != null) {
-                if (BuildConfig.DEBUG) {
-                    Log.v("ProfileEnterActivity", "Profile Updated");
-                }
-            } else {
-                if (BuildConfig.DEBUG) {
-                    Log.v("ProfileEnterActivity", "Observe User is null");
-                }
-            }
-        }
-    };
+//    final Observer<User> nameObserver = new Observer<User>() {
+//        @Override
+//        public void onChanged(@Nullable final User user) {
+//            // Update the UI if this data variable changes
+//            if (user != null) {
+//                if (BuildConfig.DEBUG) {
+//                    Log.v("ProfileEnterActivity", "Profile Updated");
+//                }
+//            } else {
+//                if (BuildConfig.DEBUG) {
+//                    Log.v("ProfileEnterActivity", "Observe User is null");
+//                }
+//            }
+//        }
+//    };
 
-    void loadProfileData(String userName, String profileJSon) {
-        //pass the user in to the view model
-        mProfileViewModel.setUser(userName, profileJSon);
-    }
+//    void loadProfileData(String userName, String profileJSon) {
+//        //pass the user in to the view model
+//        mProfileViewModel.setUser(userName, profileJSon);
+//    }
 }

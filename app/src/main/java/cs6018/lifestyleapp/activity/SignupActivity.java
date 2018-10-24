@@ -49,8 +49,6 @@ public class SignupActivity extends AppCompatActivity {
         mEtUsername = findViewById(R.id.et_username);
         mEtPassword = findViewById(R.id.et_password);
 
-        final Intent profileEnterIntent = new Intent(this, ProfileEnterActivity.class);
-
         mCvLogin = (CardView) findViewById(R.id.cv_login);
         mCvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +82,6 @@ public class SignupActivity extends AppCompatActivity {
                 mNewUserPassword = mEtPassword.getText().toString();
                 if(isValidEmail(mNewUsername) && isValidPassword(mNewUserPassword)) {
                     register(mNewUsername, mNewUserPassword);
-                    startActivity(profileEnterIntent);
                 } else {
                     Toast.makeText(SignupActivity.this, "Invalid Email/Password Entered",
                             Toast.LENGTH_SHORT).show();
@@ -106,6 +103,7 @@ public class SignupActivity extends AppCompatActivity {
                             User.setUUID(user.getUid());
                             Toast.makeText(SignupActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignupActivity.this, ProfileEnterActivity.class));
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -130,6 +128,8 @@ public class SignupActivity extends AppCompatActivity {
                             Log.d("SignInSucess", user.getEmail());
                             Log.d("SignInSucess", user.getUid());
 
+                            User.setUUID(user.getUid());
+
                             // Check if UUID exists in database, jump to HomeActivity directly
                             checkUserInDB(user.getUid());
                         } else {
@@ -151,7 +151,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(uuid)) {
-                    startActivity(new Intent(SignupActivity.this, ProfileEnterActivity.class));
+                    startActivity(new Intent(SignupActivity.this, HomeActivity.class));
                 } else {
                     Log.v("UserNotInDB", uuid);
                 }
