@@ -48,29 +48,6 @@ public class User {
     private String startCalories;
     private String startHikes;
 
-//    public User(String userName, String sex, String age, String city,
-//                String nation, String height, String weight, String profilePic,
-//                String bmi, String bmr, String calories, String targetWeight,
-//                String targetBMI, String targetHikes, String targetDailyCalories,
-//                String weightGoal) {
-//        this.userName = userName;
-//        this.sex = sex;
-//        this.age = age;
-//        this.city = city;
-//        this.nation = nation;
-//        this.height = height;
-//        this.weight = weight;
-//        this.profilePic = profilePic;
-//        this.bmi = bmi;
-//        this.bmr = bmr;
-//        this.calories = calories;
-//        this.targetWeight = targetWeight;
-//        this.targetBMI = targetBMI;
-//        this.targetHikes = targetHikes;
-//        this.targetDailyCalories = targetDailyCalories;
-//        this.weight = weightGoal;
-//    }
-
     public String getAge() {
         return age;
     }

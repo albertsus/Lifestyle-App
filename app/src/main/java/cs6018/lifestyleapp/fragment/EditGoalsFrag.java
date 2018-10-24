@@ -1,12 +1,8 @@
 package cs6018.lifestyleapp.fragment;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.R;
-import cs6018.lifestyleapp.utils.JSONProfileUtils;
-import cs6018.lifestyleapp.viewModel.ProfileViewModel;
+import cs6018.lifestyleapp.general.User;
 
 /**
  * Created by suchaofan on 9/29/18.
@@ -49,10 +41,6 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
     private static final int MIN_BMI = 5, MAX_BMI = 50;
     private static final int MIN_CALORIES = 100, MAX_CALORIES = 5000;
     private static final int MIN_HIKES = 0, MAX_HIKES = 10;
-
-    // private ProfileViewModel mProfileViewModel;
-
-    // private User mUser = User.getInstance();
 
     private DatabaseReference mDbUsers;
 
@@ -93,12 +81,6 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         spinnerWeightGoal.setAdapter(adapter);
 
-        //Create the view model
-        // mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
-
-        //Set the observer
-        // mProfileViewModel.getData().observe(this, nameObserver);
-
         // Init the target data received from GoalsFrag
         InitGoalsData();
 
@@ -122,29 +104,11 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
                     // Update User Goals
                     updateGoals();
 
-                    // loadProfileData(mUser.getUserName(), JSONProfileUtils.toProfileJSonData(mUser));
-
                     // Route to ProfileFrag
                     getFragmentManager().popBackStackImmediate();
                 }
         }
     }
-
-    //create an observer that watches the LiveData<User> object
-//    final Observer<User> nameObserver = new Observer<User>() {
-//        @Override
-//        public void onChanged(@Nullable final User user) {
-//            // Update the UI if this data variable changes
-//            if (user != null) {
-//                System.out.println("Edit GoalsFrag");
-//            }
-//        }
-//    };
-
-//    void loadProfileData(String userName, String profileJSon) {
-//        //pass the user in to the view model
-//        mProfileViewModel.setUser(userName, profileJSon);
-//    }
 
     /**
      * Init the goals data when first in the fragment
@@ -164,13 +128,9 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Set the target data
                 mTargetWeight = dataSnapshot.child("targetWeight").getValue(String.class);
-                Log.d("mTargetWeight", mTargetWeight);
                 mTargetBMI = dataSnapshot.child("targetBMI").getValue(String.class);
-                Log.d("mTargetBMI", mTargetBMI);
                 mTargetCalories = dataSnapshot.child("targetDailyCalories").getValue(String.class);
-                Log.d("mTargetCalories", mTargetCalories);
                 mTargetHikes = dataSnapshot.child("targetHikes").getValue(String.class);
-                Log.d("mTargetHikes", mTargetHikes);
 
                 setBar(mSbTargetWeight, mTvTargetWeight, Integer.valueOf(mTargetWeight), MIN_WEIGHT, MAX_WEIGHT);
                 setBar(mSbTargetBMI, mTvTargetBMI, Integer.valueOf(mTargetBMI), MIN_BMI, MAX_BMI);
@@ -219,12 +179,6 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         mDbUsers.child("targetDailyCalories").setValue("" + mSbTargetCalories.getProgress());
         mDbUsers.child("targetHikes").setValue("" + mSbTargetHikes.getProgress());
         mDbUsers.child("weightGoal").setValue(spinnerWeightGoal.getSelectedItem().toString());
-
-//        mUser.setTargetWeight(String.valueOf(mSbTargetWeight.getProgress()));
-//        mUser.setTargetBMI(String.valueOf(mSbTargetBMI.getProgress()));
-//        mUser.setTargetDailyCalories(String.valueOf(mSbTargetCalories.getProgress()));
-//        mUser.setTargetHikes(String.valueOf(mSbTargetHikes.getProgress()));
-//        mUser.setWeightGoal((String) spinnerWeightGoal.getSelectedItem());
     }
 
     private boolean isValidData() {

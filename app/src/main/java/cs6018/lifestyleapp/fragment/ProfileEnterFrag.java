@@ -36,13 +36,9 @@ import java.util.Date;
 
 import cs6018.lifestyleapp.BuildConfig;
 import cs6018.lifestyleapp.R;
-import cs6018.lifestyleapp.activity.HomeActivity;
-import cs6018.lifestyleapp.activity.SignupActivity;
 import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.utils.CalculatorUtils;
 import cs6018.lifestyleapp.utils.JSONProfileUtils;
-import cs6018.lifestyleapp.utils.Logger;
-import cs6018.lifestyleapp.viewModel.ProfileViewModel;
 
 /**
  * Created by suchaofan on 10/20/18.
@@ -84,10 +80,6 @@ public class ProfileEnterFrag extends Fragment
     public ProfileEnterFrag(){
         // Required empty public constructor
     }
-
-//    public interface OnFloatingButtonClickListener {
-//        void onFloatingButtonClicked(String param1, String param2);
-//    }
 
     public interface OnFloatingButtonClickListener {
         void onFloatingButtonClicked();
