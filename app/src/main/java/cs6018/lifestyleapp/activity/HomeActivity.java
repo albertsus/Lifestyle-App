@@ -119,6 +119,11 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(calculatorIntent);
                 break;
             }
+            case R.id.frame_counter: {
+                Intent pedometerIntent = new Intent(this, StepCounterActivity.class);
+                startActivity(pedometerIntent);
+                break;
+            }
         }
     }
 }

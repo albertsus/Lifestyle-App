@@ -17,277 +17,276 @@
         android:orientation="vertical"
         android:layout_height="wrap_content">
 
-    <!--Title-->
-
-    <TextView
-        android:id="@+id/tools_frag_title"
-        android:textColor="@android:color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tools"
-        tools:text="Tools"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        android:paddingLeft="16dp" />
-
-    <ImageView
-        android:id="@+id/period"
-        android:layout_height="32dp"
-        android:paddingBottom="16dp"
-        android:layout_width="wrap_content"
-        android:background="@drawable/ripple"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintStart_toEndOf="@id/tools_frag_title"
-        app:layout_constraintBottom_toBottomOf="@id/tools_frag_title"
-        android:src="@drawable/ic_period" />
-
-    <!--Weather-->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/frame_weather"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_ht"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onClick"
-        android:background="@drawable/ripple"
-        app:layout_constraintTop_toBottomOf="@id/tools_frag_title"
-        >
-        <ImageView
-            android:id="@+id/div_weather"
-            android:layout_width="fill_parent"
+        <!--Title-->
+        <TextView
+            android:id="@+id/tools_frag_title"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Tools"
+            tools:text="Tools"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:paddingLeft="16dp" />
+
+        <ImageView
+            android:id="@+id/period"
+            android:layout_height="32dp"
             android:paddingBottom="16dp"
-            app:layout_constraintTop_toTopOf="@id/frame_weather"
-            android:src="@drawable/ic_div"  />
-        <ImageView
-            android:id="@+id/ic_weather"
-            android:layout_width="@dimen/img_size"
-            android:layout_height="@dimen/img_size"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingStart="16dp"
-            android:src="@drawable/ic_weather"  />
-        <TextView
-            android:id="@+id/tv_weather"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Weather"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold"
-            android:paddingStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/ic_weather"
-            app:layout_constraintTop_toTopOf="@id/ic_weather"
-            />
-        <TextView
-            android:id="@+id/tv_weather_micro"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:paddingStart="16dp"
-            android:text="Check the weather."
-            android:textColor="@color/textLabelDefault"
-            android:textSize="@dimen/sg_text_size"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_weather"
-            app:layout_constraintTop_toBottomOf="@id/tv_weather" />
-        <ImageView
-            android:id="@+id/ic_weather_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_arrow"  />
-    </android.support.constraint.ConstraintLayout>
+            android:background="@drawable/ripple"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintStart_toStartOf="@id/tools_frag_title"
+            app:layout_constraintBottom_toBottomOf="@id/tools_frag_title"
+            android:src="@drawable/ic_period" />
 
-    <!--Hikes-->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/frame_hike"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_weather"
-        android:layout_height="@dimen/tab_ht"
-        android:onClick="onClick"
-        android:background="@drawable/ripple"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/div_hike"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/frame_hike"
-            android:src="@drawable/ic_div"  />
-        <ImageView
-            android:id="@+id/ic_hike"
-            android:layout_width="@dimen/img_size"
-            android:layout_height="@dimen/img_size"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingStart="16dp"
-            app:layout_constraintTop_toBottomOf="@id/div_hike"
-            android:src="@drawable/ic_hike"  />
-        <TextView
-            android:id="@+id/tv_hike"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Hikes"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold"
-            android:paddingStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/ic_hike"
-            app:layout_constraintTop_toTopOf="@id/ic_hike"
-            />
-        <TextView
-            android:id="@+id/tv_hike_micro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:paddingStart="16dp"
-            android:text="Search for hikes."
-            android:textColor="@color/textLabelDefault"
-            android:textSize="@dimen/sg_text_size"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_hike"
-            app:layout_constraintTop_toBottomOf="@id/tv_hike" />
-        <ImageView
-            android:id="@+id/ic_hike_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_arrow"  />
-    </android.support.constraint.ConstraintLayout>
+        <!--Weather-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/frame_weather"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_ht"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onClick"
+            android:background="@drawable/ripple"
+            app:layout_constraintTop_toBottomOf="@id/tools_frag_title"
+            >
+            <ImageView
+                android:id="@+id/div_weather"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                app:layout_constraintTop_toTopOf="@id/frame_weather"
+                android:src="@drawable/ic_div"  />
+            <ImageView
+                android:id="@+id/ic_weather"
+                android:layout_width="@dimen/img_size"
+                android:layout_height="@dimen/img_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingStart="16dp"
+                android:src="@drawable/ic_weather"  />
+            <TextView
+                android:id="@+id/tv_weather"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Weather"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/ic_weather"
+                app:layout_constraintTop_toTopOf="@id/ic_weather"
+                />
+            <TextView
+                android:id="@+id/tv_weather_micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingStart="16dp"
+                android:text="Check the weather."
+                android:textColor="@color/textLabelDefault"
+                android:textSize="@dimen/sg_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_weather"
+                app:layout_constraintTop_toBottomOf="@id/tv_weather" />
+            <ImageView
+                android:id="@+id/ic_weather_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow"  />
+        </android.support.constraint.ConstraintLayout>
 
-    <!--Calculator-->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/frame_calculator"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_ht"
-        app:layout_constraintTop_toBottomOf="@id/frame_hike"
-        android:onClick="onClick"
-        android:background="@drawable/ripple"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/div_calculator"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/frame_calculator"
-            android:src="@drawable/ic_div"  />
-        <ImageView
-            android:id="@+id/ic_calculator"
-            android:layout_width="@dimen/img_size"
-            android:layout_height="@dimen/img_size"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingStart="16dp"
-            app:layout_constraintTop_toBottomOf="@id/div_calculator"
-            android:src="@drawable/ic_calculator"  />
-        <TextView
-            android:id="@+id/tv_calculator"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Calculator"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold"
-            android:paddingStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/ic_calculator"
-            app:layout_constraintTop_toTopOf="@id/ic_calculator"
-            />
-        <TextView
-            android:id="@+id/tv_calculator_micro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:paddingStart="16dp"
-            android:text="Your health, in numbers."
-            android:textColor="@color/textLabelDefault"
-            android:textSize="@dimen/sg_text_size"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_calculator"
-            app:layout_constraintTop_toBottomOf="@id/tv_calculator" />
-        <ImageView
-            android:id="@+id/ic_calculator_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_arrow"  />
-    </android.support.constraint.ConstraintLayout>
+        <!--Hikes-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/frame_hike"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/frame_weather"
+            android:layout_height="@dimen/tab_ht"
+            android:onClick="onClick"
+            android:background="@drawable/ripple"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:id="@+id/div_hike"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/frame_hike"
+                android:src="@drawable/ic_div"  />
+            <ImageView
+                android:id="@+id/ic_hike"
+                android:layout_width="@dimen/img_size"
+                android:layout_height="@dimen/img_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingStart="16dp"
+                app:layout_constraintTop_toBottomOf="@id/div_hike"
+                android:src="@drawable/ic_hike"  />
+            <TextView
+                android:id="@+id/tv_hike"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Hikes"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/ic_hike"
+                app:layout_constraintTop_toTopOf="@id/ic_hike"
+                />
+            <TextView
+                android:id="@+id/tv_hike_micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingStart="16dp"
+                android:text="Search for hikes."
+                android:textColor="@color/textLabelDefault"
+                android:textSize="@dimen/sg_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_hike"
+                app:layout_constraintTop_toBottomOf="@id/tv_hike" />
+            <ImageView
+                android:id="@+id/ic_hike_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow"  />
+        </android.support.constraint.ConstraintLayout>
 
-    <!--StepCounter-->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/frame_counter"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_ht"
-        app:layout_constraintTop_toBottomOf="@id/frame_calculator"
-        android:onClick="onClick"
-        android:background="@drawable/ripple"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/div_counter"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/frame_counter"
-            android:src="@drawable/ic_div"  />
-        <ImageView
-            android:id="@+id/ic_counter"
-            android:layout_width="@dimen/img_size"
-            android:layout_height="@dimen/img_size"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingStart="16dp"
-            app:layout_constraintTop_toBottomOf="@id/div_counter"
-            android:src="@drawable/ic_pedometer"  />
-        <TextView
-            android:id="@+id/tv_counter"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Pedometer"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold"
-            android:paddingStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/ic_counter"
-            app:layout_constraintTop_toTopOf="@id/ic_counter"
-            />
-        <TextView
-            android:id="@+id/tv_counter_micro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:paddingStart="16dp"
-            android:text="Count your steps."
-            android:textColor="@color/textLabelDefault"
-            android:textSize="@dimen/sg_text_size"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_counter"
-            app:layout_constraintTop_toBottomOf="@id/tv_counter" />
-        <ImageView
-            android:id="@+id/ic_counter_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:paddingEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_arrow"  />
-        <ImageView
-            android:id="@+id/div_counter_bottom"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/frame_counter"
-            android:src="@drawable/ic_div"  />
-    </android.support.constraint.ConstraintLayout>
+        <!--Calculator-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/frame_calculator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_ht"
+            app:layout_constraintTop_toBottomOf="@id/frame_hike"
+            android:onClick="onClick"
+            android:background="@drawable/ripple"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:id="@+id/div_calculator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/frame_calculator"
+                android:src="@drawable/ic_div"  />
+            <ImageView
+                android:id="@+id/ic_calculator"
+                android:layout_width="@dimen/img_size"
+                android:layout_height="@dimen/img_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingStart="16dp"
+                app:layout_constraintTop_toBottomOf="@id/div_calculator"
+                android:src="@drawable/ic_calculator"  />
+            <TextView
+                android:id="@+id/tv_calculator"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Calculator"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/ic_calculator"
+                app:layout_constraintTop_toTopOf="@id/ic_calculator"
+                />
+            <TextView
+                android:id="@+id/tv_calculator_micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingStart="16dp"
+                android:text="Your health, in numbers."
+                android:textColor="@color/textLabelDefault"
+                android:textSize="@dimen/sg_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_calculator"
+                app:layout_constraintTop_toBottomOf="@id/tv_calculator" />
+            <ImageView
+                android:id="@+id/ic_calculator_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow"  />
+        </android.support.constraint.ConstraintLayout>
+
+        <!--StepCounter-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/frame_counter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_ht"
+            app:layout_constraintTop_toBottomOf="@id/frame_calculator"
+            android:onClick="onClick"
+            android:background="@drawable/ripple"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:id="@+id/div_counter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/frame_counter"
+                android:src="@drawable/ic_div"  />
+            <ImageView
+                android:id="@+id/ic_counter"
+                android:layout_width="@dimen/img_size"
+                android:layout_height="@dimen/img_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingStart="16dp"
+                app:layout_constraintTop_toBottomOf="@id/div_counter"
+                android:src="@drawable/ic_pedometer"  />
+            <TextView
+                android:id="@+id/tv_counter"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Pedometer"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/ic_counter"
+                app:layout_constraintTop_toTopOf="@id/ic_counter"
+                />
+            <TextView
+                android:id="@+id/tv_counter_micro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingStart="16dp"
+                android:text="Count your steps."
+                android:textColor="@color/textLabelDefault"
+                android:textSize="@dimen/sg_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/tv_counter"
+                app:layout_constraintTop_toBottomOf="@id/tv_counter" />
+            <ImageView
+                android:id="@+id/ic_counter_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_arrow"  />
+            <ImageView
+                android:id="@+id/div_counter_bottom"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/frame_counter"
+                android:src="@drawable/ic_div"  />
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
     </ScrollView>
