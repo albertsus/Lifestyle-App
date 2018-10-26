@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:padding="5dp"
     tools:context=".activity.StepCounterActivity">
 
@@ -116,45 +117,49 @@
         eaze:egLegendHeight="35dp"
         eaze:egShowValues="true"/>
 
-    <LinearLayout
-        android:id="@+id/button_panel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/bargraph">
+        <Button
+            android:id="@+id/btn_flag"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="@dimen/btn_height"
+            android:layout_below="@id/bargraph"
+            android:layout_centerHorizontal="true"
+            android:text="Pause"
+            android:textSize="@dimen/text_size"
+            android:paddingTop="15dp"
+            android:textStyle="bold"
+            style="@style/Widget.AppCompat.Button.Colored"
+            />
+        <!--<ImageButton-->
+            <!--android:id="@+id/btn_flag"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Pause"-->
+            <!--android:onClick="onClick"-->
+            <!--android:paddingLeft="60dp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:src="@drawable/ic_stop"/>-->
 
-        <ImageButton
-            android:id="@+id/btn_stop"
-            android:background="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start"
-            android:onClick="onClick"
-            android:paddingLeft="60dp"
-            android:gravity="center_horizontal"
-            android:src="@drawable/ic_stop"/>
+        <!--<ImageButton-->
+            <!--android:id="@+id/btn_start"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginHorizontal="35dp"-->
+            <!--android:text="Stop"-->
+            <!--android:onClick="onClick"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:src="@drawable/ic_start"/>-->
 
-        <ImageButton
-            android:id="@+id/btn_start"
-            android:background="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="35dp"
-            android:text="Stop"
-            android:onClick="onClick"
-            android:gravity="center_horizontal"
-            android:src="@drawable/ic_start"/>
-
-        <ImageButton
-            android:id="@+id/btn_reset"
-            android:background="@color/colorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset"
-            android:paddingRight="60dp"
-            android:onClick="onClick"
-            android:gravity="center_horizontal"
-            android:src="@drawable/ic_reset" />
-    </LinearLayout>
+        <!--<ImageButton-->
+            <!--android:id="@+id/btn_reset"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Reset"-->
+            <!--android:paddingRight="60dp"-->
+            <!--android:onClick="onClick"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:src="@drawable/ic_reset" />-->
 
 </RelativeLayout>

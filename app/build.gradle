@@ -59,7 +59,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.4'
     implementation 'com.google.firebase:firebase-database:16.0.3'
 
-
     // EazeGraph Dependency
     implementation 'com.github.j4velin.EazeGraph:EazeGraph:1.0.3'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'

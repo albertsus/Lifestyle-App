@@ -1,6 +1,8 @@
 package cs6018.lifestyleapp.activity;
 
+import android.app.Activity;
 import android.graphics.Color;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -8,10 +10,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import cs6018.lifestyleapp.R;
 import cs6018.lifestyleapp.utils.DateUtils;
 
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -28,7 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StepCounterActivity extends AppCompatActivity implements View.OnClickListener{
+public class StepCounterActivity extends Activity implements View.OnClickListener {
 
     final static int DEFAULT_GOAL = 10000;
     final static float DEFAULT_STEP_SIZE = 2.5f;
@@ -48,9 +53,14 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
     List<Pair<Long, Integer>> listPair = new ArrayList<>(
             Collections.nCopies(7, new Pair<Long, Integer>(new Long(0), 0)));
 
-    private ImageButton mBtnStart, mBtnStop, mBtnReset;
+    // private ImageButton mBtnStart, mBtnStop, mBtnReset;
+    private Button mFlagBtn;
+
+    GestureDetectorCompat mDetector;
 
     MediaPlayer mediaPlayer = new MediaPlayer();
+
+    private boolean btnFlag = true;
 
     final Handler handler = new Handler();
     Runnable runnable;
@@ -62,14 +72,7 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
 
         //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sound_file_1);
 
-        mBtnStart = findViewById(R.id.btn_start);
-        mBtnStart.setOnClickListener(this);
-
-        mBtnStop = findViewById(R.id.btn_stop);
-        mBtnStop.setOnClickListener(this);
-
-        mBtnReset = findViewById(R.id.btn_reset);
-        mBtnReset.setOnClickListener(this);
+        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
         SimpleDateFormat df = new SimpleDateFormat("E", Locale.getDefault());
 
@@ -120,6 +123,9 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
         totalView = (TextView) findViewById(R.id.total);
         averageView = (TextView) findViewById(R.id.average);
 
+        mFlagBtn = (Button) findViewById(R.id.btn_flag);
+        mFlagBtn.setOnClickListener(this);
+
         pg = (PieChart) findViewById(R.id.graph);
 
         // slice for the steps taken today
@@ -130,12 +136,6 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
         sliceGoal = new PieModel("", DEFAULT_GOAL, Color.parseColor("#a00835"));
         pg.addPieSlice(sliceGoal);
 
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                updatePieTest();
-//                handler.postDelayed(this, 1000);
-//            }
-//        }, 1000);
 
         runnable = new Runnable() {
             @Override
@@ -144,6 +144,11 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
                 handler.postDelayed(this, 1000);
             }
         };
+
+        if(btnFlag) {
+            handler.postDelayed(runnable, 1000);
+            btnFlag = false;
+        }
 
         pg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,22 +168,17 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.btn_start: {
-                handler.postDelayed(runnable, 1000);
+            case R.id.btn_flag: {
+                if (btnFlag) {
+                    handler.postDelayed(runnable, 1000);
+                    mFlagBtn.setText("Pause");
+                } else {
+                    handler.removeCallbacks(runnable);
+                    mFlagBtn.setText("Resume");
+                }
+                btnFlag = !btnFlag;
                 break;
             }
-
-            case R.id.btn_stop: {
-                handler.removeCallbacks(runnable);
-                break;
-            }
-
-            case R.id.btn_reset: {
-                stepCnt = 0;
-                handler.postDelayed(runnable, 1000);
-                break;
-            }
-
         }
     }
 
@@ -310,6 +310,30 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
             barChart.startAnimation();
         } else {
             barChart.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.mDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final String DEBUG_TAG = "Gestures";
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent event){
+            // handler.postDelayed(runnable, 1000);
+            Log.d(DEBUG_TAG,"onDoubleTap: " + event.toString());
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            // handler.removeCallbacks(runnable);
+            Log.d(DEBUG_TAG, "onSingleTapUp: " + event.toString());
+            return true;
         }
     }
 
