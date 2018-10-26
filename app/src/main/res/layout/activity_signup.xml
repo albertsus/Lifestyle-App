@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/landing"
     android:fitsSystemWindows="true"
-    android:gravity="center"
+    android:background="@drawable/ic_background_splash"
+    android:layout_centerInParent="true"
     tools:context=".activity.SignupActivity">
 
     <ImageView
@@ -27,7 +27,7 @@
         android:text="Already have a account?"
         android:textSize="23dp"
         android:textStyle="bold"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_above="@id/cv_login"
         android:layout_centerHorizontal="true" />
 
@@ -65,7 +65,7 @@
         android:text="New User?"
         android:textStyle="bold"
         android:textSize="23dp"
-        android:textColor="#f7f7f7"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_above="@id/et_username"
         android:layout_centerHorizontal="true" />
 
@@ -73,7 +73,7 @@
         android:id="@+id/et_username"
         android:layout_width="280dp"
         android:layout_height="40dp"
-        android:background="#11000000"
+        android:background="#80FFFFFF"
         android:drawableLeft="@drawable/ic_action_user"
         android:ems="10"
         android:hint="Username"
@@ -87,7 +87,7 @@
         android:id="@+id/et_password"
         android:layout_width="280dp"
         android:layout_height="40dp"
-        android:background="#11000000"
+        android:background="#80FFFFFF"
         android:drawableLeft="@drawable/ic_action_psw"
         android:ems="10"
         android:hint="Password"
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Signup"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
