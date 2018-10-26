@@ -18,7 +18,7 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
 
     private ImageButton mBtnStart, mBtnStop, mBtnReset;
 
-    private Integer mStepCount;
+    private Integer mStepCount = 0;
     private Integer mStartCount = 0;
 
     MediaPlayer mediaPlayer = new MediaPlayer();
@@ -41,7 +41,7 @@ public class StepCounterActivity extends AppCompatActivity implements View.OnCli
 
         //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sound_file_1);
 
-        mTvStepCount = findViewById(R.id.tv_bmr_data);
+        mTvStepCount = findViewById(R.id.tvCurrentStepCount);
 
         mBtnStart = findViewById(R.id.btn_start);
         mBtnStart.setOnClickListener(this);
