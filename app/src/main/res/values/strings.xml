@@ -21,6 +21,12 @@
     <string name="Gain">Gain</string>
     <string name="Maintain">Maintain</string>
 
+    <!-- Pedometer String -->
+    <string name="steps">steps</string>
+    <string name="average">Average</string>
+    <string name="total">Total</string>
+
+    average
     <string-array name="sex_array">
         <item>Male</item>
         <item>Female</item>
