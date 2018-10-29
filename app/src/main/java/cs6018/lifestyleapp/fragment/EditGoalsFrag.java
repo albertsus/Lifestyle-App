@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,6 +38,8 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
     private TextView mTvTargetWeight, mTvTargetBMI, mTvTargetCalories, mTvTargetHikes;
     private Spinner spinnerWeightGoal;
     private Button mBtUpdate;
+    private RadioGroup rgWeightGoal;
+    private RadioButton rbWeightGoal;
 
     private static final int MIN_WEIGHT = 50, MAX_WEIGHT = 600;
     private static final int MIN_BMI = 5, MAX_BMI = 50;
@@ -48,7 +52,7 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_edit_goals, container, false);
+        final View view = inflater.inflate(R.layout.fragment_edit_goals, container, false);
 
         mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
 
@@ -71,15 +75,23 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         mTvTargetCalories = view.findViewById(R.id.tv_calories_data);
         mTvTargetHikes = view.findViewById(R.id.tv_hikes_data);
 
-        spinnerWeightGoal = view.findViewById(R.id.spinner_weight_goal);
+        //spinnerWeightGoal = view.findViewById(R.id.spinner_weight_goal);
+        rgWeightGoal = (RadioGroup) view.findViewById(R.id.rg_weight_goal);
+        rbWeightGoal = (RadioButton) view.findViewById(rgWeightGoal.getCheckedRadioButtonId());
+        rgWeightGoal.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rbWeightGoal = (RadioButton) view.findViewById(checkedId);
+            }
+        });
 
         mBtUpdate = (Button) view.findViewById(R.id.bt_update_goals);
         mBtUpdate.setOnClickListener(this);
 
-        spinnerWeightGoal = (Spinner) view.findViewById(R.id.spinner_weight_goal);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.weigth_goal_array, R.layout.spinner_layout);
-        adapter.setDropDownViewResource(R.layout.spinner_layout);
-        spinnerWeightGoal.setAdapter(adapter);
+        //spinnerWeightGoal = (Spinner) view.findViewById(R.id.spinner_weight_goal);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.weigth_goal_array, R.layout.spinner_layout);
+        //adapter.setDropDownViewResource(R.layout.spinner_layout);
+        //spinnerWeightGoal.setAdapter(adapter);
 
         // Init the target data received from GoalsFrag
         InitGoalsData();
@@ -178,12 +190,14 @@ public class EditGoalsFrag extends Fragment implements View.OnClickListener {
         mDbUsers.child("targetBMI").setValue("" + mSbTargetBMI.getProgress());
         mDbUsers.child("targetDailyCalories").setValue("" + mSbTargetCalories.getProgress());
         mDbUsers.child("targetHikes").setValue("" + mSbTargetHikes.getProgress());
-        mDbUsers.child("weightGoal").setValue(spinnerWeightGoal.getSelectedItem().toString());
+        mDbUsers.child("weightGoal").setValue(mWeightGoal);
     }
 
     private boolean isValidData() {
         if (mTargetWeight.matches("") || mTargetBMI.matches("")
-                || mTargetCalories.matches("") || mTargetHikes.matches("")) {
+                || mTargetCalories.matches("") || mTargetHikes.matches("")
+                || (rbWeightGoal == null)
+                || (mWeightGoal = rbWeightGoal.getText().toString()).matches("")) {
             Toast toast = Toast.makeText(getActivity(),
                     "Invalid data entered", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP, 0, 0);

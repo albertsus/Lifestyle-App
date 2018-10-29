@@ -143,19 +143,27 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_age"
                 tools:text="Sex" />
 
-            <Spinner
-                android:id="@+id/spinner_sex"
-                android:spinnerMode="dropdown"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_width="0dp"
+            <RadioGroup
+                android:id="@+id/rg_sex"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="33"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold"
-                android:paddingStart="@dimen/text_padding"
+                android:paddingBottom="8dp"
                 app:layout_constraintStart_toEndOf="@id/tv_sex"
                 app:layout_constraintBottom_toBottomOf="@id/tv_sex"
-                />
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Male"/>
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"/>
+            </RadioGroup>
+
 
             <!--City-->
             <TextView

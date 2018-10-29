@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -46,10 +48,12 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     private String mUserName, mAge, mSex, mCity, mNation, mHeight, mWeight, mCurrentPhotoPath;
 
     private EditText mEtUserName, mEtAge, mEtCity, mEtNation, mEtHeight, mEtWeight;
-    private Spinner sexSpinner;
+    //private Spinner sexSpinner;
     private Button mBtUpdate;
     private ImageButton mBtPicture;
     private ImageView mProfilePic;
+    private RadioGroup rgSex;
+    private RadioButton rbSex;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -59,7 +63,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        final View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
         mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
 
@@ -77,10 +81,19 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         mBtPicture = (ImageButton) view.findViewById(R.id.bt_edit_user_picture);
         mBtPicture.setOnClickListener(this);
 
-        sexSpinner = (Spinner) view.findViewById(R.id.spinner_sex);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sex_array, R.layout.spinner_layout);
-        adapter.setDropDownViewResource(R.layout.spinner_layout);
-        sexSpinner.setAdapter(adapter);
+        rgSex = (RadioGroup) view.findViewById(R.id.rg_sex);
+        rbSex = (RadioButton) view.findViewById(rgSex.getCheckedRadioButtonId());
+        rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                rbSex = (RadioButton) view.findViewById(checkedId);
+            }
+        });
+
+        //sexSpinner = (Spinner) view.findViewById(R.id.spinner_sex);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sex_array, R.layout.spinner_layout);
+        //adapter.setDropDownViewResource(R.layout.spinner_layout);
+        //sexSpinner.setAdapter(adapter);
 
         // Init the profile data received from ProfileFrag
         InitProfileData();
@@ -127,7 +140,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUserName = dataSnapshot.child("userName").getValue(String.class);
                 mAge = dataSnapshot.child("age").getValue(String.class);
-                mSex = dataSnapshot.child("age").getValue(String.class);
+                mSex = dataSnapshot.child("sex").getValue(String.class);
                 mNation = dataSnapshot.child("nation").getValue(String.class);
                 mCity = dataSnapshot.child("city").getValue(String.class);
                 mHeight = dataSnapshot.child("height").getValue(String.class);
@@ -155,7 +168,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     private void updateProfile() {
         mDbUsers.child("userName").setValue(mEtUserName.getText().toString());
         mDbUsers.child("age").setValue(mEtAge.getText().toString());
-        mDbUsers.child("sex").setValue(sexSpinner.getSelectedItem().toString());
+        mDbUsers.child("sex").setValue(mSex);
         mDbUsers.child("nation").setValue(mEtNation.getText().toString());
         mDbUsers.child("city").setValue(mEtCity.getText().toString());
         mDbUsers.child("height").setValue(mEtHeight.getText().toString());
@@ -169,7 +182,9 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     private boolean isValidData() {
         if (mUserName.matches("") || mCity.matches("")
                 || mAge.matches("") || mHeight.matches("")
-                || mWeight.matches("") || mNation.matches("")) {
+                || mWeight.matches("") || mNation.matches("")
+                || (rbSex == null)
+                || (mSex = rbSex.getText().toString()).matches("")) {
             Toast toast = Toast.makeText(getActivity(),
                     "Invalid data entered", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.TOP, 0, 0);
