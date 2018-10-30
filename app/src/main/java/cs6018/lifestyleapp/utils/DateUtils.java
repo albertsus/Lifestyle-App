@@ -7,9 +7,7 @@ import java.util.Calendar;
  */
 
 public class DateUtils {
-    /**
-     * @return milliseconds since 1.1.1970 for today 0:00:00 local timezone
-     */
+
     public static long getToday() {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
@@ -20,9 +18,7 @@ public class DateUtils {
         return c.getTimeInMillis();
     }
 
-    /**
-     * @return milliseconds since 1.1.1970 for tomorrow 0:00:01 local timezone
-     */
+
     public static long getTomorrow() {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
