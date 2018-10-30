@@ -32,12 +32,8 @@ import cs6018.lifestyleapp.general.User;
 public class SensorListener extends Service implements SensorEventListener {
 
     private final static long MICROSECONDS_IN_ONE_MINUTE = 60000000;
-//    private final static long SAVE_OFFSET_TIME = AlarmManager.INTERVAL_HOUR;
-//    private final static int SAVE_OFFSET_STEPS = 500;
 
-    private static int steps;
-//    private static int lastSaveSteps;
-//    private static long lastSaveTime;
+    private static int sensorSteps;
 
     private DatabaseReference mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
     private DatabaseReference mDbSteps = mDbUsers.child("Steps");
@@ -46,31 +42,26 @@ public class SensorListener extends Service implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.values[0] > Integer.MAX_VALUE) {
-            Log.d("onSensorChanged", "probably not a real value: " + sensorEvent.values[0]);
             return;
         } else {
-            steps = (int) sensorEvent.values[0];
-            Log.d("onSensorChanged", "Steps from service are: " + steps);
+            sensorSteps = (int) sensorEvent.values[0];
 
             mDbTodaySteps.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (!dataSnapshot.exists()) {
-                        Log.d("onSensorChanged", "today's steps not exist");
+                    if (!dataSnapshot.exists()) { // initialing data
                         StepsData stepsData = new StepsData(0, 0);
                         mDbTodaySteps.setValue(stepsData);
                     } else {
-                        Log.d("onSensorChanged", "today's steps already exist");
                         StepsData stepsData = dataSnapshot.getValue(StepsData.class);
                         int sensorStepsFromDB = stepsData.getLastSaveSteps();
                         int todayStepsFromDB = stepsData.getSteps();
 
-                        if (sensorStepsFromDB != steps) {
+                        if (sensorStepsFromDB != sensorSteps) {
                             stepsData.setSteps(todayStepsFromDB + 1);
-                            stepsData.setLastSaveSteps(steps);
+                            stepsData.setLastSaveSteps(sensorSteps);
                             mDbTodaySteps.setValue(stepsData);
                         }
-
                     }
                 }
 
@@ -79,7 +70,6 @@ public class SensorListener extends Service implements SensorEventListener {
 
                 }
             });
-            // updateIfNecessary();
         }
     }
 
@@ -88,53 +78,23 @@ public class SensorListener extends Service implements SensorEventListener {
         Log.d(sensor.getName(), " accuracy changed: " + i);
     }
 
-//    private void updateIfNecessary() {
-//        if (steps > lastSaveSteps + SAVE_OFFSET_STEPS ||
-//                (steps > 0 && System.currentTimeMillis() > lastSaveTime + SAVE_OFFSET_TIME)) {
-//            Log.d("updateIfNecessary", "saving steps: steps="
-//                    + steps + " lastSave=" + lastSaveSteps + " lastSaveTime=" + new Date(lastSaveTime));
-//            mDbTodaySteps.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    StepsData stepsData = dataSnapshot.getValue(StepsData.class);
-//                    if (stepsData.getSteps() == Integer.MIN_VALUE) {
-//                        int pauseDifference = steps - dataSnapshot.child("pauseCount").getValue(Integer.class);
-//
-//                    }
-////                    if ((int) dataSnapshot.child("steps").getValue() == Integer.MIN_VALUE) {
-////                        int pauseDifference = steps - (int) dataSnapshot.child("pauseCount").getValue();
-////
-////                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-////            if (mDbUsers(DateUtils.getToday()) == Integer.MIN_VALUE) {
-////                int pauseDifference = steps -
-////                        getSharedPreferences("pedometer", Context.MODE_PRIVATE)
-////                                .getInt("pauseCount", steps);
-////                db.insertNewDay(Util.getToday(), steps - pauseDifference);
-////                if (pauseDifference > 0) {
-////                    // update pauseCount for the new day
-////                    getSharedPreferences("pedometer", Context.MODE_PRIVATE).edit()
-////                            .putInt("pauseCount", steps).commit();
-////                }
-////            }
-////            db.saveCurrentSteps(steps);
-////            db.close();
-////            lastSaveSteps = steps;
-////            lastSaveTime = System.currentTimeMillis();
-//        }
-//    }
-
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("onCreate","SensorListener onCreate");
         reRegisterSensor();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("onDestroy", "SensorListener onDestroy");
+        try {
+            SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            sensorManager.unregisterListener(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
