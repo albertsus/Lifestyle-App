@@ -22,6 +22,7 @@ import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.utils.DateUtils;
 
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class StepCounterActivity extends Activity implements SensorEventListener
     final static int FEET_TO_MILE = 5280;
 
     private TextView stepsView, totalView, averageView;
+    private TextView mTvInstr;
 
     private PieModel pieGoal, pieCurrent;
     private PieChart pieChart;
@@ -62,7 +64,9 @@ public class StepCounterActivity extends Activity implements SensorEventListener
     private boolean showSteps = true;
     private boolean startFlag = true;
 
-    private ImageButton mIbStart;
+    private ImageView mIvStart;
+
+    private ImageButton mIbInstr;
 
     private int todayStepCnt;
 
@@ -96,7 +100,23 @@ public class StepCounterActivity extends Activity implements SensorEventListener
         totalView = (TextView) findViewById(R.id.total);
         averageView = (TextView) findViewById(R.id.average);
 
-        mIbStart = (ImageButton) findViewById(R.id.ib_start);
+        mTvInstr = (TextView) findViewById(R.id.tv_instr);
+        mTvInstr.setText("DoubleTab: resume\nSingleTab: pause");
+        mTvInstr.setVisibility(View.INVISIBLE);
+
+        mIvStart = (ImageView) findViewById(R.id.iv_start);
+
+        mIbInstr = (ImageButton) findViewById(R.id.ib_instr);
+        mIbInstr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mTvInstr.getVisibility() == View.VISIBLE) {
+                    mTvInstr.setVisibility(View.INVISIBLE);
+                } else {
+                    mTvInstr.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         pieChart = (PieChart) findViewById(R.id.graph);
         barChart = (BarChart) findViewById(R.id.bargraph);
@@ -328,7 +348,7 @@ public class StepCounterActivity extends Activity implements SensorEventListener
         public boolean onDoubleTapEvent(MotionEvent event){
             Log.d(DEBUG_TAG,"onDoubleTap: " + event.toString());
             mediaPlayerDoubleClick.start();
-            mIbStart.setImageResource(R.drawable.ic_stop);
+            mIvStart.setImageResource(R.drawable.ic_stop);
             startFlag = true;
             return true;
         }
@@ -337,7 +357,7 @@ public class StepCounterActivity extends Activity implements SensorEventListener
         public boolean onSingleTapUp(MotionEvent event) {
             Log.d(DEBUG_TAG, "onSingleTapUp: " + event.toString());
             mediaPlayerOneClick.start();
-            mIbStart.setImageResource(R.drawable.ic_start);
+            mIvStart.setImageResource(R.drawable.ic_start);
             startFlag = false;
             return true;
         }
