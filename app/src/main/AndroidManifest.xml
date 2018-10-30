@@ -31,6 +31,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <service
+            android:name=".utils.SensorListener"/>
+
         <activity
             android:name=".activity.SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize">

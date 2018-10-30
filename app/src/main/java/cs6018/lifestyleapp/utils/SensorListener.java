@@ -1,9 +1,6 @@
 package cs6018.lifestyleapp.utils;
 
-import android.app.AlarmManager;
 import android.app.Service;
-import android.arch.persistence.room.Database;
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,8 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Date;
 
 import cs6018.lifestyleapp.general.StepsData;
 import cs6018.lifestyleapp.general.User;
@@ -104,20 +99,15 @@ public class SensorListener extends Service implements SensorEventListener {
     }
 
     private void reRegisterSensor() {
-        Log.d("reRegisterSensor", "re-register sensor listener");
-        SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         try {
-            sm.unregisterListener(this);
+            sensorManager.unregisterListener(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Log.d("reRegisterSensor", "step sensors: " + sm.getSensorList(Sensor.TYPE_STEP_COUNTER).size());
-        if (sm.getSensorList(Sensor.TYPE_STEP_COUNTER).size() < 1) return; // emulator
-        Log.d("reRegisterSensor", "default: " + sm.getDefaultSensor(Sensor.TYPE_STEP_COUNTER).getName());
-
-        // enable batching with delay of max 5 min
-        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_STEP_COUNTER),
+        if (sensorManager.getSensorList(Sensor.TYPE_STEP_COUNTER).size() < 1) return; // emulator
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER),
                 SensorManager.SENSOR_DELAY_NORMAL, (int) (5 * MICROSECONDS_IN_ONE_MINUTE));
     }
 }
