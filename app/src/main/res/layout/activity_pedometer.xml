@@ -15,15 +15,15 @@
         android:layout_height="wrap_content"
         android:text="Pedometer"
         tools:text="Pedometer"
-        android:textSize="48sp"
+        android:textSize="40sp"
         android:textStyle="bold"
-        android:paddingLeft="16dp" />
+        android:paddingLeft="20dp" />
     <ImageView
         android:id="@+id/period"
         android:layout_height="32dp"
         android:paddingBottom="16dp"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="250dp"
+        android:layout_marginLeft="220dp"
         android:layout_alignBottom="@id/pedometer_activity_title"
         android:src="@drawable/ic_period" />
 
@@ -31,13 +31,13 @@
         xmlns:eaze="http://schemas.android.com/apk/res-auto"
         android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="180dp"
         android:paddingVertical="10dp"
-        android:layout_marginHorizontal="18dp"
+        android:layout_marginHorizontal="20dp"
         android:background="#eff7e6"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         eaze:egHighlightStrength="1"
         eaze:egInnerPadding="75"
         eaze:egLegendHeight="0dp" />
@@ -46,7 +46,7 @@
         android:id="@+id/steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="115dp"
         android:gravity="center"
         android:textSize="45sp"
         android:text="10.000"/>
@@ -58,7 +58,7 @@
         android:layout_below="@id/steps"
         android:layout_centerHorizontal="true"
         android:text="@string/steps"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:textSize="20sp"/>
 
     <LinearLayout
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/graph"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="8dp">
 
         <TextView
             android:id="@+id/average"
@@ -114,11 +114,11 @@
         android:id="@+id/bargraph"
         android:background="#f7e9e6"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="18dp"
-        android:layout_height="200dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="180dp"
         android:paddingVertical="10dp"
         android:layout_below="@+id/averageandtotaltext"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         eaze:egLegendHeight="35dp"
         eaze:egShowValues="true"/>
 
@@ -140,13 +140,16 @@
         android:layout_toRightOf="@id/iv_start"
         android:layout_alignTop="@id/iv_start"
         android:clickable="true"
-        android:src="@drawable/ic_help"/>
+        android:src="@drawable/ic_help"
+        />
 
     <TextView
         android:id="@+id/tv_instr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/ib_instr"
+        android:textSize="11.5dp"
+        android:textColor="@color/colorAccent"
         android:layout_alignBottom="@id/ib_instr"
         />
 
