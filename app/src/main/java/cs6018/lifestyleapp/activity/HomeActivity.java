@@ -19,6 +19,7 @@ import cs6018.lifestyleapp.fragment.GoalsFrag;
 import cs6018.lifestyleapp.fragment.ProfileFrag;
 import cs6018.lifestyleapp.fragment.StatsFrag;
 import cs6018.lifestyleapp.fragment.ToolsFrag;
+import cs6018.lifestyleapp.utils.SensorListener;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -63,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startService(new Intent(this, SensorListener.class));
         setContentView(R.layout.activity_home);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
