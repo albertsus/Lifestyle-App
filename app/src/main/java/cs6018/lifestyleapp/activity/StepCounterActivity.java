@@ -57,6 +57,7 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
     private TextView stepsView, totalView, averageView;
     private PieModel sliceGoal, sliceCurrent;
     private PieChart pg;
+    private BarChart barChart;
 
     private int todayOffset, total_start = 100, goal, since_boot, total_days = 7;
     public final static NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
@@ -160,6 +161,7 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
         // mFlagBtn.setOnClickListener(this);
 
         pg = (PieChart) findViewById(R.id.graph);
+        barChart = (BarChart) findViewById(R.id.bargraph);
 
         // slice for the steps taken today
         sliceCurrent = new PieModel("", 0, Color.parseColor("#566655"));
@@ -231,21 +233,6 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
 
     private void updatePieTest() {
         // stepCnt += 10;
-        sliceCurrent.setValue(stepCntTest);
-        if (DEFAULT_GOAL - stepCntTest > 0) {
-            // goal not reached yet
-            if (pg.getData().size() == 1) {
-                // can happen if the goal value was changed: old goal value was
-                // reached but now there are some steps missing for the new goal
-                pg.addPieSlice(sliceGoal);
-            }
-            sliceGoal.setValue(DEFAULT_GOAL - stepCntTest);
-        } else {
-            // goal reached
-            pg.clearChart();
-            pg.addPieSlice(sliceCurrent);
-        }
-        pg.update();
 
         if (showSteps) {
             stepsView.setText(formatter.format(stepCntTest));
@@ -262,6 +249,22 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
             totalView.setText(formatter.format(distance_total));
             averageView.setText(formatter.format(distance_total / total_days));
         }
+
+        sliceCurrent.setValue(stepCntTest);
+        if (DEFAULT_GOAL - stepCntTest > 0) {
+            // goal not reached yet
+            if (pg.getData().size() == 1) {
+                // can happen if the goal value was changed: old goal value was
+                // reached but now there are some steps missing for the new goal
+                pg.addPieSlice(sliceGoal);
+            }
+            sliceGoal.setValue(DEFAULT_GOAL - stepCntTest);
+        } else {
+            // goal reached
+            pg.clearChart();
+            pg.addPieSlice(sliceCurrent);
+        }
+        pg.update();
     }
 
     private void updatePie() {
@@ -301,21 +304,16 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
     }
 
     private void updateBars() {
-        final SimpleDateFormat df = new SimpleDateFormat("E", Locale.getDefault());
-        BarChart barChart = (BarChart) findViewById(R.id.bargraph);
-        if (barChart.getData().size() > 0) barChart.clearChart();
-        float distance, stepsize = DEFAULT_STEP_SIZE;
-        boolean stepsize_cm = false;
-        if (!showSteps) {
-            // load some more settings if distance is needed
-            stepsize = DEFAULT_STEP_SIZE;
-        }
-        barChart.setShowDecimal(!showSteps); // show decimal in distance view only
 
         Query last7daysData = mDbSteps.orderByKey().limitToLast(7);
-        last7daysData.addValueEventListener(new ValueEventListener() {
+        last7daysData.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                SimpleDateFormat df = new SimpleDateFormat("E", Locale.getDefault());
+                if (barChart.getData().size() > 0) barChart.clearChart();
+                barChart.setShowDecimal(!showSteps); // show decimal in distance view only
+
                 for (DataSnapshot dayData : dataSnapshot.getChildren()) {
                     if (dayData != null) {
                         Log.d("dayData", dayData.getKey());
@@ -327,6 +325,45 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
                         Log.d("last7daysData:onDataChange", "null");
                     }
                 }
+
+                BarModel bm;
+                float distance, stepsize = DEFAULT_STEP_SIZE;
+                int steps;
+                Log.v("listParisize", String.valueOf(listPair.size()));
+                for (int i = 0; i < listPair.size(); i++) {
+                    Pair<Long, Integer> current = listPair.get(i);
+                    steps = current.second;
+                    Log.d("BarChart:steps", ""+steps);
+                    if (steps > 0) {
+
+                        bm = new BarModel(df.format(new Date(current.first)), 0,
+                                steps > DEFAULT_GOAL ? Color.parseColor("#566655") : Color.parseColor("#a00835"));
+                        if (showSteps) {
+                            Log.d("bmSetValue", "showSteps==true");
+                            bm.setValue(steps);
+                        } else {
+                            Log.d("bmSetValue", "showSteps==false");
+                            distance = steps * stepsize;
+                            distance /= FEET_TO_DISTANCE;
+                            distance = Math.round(distance * 1000) / 1000f; // 3 decimals
+                            bm.setValue(distance);
+                        }
+                        barChart.addBar(bm);
+                    }
+                }
+                if (barChart.getData().size() > 0) {
+                    Log.d("updateBars", "barChart.size()>0");
+                    barChart.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            // Dialog_Statistics.getDialog(this, since_boot).show();
+                        }
+                    });
+                    barChart.startAnimation();
+                } else {
+                    Log.d("updateBars", "setVisibility(View.GONE)");
+                    barChart.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -334,45 +371,6 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
 
             }
         });
-
-        BarModel bm;
-        int steps;
-        Log.v("listParisize", String.valueOf(listPair.size()));
-        for (int i = 0; i < listPair.size(); i++) {
-            Pair<Long, Integer> current = listPair.get(i);
-            steps = current.second;
-            Log.d("BarChart:steps", ""+steps);
-            if (steps > 0) {
-
-                bm = new BarModel(df.format(new Date(current.first)), 0,
-                        steps > DEFAULT_GOAL ? Color.parseColor("#566655") : Color.parseColor("#a00835"));
-                if (showSteps) {
-                    Log.d("bmSetValue", "showSteps==true");
-                    bm.setValue(steps);
-                } else {
-                    Log.d("bmSetValue", "showSteps==false");
-                    distance = steps * stepsize;
-                    distance /= FEET_TO_DISTANCE;
-                    distance = Math.round(distance * 1000) / 1000f; // 3 decimals
-                    bm.setValue(distance);
-                }
-                barChart.addBar(bm);
-            }
-        }
-        if (barChart.getData().size() > 0) {
-            Log.d("updateBars", "barChart.size()>0");
-            barChart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    // Dialog_Statistics.getDialog(this, since_boot).show();
-                }
-            });
-            barChart.startAnimation();
-        } else {
-            Log.d("updateBars", "setVisibility(View.GONE)");
-            barChart.setVisibility(View.GONE);
-        }
-        //listPair.clear();
     }
 
     @Override
