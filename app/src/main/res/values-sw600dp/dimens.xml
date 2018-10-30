@@ -13,6 +13,9 @@
     <!-- Text Size -->
     <dimen name="text_size">24dp</dimen>
 
+    <!-- Title Text Size -->
+    <dimen name="title_text_size">48dp</dimen>
+
     <!-- Tools Frag Image Size -->
     <dimen name="img_size">75dp</dimen>
 

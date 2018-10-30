@@ -1,24 +1,37 @@
 package cs6018.lifestyleapp.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import cs6018.lifestyleapp.R;
+import cs6018.lifestyleapp.general.StepsData;
+import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.utils.DateUtils;
 
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.eazegraph.lib.charts.BarChart;
 import org.eazegraph.lib.charts.PieChart;
@@ -33,280 +46,195 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StepCounterActivity extends Activity implements View.OnClickListener {
+public class StepCounterActivity extends Activity implements SensorEventListener {
 
-    final static int DEFAULT_GOAL = 10000;
-    final static float DEFAULT_STEP_SIZE = 2.5f;
-    final static String DEFAULT_STEP_UNIT = "ft";
-    final static int FEET_TO_DISTANCE = 5280;
+    final static int DEFAULT_GOAL = 500;
+    final static float DEFAULT_STEP_SIZE = 2.5f; // unit: ft
+    final static int FEET_TO_MILE = 5280;
 
     private TextView stepsView, totalView, averageView;
-    private PieModel sliceGoal, sliceCurrent;
-    private PieChart pg;
+    private TextView mTvInstr;
 
-    private int todayOffset, total_start = 100, goal, since_boot, total_days = 7;
-    public final static NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
+    private PieModel pieGoal, pieCurrent;
+    private PieChart pieChart;
+    private BarChart barChart;
+
+    private int totalSteps = 0, totalDays = 1;
+
     private boolean showSteps = true;
+    private boolean startFlag = true;
 
-    private int stepCnt = 0;
+    private ImageView mIvStart;
+
+    private ImageButton mIbInstr;
+
+    private int todayStepCnt;
 
     List<Pair<Long, Integer>> listPair = new ArrayList<>(
             Collections.nCopies(7, new Pair<Long, Integer>(new Long(0), 0)));
 
-    // private ImageButton mBtnStart, mBtnStop, mBtnReset;
-    private Button mFlagBtn;
+    public final static NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
+    private SimpleDateFormat df = new SimpleDateFormat("E", Locale.getDefault());
 
     GestureDetectorCompat mDetector;
 
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    private MediaPlayer mediaPlayerOneClick, mediaPlayerDoubleClick;
 
-    private boolean btnFlag = true;
+    private static int sensorSteps;
 
-    final Handler handler = new Handler();
-    Runnable runnable;
+    private DatabaseReference mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
+    private DatabaseReference mDbSteps = mDbUsers.child("Steps");
+    private DatabaseReference mDbTodaySteps = mDbSteps.child("" + DateUtils.getToday());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedometer);
 
-        //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sound_file_1);
+        mediaPlayerOneClick = MediaPlayer.create(this, R.raw.single_click);
+        mediaPlayerDoubleClick = MediaPlayer.create(this, R.raw.double_click);
 
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
-
-        SimpleDateFormat df = new SimpleDateFormat("E", Locale.getDefault());
-
-        Long today = DateUtils.getToday();
-        Log.d("Today", today.toString());
-        Log.d("Today Date", df.format(new Date(today)));
-
-        Long tomorrow = DateUtils.getTomorrow();
-        Log.d("Tomorrow", tomorrow.toString());
-        Log.d("Tomorrow Date", df.format(new Date(tomorrow)));
-
-        int idx = DateUtils.indexOfNday(df.format(new Date(DateUtils.getNday(0))));
-        Log.d("0", String.valueOf(idx));
-        Log.d("0", df.format(new Date(DateUtils.getNday(0))));
-        listPair.set(idx, new Pair<Long, Integer>(DateUtils.getNday(0), 5500));
-
-        idx = DateUtils.indexOfNday(df.format(new Date(DateUtils.getNday(-1))));
-        Log.d("-1", String.valueOf(idx));
-        Log.d("-1", df.format(new Date(DateUtils.getNday(-1))));
-        listPair.set(idx, new Pair<Long, Integer>(DateUtils.getNday(-1), 4900));
-
-        idx = DateUtils.indexOfNday(df.format(new Date(DateUtils.getNday(-2))));
-        Log.d("-2", String.valueOf(idx));
-        Log.d("-2", df.format(new Date(DateUtils.getNday(-2))));
-        listPair.set(idx, new Pair<Long, Integer>(DateUtils.getNday(-2), 4500));
-
-        idx = DateUtils.indexOfNday(df.format(new Date(DateUtils.getNday(-3))));
-        Log.d("-3", String.valueOf(idx));
-        Log.d("-3", df.format(new Date(DateUtils.getNday(-3))));
-        listPair.set(idx, new Pair<Long, Integer>(DateUtils.getNday(-3), 7400));
-
-        idx = DateUtils.indexOfNday(df.format(new Date(DateUtils.getNday(-4))));
-        Log.d("-4", String.valueOf(idx));
-        Log.d("-4", df.format(new Date(DateUtils.getNday(-4))));
-        listPair.set(idx, new Pair<Long, Integer>(DateUtils.getNday(-4), 5200));
-
-        idx = DateUtils.indexOfNday(df.format(new Date(DateUtils.getNday(-5))));
-        Log.d("-5", String.valueOf(idx));
-        Log.d("-5", df.format(new Date(DateUtils.getNday(-5))));
-        listPair.set(idx, new Pair<Long, Integer>(DateUtils.getNday(-5), 1900));
-
-        idx = DateUtils.indexOfNday(df.format(new Date(DateUtils.getNday(-6))));
-        Log.d("-6", String.valueOf(idx));
-        Log.d("-6", df.format(new Date(DateUtils.getNday(-6))));
-        listPair.set(idx, new Pair<Long, Integer>(DateUtils.getNday(-6), 10500));
 
         stepsView = (TextView) findViewById(R.id.steps);
         totalView = (TextView) findViewById(R.id.total);
         averageView = (TextView) findViewById(R.id.average);
 
-        mFlagBtn = (Button) findViewById(R.id.btn_flag);
-        mFlagBtn.setOnClickListener(this);
+        mTvInstr = (TextView) findViewById(R.id.tv_instr);
+        mTvInstr.setText("DoubleTab: resume\nSingleTab: pause");
+        mTvInstr.setVisibility(View.INVISIBLE);
 
-        pg = (PieChart) findViewById(R.id.graph);
+        mIvStart = (ImageView) findViewById(R.id.iv_start);
 
-        // slice for the steps taken today
-        sliceCurrent = new PieModel("", 0, Color.parseColor("#566655"));
-        pg.addPieSlice(sliceCurrent);
-
-        // slice for the "missing" steps until reaching the goal
-        sliceGoal = new PieModel("", DEFAULT_GOAL, Color.parseColor("#a00835"));
-        pg.addPieSlice(sliceGoal);
-
-
-        runnable = new Runnable() {
+        mIbInstr = (ImageButton) findViewById(R.id.ib_instr);
+        mIbInstr.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                updatePieTest();
-                handler.postDelayed(this, 1000);
-            }
-        };
-
-        if(btnFlag) {
-            handler.postDelayed(runnable, 1000);
-            btnFlag = false;
-        }
-
-        pg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                showSteps = !showSteps;
-                stepsDistanceChanged();
+            public void onClick(View view) {
+                if (mTvInstr.getVisibility() == View.VISIBLE) {
+                    mTvInstr.setVisibility(View.INVISIBLE);
+                } else {
+                    mTvInstr.setVisibility(View.VISIBLE);
+                }
             }
         });
 
-        pg.setDrawValueInPie(false);
-        pg.setUsePieRotation(true);
-        pg.startAnimation();
+        pieChart = (PieChart) findViewById(R.id.graph);
+        barChart = (BarChart) findViewById(R.id.bargraph);
 
-    }
+        // current pie slice
+        pieCurrent = new PieModel("", 0, Color.parseColor("#566655"));
+        pieChart.addPieSlice(pieCurrent);
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+        // goal pie slice
+        pieGoal = new PieModel("", DEFAULT_GOAL, Color.parseColor("#a00835"));
+        pieChart.addPieSlice(pieGoal);
 
-            case R.id.btn_flag: {
-                if (btnFlag) {
-                    handler.postDelayed(runnable, 1000);
-                    mFlagBtn.setText("Pause");
-                } else {
-                    handler.removeCallbacks(runnable);
-                    mFlagBtn.setText("Resume");
-                }
-                btnFlag = !btnFlag;
-                break;
+        pieChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                showSteps = !showSteps;
+                updateStepsDistance();
             }
-        }
+        });
+
+        pieChart.setDrawValueInPie(false);
+        pieChart.setUsePieRotation(true);
+        pieChart.startAnimation();
     }
 
-    /**
-     * Call this method if the Fragment should update the "steps"/"km" text in
-     * the pie graph as well as the pie and the bars graphs.
-     */
-    private void stepsDistanceChanged() {
+    private void updateStepsDistance() {
         if (showSteps) {
             ((TextView) findViewById(R.id.unit)).setText(getString(R.string.steps));
         } else {
-            ((TextView) findViewById(R.id.unit)).setText(DEFAULT_STEP_UNIT);
+            ((TextView) findViewById(R.id.unit)).setText("mile");
         }
 
-        // updatePieTest();
-        updateBars();
+        updatePieData();
+        updateBarsData();
     }
 
-    private void updatePieTest() {
-        stepCnt += 10;
-        sliceCurrent.setValue(stepCnt);
-        if (DEFAULT_GOAL - stepCnt > 0) {
-            // goal not reached yet
-            if (pg.getData().size() == 1) {
-                // can happen if the goal value was changed: old goal value was
-                // reached but now there are some steps missing for the new goal
-                pg.addPieSlice(sliceGoal);
+    private void updatePieData() {
+        pieCurrent.setValue(todayStepCnt);
+        if (DEFAULT_GOAL - todayStepCnt > 0) { // not reached goal yet
+            if (pieChart.getData().size() == 1) {
+                pieChart.addPieSlice(pieGoal);
             }
-            sliceGoal.setValue(DEFAULT_GOAL - stepCnt);
+            pieGoal.setValue(DEFAULT_GOAL - todayStepCnt);
         } else {
-            // goal reached
-            pg.clearChart();
-            pg.addPieSlice(sliceCurrent);
+            pieChart.clearChart();
+            pieChart.addPieSlice(pieCurrent);
         }
-        pg.update();
+        pieChart.update();
 
+        updatePieTextViewData();
+    }
+
+    private void updatePieTextViewData() {
         if (showSteps) {
-            stepsView.setText(formatter.format(stepCnt));
-            totalView.setText(formatter.format(total_start + stepCnt));
-            averageView.setText(formatter.format((total_start + stepCnt) / total_days));
+            stepsView.setText(formatter.format(todayStepCnt));
+            totalView.setText(formatter.format(totalSteps + todayStepCnt));
+            averageView.setText(formatter.format((totalSteps + todayStepCnt) / totalDays));
         } else {
-            // update only every 10 steps when displaying distance
-            float stepsize = DEFAULT_STEP_SIZE;
-            float distance_today = stepCnt * stepsize;
-            float distance_total = (total_start + stepCnt) * stepsize;
-            distance_today /= 5280;
-            distance_total /= 5280;
-            stepsView.setText(formatter.format(distance_today));
-            totalView.setText(formatter.format(distance_total));
-            averageView.setText(formatter.format(distance_total / total_days));
+            float todayDistance = todayStepCnt * DEFAULT_STEP_SIZE;
+            float totalDistance = (totalSteps + todayStepCnt) * DEFAULT_STEP_SIZE;
+            todayDistance /= FEET_TO_MILE;
+            totalDistance /= FEET_TO_MILE;
+            stepsView.setText(formatter.format(todayDistance));
+            totalView.setText(formatter.format(totalDistance));
+            averageView.setText(formatter.format(totalDistance / totalDays));
         }
     }
 
-    private void updatePie() {
-        Log.d("UI - update steps: ", "" + since_boot);
-        // todayOffset might still be Integer.MIN_VALUE on first start
-        int steps_today = Math.max(todayOffset + since_boot, 0);
-        sliceCurrent.setValue(steps_today);
-        if (goal - steps_today > 0) {
-            // goal not reached yet
-            if (pg.getData().size() == 1) {
-                // can happen if the goal value was changed: old goal value was
-                // reached but now there are some steps missing for the new goal
-                pg.addPieSlice(sliceGoal);
+    private void updateBarsData() {
+        Query last7daysData = mDbSteps.orderByKey().limitToLast(7);
+        last7daysData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (barChart.getData().size() > 0) barChart.clearChart();
+                barChart.setShowDecimal(!showSteps); // show decimal in distance view only
+
+                for (DataSnapshot dayData : dataSnapshot.getChildren()) {
+                    if (dayData != null) {
+                        Log.d("dayData", dayData.getKey());
+                        Log.d("dayData.child(steps)", dayData.child("steps").getValue(Integer.class).toString());
+                        int idx = DateUtils.indexOfNday(df.format(Long.parseLong(dayData.getKey())));
+                        listPair.set(idx, new Pair<Long, Integer>(Long.parseLong(dayData.getKey()), dayData.child("steps").getValue(Integer.class)));
+                    }
+                }
+
+                showBarData();
             }
-            sliceGoal.setValue(goal - steps_today);
-        } else {
-            // goal reached
-            pg.clearChart();
-            pg.addPieSlice(sliceCurrent);
-        }
-        pg.update();
-        if (showSteps) {
-            stepsView.setText(formatter.format(steps_today));
-            totalView.setText(formatter.format(total_start + steps_today));
-            averageView.setText(formatter.format((total_start + steps_today) / total_days));
-        } else {
-            // update only every 10 steps when displaying distance
-            float stepsize = DEFAULT_STEP_SIZE;
-            float distance_today = steps_today * stepsize;
-            float distance_total = (total_start + steps_today) * stepsize;
-            distance_today /= FEET_TO_DISTANCE;
-            distance_total /= FEET_TO_DISTANCE;
-            stepsView.setText(formatter.format(distance_today));
-            totalView.setText(formatter.format(distance_total));
-            averageView.setText(formatter.format(distance_total / total_days));
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    private void updateBars() {
-        SimpleDateFormat df = new SimpleDateFormat("E", Locale.getDefault());
-        BarChart barChart = (BarChart) findViewById(R.id.bargraph);
-        if (barChart.getData().size() > 0) barChart.clearChart();
+    private void showBarData() {
+        BarModel barModel;
+        float distance = DEFAULT_STEP_SIZE;
         int steps;
-        float distance, stepsize = DEFAULT_STEP_SIZE;
-        boolean stepsize_cm = false;
-        if (!showSteps) {
-            // load some more settings if distance is needed
-            stepsize = DEFAULT_STEP_SIZE;
-        }
-        barChart.setShowDecimal(!showSteps); // show decimal in distance view only
-        BarModel bm;
-        Log.v("listParisize", String.valueOf(listPair.size()));
         for (int i = 0; i < listPair.size(); i++) {
             Pair<Long, Integer> current = listPair.get(i);
             steps = current.second;
             if (steps > 0) {
-
-                bm = new BarModel(df.format(new Date(current.first)), 0,
+                barModel = new BarModel(df.format(new Date(current.first)), 0,
                         steps > DEFAULT_GOAL ? Color.parseColor("#566655") : Color.parseColor("#a00835"));
                 if (showSteps) {
-                    bm.setValue(steps);
+                    barModel.setValue(steps);
                 } else {
-                    distance = steps * stepsize;
-                    distance /= FEET_TO_DISTANCE;
-                    distance = Math.round(distance * 1000) / 1000f; // 3 decimals
-                    bm.setValue(distance);
+                    distance = steps * DEFAULT_STEP_SIZE;
+                    distance /= FEET_TO_MILE;
+                    distance = Math.round(distance * 1000) / 1000f;
+                    barModel.setValue(distance);
                 }
-                barChart.addBar(bm);
+                barChart.addBar(barModel);
             }
         }
         if (barChart.getData().size() > 0) {
-            barChart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    // Dialog_Statistics.getDialog(this, since_boot).show();
-                }
-            });
             barChart.startAnimation();
         } else {
             barChart.setVisibility(View.GONE);
@@ -314,9 +242,103 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
-        this.mDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
+    public void onResume() {
+        super.onResume();
+        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if (sensor == null) {
+            Toast.makeText(this, "Sensor not found!", Toast.LENGTH_SHORT).show();
+        } else {
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_UI, 0);
+        }
+
+        initStepsData();
+
+        updateStepsDistance();
+    }
+
+    private void initStepsData() {
+        Query last7daysData = mDbSteps.orderByKey().limitToLast(7);
+        last7daysData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dayData : dataSnapshot.getChildren()) {
+                    if (dayData != null) {
+                        if ((long)Long.parseLong(dayData.getKey()) == (DateUtils.getToday())) {
+                            todayStepCnt = dayData.child("steps").getValue(Integer.class);
+                            continue;
+                        }
+                        totalDays++;
+                        totalSteps += dayData.child("steps").getValue(Integer.class);
+                    }
+                }
+
+                stepsView.setText(formatter.format(todayStepCnt));
+                totalView.setText(formatter.format(totalSteps));
+                averageView.setText(formatter.format(totalSteps / totalDays));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+            sensorManager.unregisterListener(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (sensorEvent.values[0] > Integer.MAX_VALUE) {
+            return;
+        } else {
+            sensorSteps = (int) sensorEvent.values[0];
+
+            mDbTodaySteps.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.exists()) { // initialing data
+                        StepsData stepsData = new StepsData(0, 0);
+                        todayStepCnt = 0;
+                        mDbTodaySteps.setValue(stepsData);
+                    } else {
+                        if (startFlag) {
+                            StepsData stepsData = dataSnapshot.getValue(StepsData.class);
+                            int sensorStepsFromDB = stepsData.getLastSaveSteps();
+                            int todayStepsFromDB = stepsData.getSteps();
+
+                            if (sensorStepsFromDB != sensorSteps) {
+                                stepsData.setSteps(todayStepsFromDB + 1);
+                                todayStepCnt = todayStepsFromDB + 1;
+                                stepsData.setLastSaveSteps(sensorSteps);
+                                mDbTodaySteps.setValue(stepsData);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        updatePieData();
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -324,17 +346,27 @@ public class StepCounterActivity extends Activity implements View.OnClickListene
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent event){
-            // handler.postDelayed(runnable, 1000);
             Log.d(DEBUG_TAG,"onDoubleTap: " + event.toString());
+            mediaPlayerDoubleClick.start();
+            mIvStart.setImageResource(R.drawable.ic_stop);
+            startFlag = true;
             return true;
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent event) {
-            // handler.removeCallbacks(runnable);
             Log.d(DEBUG_TAG, "onSingleTapUp: " + event.toString());
+            mediaPlayerOneClick.start();
+            mIvStart.setImageResource(R.drawable.ic_start);
+            startFlag = false;
             return true;
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.mDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
 }

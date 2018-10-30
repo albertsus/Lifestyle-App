@@ -28,23 +28,6 @@ public class Logger {
         }
     }
 
-    public static void log(final Cursor c) {
-        if (!BuildConfig.DEBUG) return;
-        c.moveToFirst();
-        String title = "";
-        for (int i = 0; i < c.getColumnCount(); i++)
-            title += c.getColumnName(i) + "\t| ";
-        log(title);
-        while (!c.isAfterLast()) {
-            title = "";
-            for (int i = 0; i < c.getColumnCount(); i++)
-                title += c.getString(i) + "\t| ";
-            log(title);
-            c.moveToNext();
-        }
-    }
-
-    @SuppressWarnings("deprecation")
     public static void log(String msg) {
         if (BuildConfig.DEBUG) return;
         android.util.Log.d(APP, msg);

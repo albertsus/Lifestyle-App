@@ -26,7 +26,6 @@
     <string name="average">Average</string>
     <string name="total">Total</string>
 
-    average
     <string-array name="sex_array">
         <item>Male</item>
         <item>Female</item>
