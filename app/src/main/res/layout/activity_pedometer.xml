@@ -27,6 +27,18 @@
         android:layout_alignBottom="@id/pedometer_activity_title"
         android:src="@drawable/ic_period" />
 
+    <ImageView
+        android:id="@+id/iv_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_alignBottom="@id/pedometer_activity_title"
+        android:clickable="true"
+        android:onClick="settingClick"
+        android:src="@drawable/ic_setting"
+        />
+
     <org.eazegraph.lib.charts.PieChart
         xmlns:eaze="http://schemas.android.com/apk/res-auto"
         android:id="@+id/graph"
@@ -132,14 +144,14 @@
     android:layout_centerHorizontal="true"
     android:src="@drawable/ic_stop"/>
 
-    <ImageButton
-        android:id="@+id/ib_instr"
-        android:background="@color/colorPrimary"
+    <ImageView
+        android:id="@+id/iv_instr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_start"
         android:layout_alignTop="@id/iv_start"
         android:clickable="true"
+        android:onClick="instrClick"
         android:src="@drawable/ic_help"
         />
 
@@ -147,10 +159,10 @@
         android:id="@+id/tv_instr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ib_instr"
+        android:layout_toRightOf="@id/iv_instr"
         android:textSize="11.5dp"
         android:textColor="@color/colorAccent"
-        android:layout_alignBottom="@id/ib_instr"
+        android:layout_alignBottom="@id/iv_instr"
         />
 
 </RelativeLayout>

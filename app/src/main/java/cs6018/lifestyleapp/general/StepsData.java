@@ -8,12 +8,14 @@ public class StepsData {
 
     private int steps;
     private int lastSaveSteps;
+    private int goal;
 
     public StepsData() {}
 
-    public StepsData(int steps, int lastSaveSteps) {
+    public StepsData(int steps, int lastSaveSteps, int goal) {
         this.steps = steps;
         this.lastSaveSteps = lastSaveSteps;
+        this.goal = goal;
     }
 
     public int getSteps() {
@@ -31,4 +33,8 @@ public class StepsData {
     public void setLastSaveSteps(int lastSaveSteps) {
         this.lastSaveSteps = lastSaveSteps;
     }
+
+    public int getGoal() { return goal; }
+
+    public void setGoal(int stepsGoal) { this.goal = stepsGoal; }
 }

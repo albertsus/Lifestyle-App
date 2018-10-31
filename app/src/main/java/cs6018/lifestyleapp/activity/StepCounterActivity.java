@@ -1,7 +1,7 @@
 package cs6018.lifestyleapp.activity;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
@@ -21,6 +23,8 @@ import cs6018.lifestyleapp.general.StepsData;
 import cs6018.lifestyleapp.general.User;
 import cs6018.lifestyleapp.utils.DateUtils;
 
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,14 +50,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StepCounterActivity extends Activity implements SensorEventListener {
+public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
-    final static int DEFAULT_GOAL = 500;
+    public final static int DEFAULT_STEP_GOAL = 1000;
     final static float DEFAULT_STEP_SIZE = 2.5f; // unit: ft
     final static int FEET_TO_MILE = 5280;
 
     private TextView stepsView, totalView, averageView;
     private TextView mTvInstr;
+
+    private EditText mEtNumber;
 
     private PieModel pieGoal, pieCurrent;
     private PieChart pieChart;
@@ -64,9 +70,9 @@ public class StepCounterActivity extends Activity implements SensorEventListener
     private boolean showSteps = true;
     private boolean startFlag = true;
 
-    private ImageView mIvStart;
+    private ImageView mIvStart, mIvInstr, mIvSetting;
 
-    private ImageButton mIbInstr;
+    private Button mBtInc, mBtDec;
 
     private int todayStepCnt;
 
@@ -80,6 +86,7 @@ public class StepCounterActivity extends Activity implements SensorEventListener
 
     private MediaPlayer mediaPlayerOneClick, mediaPlayerDoubleClick;
 
+    private static int stepsGoal;
     private static int sensorSteps;
 
     private DatabaseReference mDbUsers = FirebaseDatabase.getInstance().getReference().child("Users").child(User.getUUID());
@@ -105,28 +112,18 @@ public class StepCounterActivity extends Activity implements SensorEventListener
         mTvInstr.setVisibility(View.INVISIBLE);
 
         mIvStart = (ImageView) findViewById(R.id.iv_start);
-
-        mIbInstr = (ImageButton) findViewById(R.id.ib_instr);
-        mIbInstr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mTvInstr.getVisibility() == View.VISIBLE) {
-                    mTvInstr.setVisibility(View.INVISIBLE);
-                } else {
-                    mTvInstr.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        mIvSetting = (ImageView) findViewById(R.id.iv_setting);
+        mIvInstr = (ImageView) findViewById(R.id.iv_instr);
 
         pieChart = (PieChart) findViewById(R.id.graph);
         barChart = (BarChart) findViewById(R.id.bargraph);
 
         // current pie slice
-        pieCurrent = new PieModel("", 0, Color.parseColor("#566655"));
+        pieCurrent = new PieModel("", 0, Color.parseColor("#FF3366"));
         pieChart.addPieSlice(pieCurrent);
 
         // goal pie slice
-        pieGoal = new PieModel("", DEFAULT_GOAL, Color.parseColor("#a00835"));
+        pieGoal = new PieModel("", stepsGoal, Color.parseColor("#C4C4C4"));
         pieChart.addPieSlice(pieGoal);
 
         pieChart.setOnClickListener(new View.OnClickListener() {
@@ -155,11 +152,11 @@ public class StepCounterActivity extends Activity implements SensorEventListener
 
     private void updatePieData() {
         pieCurrent.setValue(todayStepCnt);
-        if (DEFAULT_GOAL - todayStepCnt > 0) { // not reached goal yet
+        if (stepsGoal - todayStepCnt > 0) { // not reached goal yet
             if (pieChart.getData().size() == 1) {
                 pieChart.addPieSlice(pieGoal);
             }
-            pieGoal.setValue(DEFAULT_GOAL - todayStepCnt);
+            pieGoal.setValue(stepsGoal - todayStepCnt);
         } else {
             pieChart.clearChart();
             pieChart.addPieSlice(pieCurrent);
@@ -215,6 +212,11 @@ public class StepCounterActivity extends Activity implements SensorEventListener
 
     private void showBarData() {
         BarModel barModel;
+        barModel = new BarModel("Goal",
+                showSteps ? stepsGoal : Math.round(stepsGoal * DEFAULT_STEP_SIZE / FEET_TO_MILE * 1000) / 1000f,
+                Color.parseColor("#000000"));
+        barChart.addBar(barModel);
+
         float distance = DEFAULT_STEP_SIZE;
         int steps;
         for (int i = 0; i < listPair.size(); i++) {
@@ -222,7 +224,7 @@ public class StepCounterActivity extends Activity implements SensorEventListener
             steps = current.second;
             if (steps > 0) {
                 barModel = new BarModel(df.format(new Date(current.first)), 0,
-                        steps > DEFAULT_GOAL ? Color.parseColor("#566655") : Color.parseColor("#a00835"));
+                        steps > stepsGoal ? Color.parseColor("#FF3366") : Color.parseColor("#C4C4C4"));
                 if (showSteps) {
                     barModel.setValue(steps);
                 } else {
@@ -234,6 +236,7 @@ public class StepCounterActivity extends Activity implements SensorEventListener
                 barChart.addBar(barModel);
             }
         }
+
         if (barChart.getData().size() > 0) {
             barChart.startAnimation();
         } else {
@@ -258,6 +261,22 @@ public class StepCounterActivity extends Activity implements SensorEventListener
     }
 
     private void initStepsData() {
+        mDbTodaySteps.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    stepsGoal = dataSnapshot.child("goal").getValue(Integer.class);
+                } else {
+                    stepsGoal = DEFAULT_STEP_GOAL;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Query last7daysData = mDbSteps.orderByKey().limitToLast(7);
         last7daysData.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -307,7 +326,7 @@ public class StepCounterActivity extends Activity implements SensorEventListener
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.exists()) { // initialing data
-                        StepsData stepsData = new StepsData(0, 0);
+                        StepsData stepsData = new StepsData(0, 0, DEFAULT_STEP_GOAL);
                         todayStepCnt = 0;
                         mDbTodaySteps.setValue(stepsData);
                     } else {
@@ -334,6 +353,14 @@ public class StepCounterActivity extends Activity implements SensorEventListener
         }
 
         updatePieData();
+    }
+
+    public void settingClick(View view) {
+        showStepGoalDialog();
+    }
+
+    public void instrClick(View view) {
+        showInstruction();
     }
 
     @Override
@@ -369,6 +396,72 @@ public class StepCounterActivity extends Activity implements SensorEventListener
         return super.onTouchEvent(event);
     }
 
+    private void increaseStepsGoal() {
+        stepsGoal += 10;
+        setStepGoalText(stepsGoal);
+
+    }
+
+    private void decreaseStepsGoal() {
+        stepsGoal -= 10;
+        if (stepsGoal < 0) {
+            stepsGoal = 0;
+        }
+        setStepGoalText(stepsGoal);
+    }
+
+    private void setStepGoalText(int num) {
+        mEtNumber.setText("" + num);
+    }
+
+    private void showStepGoalDialog() {
+        final AlertDialog.Builder mBuilder = new AlertDialog.Builder(StepCounterActivity.this);
+        mBuilder.setCancelable(true);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_setting, null);
+        mEtNumber = (EditText) dialogView.findViewById(R.id.et_number);
+        mEtNumber.setText(""+stepsGoal);
+        mBtInc = (Button) dialogView.findViewById(R.id.bt_increase);
+        mBtInc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                increaseStepsGoal();
+            }
+        });
+        mBtDec = (Button) dialogView.findViewById(R.id.bt_decrease);
+        mBtDec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decreaseStepsGoal();
+            }
+        });
+
+        mBuilder.setView(dialogView);
+        mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String mNum = mEtNumber.getText().toString().trim();
+                stepsGoal = Integer.parseInt(mNum);
+                mDbTodaySteps.child("goal").setValue(stepsGoal);
+                updateStepsDistance();
+            }
+        });
+        mBuilder.show();
+    }
+
+    private void showInstruction() {
+        if (mTvInstr.getVisibility() == View.VISIBLE) {
+            mTvInstr.setVisibility(View.INVISIBLE);
+        } else {
+            mTvInstr.setVisibility(View.VISIBLE);
+        }
+    }
 }
 
 

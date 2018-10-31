@@ -142,10 +142,6 @@ public class SignupActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean UserMatch(String username, String password) {
-        return true;
-    }
-
     private void checkUserInDB(final String uuid) {
         mDbUsers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import cs6018.lifestyleapp.activity.StepCounterActivity;
 import cs6018.lifestyleapp.general.StepsData;
 import cs6018.lifestyleapp.general.User;
 
@@ -45,7 +46,7 @@ public class SensorListener extends Service implements SensorEventListener {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.exists()) { // initialing data
-                        StepsData stepsData = new StepsData(0, 0);
+                        StepsData stepsData = new StepsData(0, 0, StepCounterActivity.DEFAULT_STEP_GOAL);
                         mDbTodaySteps.setValue(stepsData);
                     } else {
                         StepsData stepsData = dataSnapshot.getValue(StepsData.class);
