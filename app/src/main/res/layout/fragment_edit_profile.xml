@@ -212,16 +212,27 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_city"
                 />
 
-            <EditText
-                android:id="@+id/et_nation"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Country"
-                tools:text="Country"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold"
-                android:paddingStart="@dimen/text_padding"
+            <!--<EditText-->
+                <!--android:id="@+id/et_nation"-->
+                <!--android:textColor="@color/colorPrimaryDark"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Country"-->
+                <!--tools:text="Country"-->
+                <!--android:textSize="@dimen/text_size"-->
+                <!--android:textStyle="bold"-->
+                <!--android:paddingStart="@dimen/text_padding"-->
+                <!--app:layout_constraintStart_toEndOf="@id/tv_nation"-->
+                <!--app:layout_constraintBottom_toBottomOf="@id/tv_nation"-->
+                <!--/>-->
+
+            <Button
+                android:id="@+id/btn_country"
+                android:layout_width="45dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@android:drawable/btn_dropdown"
                 app:layout_constraintStart_toEndOf="@id/tv_nation"
                 app:layout_constraintBottom_toBottomOf="@id/tv_nation"
                 />

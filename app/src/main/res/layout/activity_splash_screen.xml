@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:keepScreenOn="true"
-        android:text="LifestyleApp"
+        android:text="FitnessRx"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="50sp"
         android:textStyle="bold"

@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ybs.countrypicker.CountryPicker;
+import com.ybs.countrypicker.CountryPickerListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,8 +50,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     private String mUserName, mAge, mSex, mCity, mNation, mHeight, mWeight, mCurrentPhotoPath;
 
     private EditText mEtUserName, mEtAge, mEtCity, mEtNation, mEtHeight, mEtWeight;
-    //private Spinner sexSpinner;
-    private Button mBtUpdate;
+    private Button mBtUpdate, mBtnCountry;
     private ImageButton mBtPicture;
     private ImageView mProfilePic;
     private RadioGroup rgSex;
@@ -71,12 +72,14 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         mEtUserName = (EditText) view.findViewById(R.id.et_userName);
         mEtAge = (EditText) view.findViewById(R.id.et_age);
         mEtCity = (EditText) view.findViewById(R.id.et_city);
-        mEtNation = (EditText) view.findViewById(R.id.et_nation);
         mEtHeight = (EditText) view.findViewById(R.id.et_height);
         mEtWeight = (EditText) view.findViewById(R.id.et_weight);
 
         mBtUpdate = (Button) view.findViewById(R.id.bt_update_profile);
         mBtUpdate.setOnClickListener(this);
+
+        mBtnCountry = (Button) view.findViewById(R.id.btn_country);
+        mBtnCountry.setOnClickListener(this);
 
         mBtPicture = (ImageButton) view.findViewById(R.id.bt_edit_user_picture);
         mBtPicture.setOnClickListener(this);
@@ -90,11 +93,6 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
             }
         });
 
-        //sexSpinner = (Spinner) view.findViewById(R.id.spinner_sex);
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sex_array, R.layout.spinner_layout);
-        //adapter.setDropDownViewResource(R.layout.spinner_layout);
-        //sexSpinner.setAdapter(adapter);
-
         // Init the profile data received from ProfileFrag
         InitProfileData();
 
@@ -107,6 +105,11 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
 
             case R.id.bt_edit_user_picture: {
                 dispatchTakePictureIntent();
+                break;
+            }
+
+            case R.id.btn_country: {
+                selectCountry();
                 break;
             }
 
@@ -151,7 +154,6 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
                 mEtAge.setText(mAge);
                 mEtHeight.setText(mHeight);
                 mEtWeight.setText(mWeight);
-                mEtNation.setText(mNation);
                 mEtCity.setText(mCity);
             }
 
@@ -169,7 +171,7 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
         mDbUsers.child("userName").setValue(mEtUserName.getText().toString());
         mDbUsers.child("age").setValue(mEtAge.getText().toString());
         mDbUsers.child("sex").setValue(mSex);
-        mDbUsers.child("nation").setValue(mEtNation.getText().toString());
+        mDbUsers.child("nation").setValue(mNation);
         mDbUsers.child("city").setValue(mEtCity.getText().toString());
         mDbUsers.child("height").setValue(mEtHeight.getText().toString());
         mDbUsers.child("weight").setValue(mEtWeight.getText().toString());
@@ -182,7 +184,9 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
     private boolean isValidData() {
         if (mUserName.matches("") || mCity.matches("")
                 || mAge.matches("") || mHeight.matches("")
-                || mWeight.matches("") || mNation.matches("")
+                || mWeight.matches("")
+                || (mNation == null)
+                || (mNation.matches(""))
                 || (rbSex == null)
                 || (mSex = rbSex.getText().toString()).matches("")) {
             Toast toast = Toast.makeText(getActivity(),
@@ -192,6 +196,20 @@ public class EditProfileFrag extends Fragment implements View.OnClickListener {
             return false;
         }
         return true;
+    }
+
+    private void selectCountry() {
+        final CountryPicker picker = CountryPicker.newInstance("Select Country");  // dialog title
+        picker.show(getActivity().getSupportFragmentManager(), "COUNTRY_PICKER");
+        picker.setListener(new CountryPickerListener() {
+            @Override
+            public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
+                mNation = name;
+                mBtnCountry.setBackgroundResource(flagDrawableResID);
+                // Toast.makeText(getActivity(), mNation, Toast.LENGTH_SHORT).show();
+                picker.dismiss();
+            }
+        });
     }
 
     /**
